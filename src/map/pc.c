@@ -4292,6 +4292,8 @@ char pc_payzeny(struct map_session_data *sd, int zeny, enum e_log_pick_type type
 		clif_messagecolor(&sd->bl, color_table[COLOR_LIGHT_GREEN], output, false, SELF);
 	}
 
+	achievement_update_objective(sd, AG_GET_ZENY, 1, sd->status.zeny);
+
 	return 0;
 }
 
