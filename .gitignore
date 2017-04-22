@@ -103,6 +103,8 @@ Thumbs.db
 /tools/*.pdb
 
 # /vcproj-15/
+
+/vcproj-15/*.vcxproj
 /vcproj-15/char-server
 /vcproj-15/login-server
 /vcproj-15/mapcache
