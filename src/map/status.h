@@ -801,6 +801,9 @@ typedef enum sc_type {
 	SC_ARMOR_ELEMENT_EARTH,
 	SC_ARMOR_ELEMENT_FIRE,
 	SC_ARMOR_ELEMENT_WIND,
+	
+	SC_RAIN = 699,
+	SC_OXYGEN = 700,
 
 	SC_DAILYSENDMAILCNT,
 
@@ -1756,6 +1759,9 @@ enum si_type {
 	SI_EP16_2_BUFF_AC = 965,
 	SI_GS_MAGICAL_BULLET = 966,
 
+	SI_RAIN	= 970,
+	SI_OXYGEN = 971,
+
 	SI_FALLEN_ANGEL = 976,
 
 	SI_BLAZE_BEAD = 979,
@@ -2289,6 +2295,7 @@ int status_get_guild_id(struct block_list *bl);
 int status_get_emblem_id(struct block_list *bl);
 enum e_race2 status_get_race2(struct block_list *bl);
 
+int status_check_rain(struct map_session_data *sd);
 struct view_data *status_get_viewdata(struct block_list *bl);
 void status_set_viewdata(struct block_list *bl, int class_);
 void status_change_init(struct block_list *bl);

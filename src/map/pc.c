@@ -155,7 +155,9 @@ static int pc_invincible_timer(int tid, unsigned int tick, int id, intptr_t data
 		return 0;
 	}
 	sd->invincible_timer = INVALID_TIMER;
-	skill_unit_move(&sd->bl,tick,1);
+		skill_unit_move(&sd->bl,gettick(),1);	
+		// [Vykimo] Rain check
+		status_check_rain(sd);
 
 	return 0;
 }
@@ -7548,7 +7550,7 @@ void pc_damage(struct map_session_data *sd,struct block_list *src,unsigned int h
 		skill_sit(sd,0);
 	}
 
-	if (sd->progressbar.npc_id)
+	if (sd->progressbar.npc_id && sd->progressbar.npc_id!=4524524)
 		clif_progressbar_abort(sd);
 
 	if( sd->status.pet_id > 0 && sd->pd && battle_config.pet_damage_support )

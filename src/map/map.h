@@ -660,6 +660,7 @@ struct map_data {
 		unsigned fireworks : 1;
 		unsigned sakura : 1; // [Valaris]
 		unsigned leaves : 1; // [Valaris]
+		unsigned deepwater : 1; // [Vykimo]
 		unsigned nogo : 1; // [Valaris]
 		unsigned nobaseexp : 1; // [Lorky] added by Lupus
 		unsigned nojobexp : 1; // [Lorky]

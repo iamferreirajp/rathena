@@ -10363,6 +10363,13 @@ void clif_parse_LoadEndAck(int fd,struct map_session_data *sd)
 		clif_hpmeter_single(sd->fd,sd->ed->bl.id,sd->ed->battle_status.hp,sd->ed->battle_status.max_hp);
 		clif_elemental_updatestatus(sd,SP_SP);
 		status_calc_bl(&sd->ed->bl, SCB_SPEED); //Elemental mimic their master's speed on each map change
+
+		// Check if water cell is in deepwater  [Vykimo]
+		if (map_getcell(sd->bl.m, sd->bl.x, sd->bl.y, CELL_CHKWATER))
+			sc_start(NULL,&sd->bl,SC_RAIN,10000,0,-1);
+		else 
+			if(sd->sc.data[SC_RAIN])
+				status_change_end(&sd->bl,SC_RAIN,INVALID_TIMER);
 	}
 
 	if(sd->state.connect_new) {
@@ -10558,6 +10565,16 @@ void clif_parse_LoadEndAck(int fd,struct map_session_data *sd)
 	if(!battle_config.pc_invincible_time)
 		skill_unit_move(&sd->bl,gettick(),1);
 
+	// Re-affichage de la progressbar si warp sur la meme map [Vykimo]
+	if(sd->progressbar.npc_id == 4524524) {
+		int tiick = (int) (sd->progressbar.timeout - gettick())/1000;
+		sd->progressbar.timeout = gettick() + tiick*1000;
+		if(tiick>0) clif_progressbar(sd, (unsigned int)strtoul("0xff0000", (char **)NULL, 0), tiick);
+		else clif_parse_progressbar(sd->fd,sd);
+	}
+	// Rappel un check rain
+	status_check_rain(sd);
+	
 	pc_show_questinfo_reinit(sd);
 	pc_show_questinfo(sd);
 
@@ -10685,13 +10702,20 @@ void clif_progressbar_abort(struct map_session_data * sd)
 void clif_parse_progressbar(int fd, struct map_session_data * sd)
 {
 	int npc_id = sd->progressbar.npc_id;
+	int64 timeout = sd->progressbar.timeout;
 
 	if( gettick() < sd->progressbar.timeout && sd->st )
 		sd->st->state = END;
 
 	sd->progressbar.npc_id = sd->progressbar.timeout = 0;
 	sd->state.workinprogress = WIP_DISABLE_NONE;
-	npc_scriptcont(sd, npc_id, false);
+	if(npc_id == 4524524) {
+		if(gettick() >= timeout){
+			clif_specialeffect(&sd->bl, 109, AREA);
+			status_kill(&sd->bl);
+		}
+	} else if(sd->npc_id)
+		npc_scriptcont(sd, npc_id, false);
 }
 
 
@@ -10710,7 +10734,7 @@ void clif_parse_WalkToXY(int fd, struct map_session_data *sd)
 
 	if (sd->sc.opt1 && ( sd->sc.opt1 == OPT1_STONEWAIT || sd->sc.opt1 == OPT1_BURNING ))
 		; //You CAN walk on this OPT1 value.
-	else if (sd->progressbar.npc_id) {
+	else if (sd->progressbar.npc_id && sd->progressbar.npc_id!=4524524) {
 		clif_progressbar_abort(sd);
 		return; // First walk attempt cancels the progress bar
 	} else if (pc_cant_act(sd))

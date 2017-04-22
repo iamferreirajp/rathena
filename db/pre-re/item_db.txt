@@ -4418,6 +4418,11 @@
 9054,Nightmare_Terror_Egg,Nightmare Terror Egg,7,20,,0,,,,,,,,,,,,,{},{},{}
 9055,Succubus_Egg,Succubus Egg,7,20,,0,,,,,,,,,,,,,{},{},{}
 9056,Imp_Egg,Imp Egg,7,20,,0,,,,,,,,,,,,,{},{},{}
+
+// Breath System
+//===================================================================
+9482,Oxygen_Bottle2,Oxygen Bottle,2,5000,,100,,,,,0xFFFFFFFF,63,2,,,,,,{ if(isequipped(5004,2205)) sc_start 700,180000,10000;		for(.@i=0;.@i<36;.@i++) {if(!isequipped(5004,2205)) sc_end 700; if(getstatus(700)) specialeffect2 109; else break;	sleep2 3500;	}},{},{}
+
 // Pet Accessories
 //===================================================================
 10001,Skull_Helm,Skull Helm,8,20,,0,,,,,,,,,,,,,{},{},{}

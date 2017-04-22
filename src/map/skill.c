@@ -633,6 +633,15 @@ bool skill_isNotOk(uint16 skill_id, struct map_session_data *sd)
 	if (map[m].flag.noskill)
 		return true;
 
+	// Casting skill will kill you in deep water
+	if(sd->progressbar.npc_id == 4524524) {
+		sd->progressbar.timeout = gettick();
+		clif_specialeffect(&sd->bl, 109, AREA);
+		clif_specialeffect(&sd->bl, 923, AREA);
+		clif_parse_progressbar(sd->fd,sd);		
+		clif_progressbar_abort(sd);
+	}
+	
 	// Epoque:
 	// This code will compare the player's attack motion value which is influenced by ASPD before
 	// allowing a skill to be cast. This is to prevent no-delay ACT files from spamming skills such as
@@ -8001,8 +8010,11 @@ int skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, ui
 			}
 
 			clif_skill_nodamage(src,bl,TK_HIGHJUMP,skill_lv,1);
-			if(!map_count_oncell(src->m,x,y,BL_PC|BL_NPC|BL_MOB,0) && map_getcell(src->m,x,y,CELL_CHKREACH) && unit_movepos(src, x, y, 1, 0))
+			if(!map_count_oncell(src->m,x,y,BL_PC|BL_NPC|BL_MOB,0) && map_getcell(src->m,x,y,CELL_CHKREACH) && unit_movepos(src, x, y, 1, 0)){
 				clif_blown(src);
+				if(sd)
+					status_check_rain(sd);
+			}
 		}
 		break;
 
@@ -11736,8 +11748,10 @@ int skill_castend_pos2(struct block_list* src, int x, int y, uint16 skill_id, ui
 #else
 			clif_skill_poseffect(src,skill_id,skill_lv,src->x,src->y,tick);
 #endif
-			if (sd)
+			if (sd){
 				skill_blockpc_start (sd, MO_EXTREMITYFIST, 2000);
+				status_check_rain(sd);
+			}
 		}
 		break;
 	case NJ_SHADOWJUMP:

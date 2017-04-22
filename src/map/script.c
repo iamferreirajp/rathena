@@ -417,7 +417,7 @@ enum {
 	 * No longer available, keeping here just in case it's back someday. [Ind]
 	 **/
 	//MF_RAIN,	//20
-	// 21 free
+	MF_DEEPWATER = 21,
 	MF_NOGO = 22,
 	MF_CLOUDS,
 	MF_CLOUDS2,
@@ -11157,6 +11157,7 @@ BUILDIN_FUNC(sc_start)
 {
 	TBL_NPC * nd = map_id2nd(st->oid);
 	struct block_list* bl;
+	struct map_session_data* sd;
 	enum sc_type type;
 	int tick, val1, val2, val3, val4=0, rate, flag;
 	char start_type;
@@ -11214,7 +11215,13 @@ BUILDIN_FUNC(sc_start)
 			val4 = script_getnum(st,7);
 			status_change_start(bl, bl, type, rate, val1, val2, val3, val4, tick, flag);
 			break;
+	}			
+
+	if(type == SC_OXYGEN) {
+		sd=script_rid2sd(st);
+		status_check_rain(sd);
 	}
+
 	return SCRIPT_CMD_SUCCESS;
 }
 
@@ -11224,6 +11231,7 @@ BUILDIN_FUNC(sc_start)
 BUILDIN_FUNC(sc_end)
 {
 	struct block_list* bl;
+	struct map_session_data* sd;
 	int type;
 
 	type = script_getnum(st, 2);
@@ -11281,6 +11289,11 @@ BUILDIN_FUNC(sc_end)
 		//This should help status_change_end force disabling the SC in case it has no limit.
 		sce->val1 = sce->val2 = sce->val3 = sce->val4 = 0;
 		status_change_end(bl, (sc_type)type, INVALID_TIMER);
+
+		if(type == SC_OXYGEN) {
+			sd=script_rid2sd(st);
+			status_check_rain(sd);
+		}
 	} else
 		status_change_clear(bl, 3); // remove all effects
 
@@ -12268,6 +12281,7 @@ BUILDIN_FUNC(getmapflag)
 			case MF_GVG_TE_CASTLE:		script_pushint(st,map[m].flag.gvg_te_castle); break;
 			case MF_GVG_TE:				script_pushint(st,map[m].flag.gvg_te); break;
 			case MF_HIDEMOBHPBAR:		script_pushint(st,map[m].flag.hidemobhpbar); break;
+			case MF_DEEPWATER:			script_pushint(st,map[m].flag.deepwater); break;
 #ifdef ADJUST_SKILL_DAMAGE
 			case MF_SKILL_DAMAGE:
 				{
@@ -12386,6 +12400,7 @@ BUILDIN_FUNC(setmapflag)
 			case MF_NOLOCKON:			map[m].flag.nolockon = 1 ; break;
 			case MF_NOTOMB:				map[m].flag.notomb = 1; break;
 			case MF_NOCOSTUME:			map[m].flag.nocostume = 1; break;
+			case MF_DEEPWATER:			map[m].flag.deepwater = 1; break;
 			case MF_GVG_TE_CASTLE:		map[m].flag.gvg_te_castle = 1; break;
 			case MF_GVG_TE:
 				map[m].flag.gvg_te = 1;
@@ -12494,6 +12509,7 @@ BUILDIN_FUNC(removemapflag)
 			case MF_NOLOCKON:			map[m].flag.nolockon = 0 ; break;
 			case MF_NOTOMB:				map[m].flag.notomb = 0; break;
 			case MF_NOCOSTUME:			map[m].flag.nocostume = 0; break;
+			case MF_DEEPWATER:			map[m].flag.deepwater = 0; break;
 			case MF_GVG_TE_CASTLE:		map[m].flag.gvg_te_castle = 0; break;
 			case MF_GVG_TE:
 				map[m].flag.gvg_te = 0;
@@ -20505,10 +20521,17 @@ BUILDIN_FUNC(setmounting) {
 		clif_msg(sd, NEED_REINS_OF_MOUNT);
 		script_pushint(st,0); //can't mount with one of these
 	} else {
-		if( &sd->sc && sd->sc.data[SC_ALL_RIDING] )
-			status_change_end(&sd->bl, SC_ALL_RIDING, INVALID_TIMER); //release mount
-		else
-			sc_start(NULL, &sd->bl, SC_ALL_RIDING, 10000, 1, INVALID_TIMER); //mount
+		if ( &sd->sc && sd->sc.data[SC_ALL_RIDING]) {
+			status_change_end(&sd->bl, SC_ALL_RIDING, INVALID_TIMER);
+			if(sd->sc.data[SC_HANBOK]) status_change_end(&sd->bl,SC_HANBOK,INVALID_TIMER); // if fish remove
+		} else {
+			sc_start(NULL, &sd->bl, SC_ALL_RIDING, 10000, 1, INVALID_TIMER);
+			if(sd->sc.data[SC_RAIN] && !sd->sc.data[SC_HANBOK] && quest_check(sd, 61500, HAVEQUEST)==2) { // If wet : fish
+				pc_changelook(sd, LOOK_CLOTHES_COLOR, 0);
+				sc_start(NULL, &sd->bl, SC_HANBOK, 10000, 1, INVALID_TIMER);
+			}
+		}
+		status_check_rain(sd);
 		script_pushint(st,1);//in both cases, return 1.
 	}
 	return SCRIPT_CMD_SUCCESS;

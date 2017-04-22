@@ -425,6 +425,8 @@ static int unit_walktoxy_timer(int tid, unsigned int tick, int id, intptr_t data
 					return 0;
 			} else
 				sd->areanpc_id=0;
+			// [Vykimo] Rain check
+			status_check_rain(sd);
 			pc_cell_basilica(sd);
 			break;
 		case BL_MOB:

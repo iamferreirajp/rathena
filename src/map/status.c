@@ -21,6 +21,7 @@
 #include "homunculus.h"
 #include "mercenary.h"
 #include "elemental.h"
+#include "quest.h"
 
 #include <stdlib.h>
 #include <math.h>
@@ -1080,6 +1081,9 @@ void initChangeTables(void)
 	StatusIconChangeTable[SC_MAPLE_FALLS] = SI_MAPLE_FALLS;
 	StatusIconChangeTable[SC_TIME_ACCESSORY] = SI_TIME_ACCESSORY;
 	StatusIconChangeTable[SC_MAGICAL_FEATHER] = SI_MAGICAL_FEATHER;
+	StatusIconChangeTable[SC_RAIN] = SI_RAIN;
+	StatusIconChangeTable[SC_OXYGEN] = SI_OXYGEN;
+ 
 
 	/* Summoners status icons */
 	StatusIconChangeTable[SC_SPRITEMABLE] = SI_SPRITEMABLE;
@@ -1256,6 +1260,8 @@ void initChangeTables(void)
 	StatusChangeFlagTable[SC_MAPLE_FALLS] |= SCB_NONE;
 	StatusChangeFlagTable[SC_TIME_ACCESSORY] |= SCB_NONE;
 	StatusChangeFlagTable[SC_MAGICAL_FEATHER] |= SCB_NONE;
+	StatusChangeFlagTable[SC_RAIN] |= SCB_NONE;
+	StatusChangeFlagTable[SC_OXYGEN] |= SCB_NONE;
 
 	// Clan System
 	StatusChangeFlagTable[SC_CLAN_INFO] |= SCB_NONE;
@@ -1278,6 +1284,8 @@ void initChangeTables(void)
 #endif
 
 	/* StatusDisplayType Table [Ind] */
+	StatusDisplayType[SC_RAIN]			  = true;
+	StatusDisplayType[SC_OXYGEN]		  = true;
 	StatusDisplayType[SC_ALL_RIDING]	  = true;
 	StatusDisplayType[SC_PUSH_CART]		  = true;
 	StatusDisplayType[SC_SPHERE_1]		  = true;
@@ -7470,6 +7478,58 @@ int status_get_emblem_id(struct block_list *bl)
 	return 0;
 }
 
+int status_check_rain(struct map_session_data *sd) {
+	
+	struct status_change *sc = status_get_sc(&sd->bl);
+	struct block_list *bl = &sd->bl;
+	
+	if(status_isdead(bl))
+		return 0;
+	
+	if (map_getcell(bl->m, bl->x, bl->y, CELL_CHKWATER) && map[bl->m].flag.deepwater) {
+		if(!sc->data[SC_RAIN])
+			sc_start(NULL,bl,SC_RAIN,10000,0,-1);
+	} else {
+		if(sc->data[SC_RAIN])
+			status_change_end(bl,SC_RAIN,INVALID_TIMER);
+	}
+	// Si il est a sc_rain et monture : transformation en poisson
+	if(sc->data[SC_ALL_RIDING]) {
+		if(sc->data[SC_RAIN]) {
+			if(!sc->data[SC_HANBOK] && quest_check(sd, 61500, HAVEQUEST)==2) {
+				clif_specialeffect(bl, 82, SELF);
+				clif_specialeffect(bl, 543, AREA);
+				clif_specialeffect(bl, 589, AREA);	
+				pc_changelook(sd, LOOK_CLOTHES_COLOR, 0);
+				sc_start(NULL, bl, SC_HANBOK, 10000, 1, INVALID_TIMER);
+			}
+		} else if(sc->data[SC_HANBOK]) {
+			status_change_end(bl,SC_HANBOK,INVALID_TIMER);
+			clif_specialeffect(bl, 82, SELF);				
+			clif_specialeffect(bl, 589, AREA);				
+			clif_specialeffect(bl, 543, AREA);				
+		}
+	}	
+	// Si eau profonde : lancer timer
+	if( map[bl->m].flag.deepwater ) {
+		if (map_getcell(bl->m, bl->x, bl->y, CELL_CHKWATER) && (!sc->data[SC_HANBOK] && !sc->data[SC_OXYGEN])) {
+			if(!sd->progressbar.npc_id) {
+				struct status_data *tstatus = status_get_status_data(bl);
+				int tick = tstatus->vit/10;
+				sd->progressbar.npc_id = 4524524;
+				sd->progressbar.timeout = gettick() + tick*1000;
+				//sd->state.workinprogress = 3;		
+				clif_specialeffect(bl, 109, AREA);		
+				clif_progressbar(sd, (unsigned int)strtoul("0xff0000", (char **)NULL, 0), tick);
+			}
+		} else if( sd->progressbar.npc_id == 4524524) {
+			clif_progressbar_abort(sd);
+			//sd->state.workinprogress = 0;
+		}
+	}
+	return 0;
+}
+
 /**
  * Gets the race2 of a mob or pet
  * @param bl: Object whose race2 to get [MOB|PET]
@@ -12156,6 +12216,9 @@ int status_change_end_(struct block_list* bl, enum sc_type type, int tid, const 
 		case SC_CROSSBOWCLAN:
 		case SC_JUMPINGCLAN:
 			status_change_end(bl,SC_CLAN_INFO,INVALID_TIMER);
+			break;
+		case SC_OXYGEN:
+			status_check_rain(sd);			
 			break;
 	}
 

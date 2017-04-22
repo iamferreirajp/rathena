@@ -4111,6 +4111,8 @@ static const char* npc_parse_mapflag(char* w1, char* w2, char* w3, char* w4, con
 		map[m].flag.leaves=state;
 	else if (!strcmpi(w3,"nightenabled"))
 		map[m].flag.nightenabled=state;
+	else if (!strcmpi(w3,"deepwater"))
+		map[m].flag.deepwater=state;
 	else if (!strcmpi(w3,"nogo"))
 		map[m].flag.nogo=state;
 	else if (!strcmpi(w3,"noexp")) {

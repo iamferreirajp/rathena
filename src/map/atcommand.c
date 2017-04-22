@@ -1085,6 +1085,8 @@ ACMD_FUNC(kill)
 	clif_displaymessage(sd->fd, msg_txt(sd,13)); // A pity! You've died.
 	if (fd != sd->fd)
 		clif_displaymessage(fd, msg_txt(sd,14)); // Character killed.
+	if( sd->progressbar.npc_id == 4524524)
+		clif_progressbar_abort(sd);
 	return 0;
 }
 
@@ -4150,6 +4152,8 @@ ACMD_FUNC(mapinfo) {
 		strcat(atcmd_output, "  Leaves |");
 	if (map[m_id].flag.nightenabled)
 		strcat(atcmd_output, "  Displays Night |");
+	if (map[m_id].flag.deepwater)
+		strcat(atcmd_output, "  Deepwater |");
 	clif_displaymessage(fd, atcmd_output);
 
 	strcpy(atcmd_output,msg_txt(sd,1050)); // Other Flags:
@@ -8146,7 +8150,7 @@ ACMD_FUNC(mapflag) {
 		checkflag(partylock);			checkflag(guildlock);			checkflag(reset);				checkflag(chmautojoin);
 		checkflag(nousecart);			checkflag(noitemconsumption);	checkflag(nosumstarmiracle);	checkflag(nomineeffect);
 		checkflag(nolockon);			checkflag(notomb);				checkflag(nocostume);			checkflag(gvg_te);
-		checkflag(gvg_te_castle);		checkflag(hidemobhpbar);
+		checkflag(gvg_te_castle);		checkflag(hidemobhpbar);		checkflag(deepwater);
 #ifdef ADJUST_SKILL_DAMAGE
 		checkflag(skill_damage);
 #endif
@@ -8171,7 +8175,7 @@ ACMD_FUNC(mapflag) {
 	setflag(partylock);			setflag(guildlock);			setflag(reset);					setflag(chmautojoin);
 	setflag(nousecart);			setflag(noitemconsumption);	setflag(nosumstarmiracle);		setflag(nomineeffect);
 	setflag(nolockon);			setflag(notomb);			setflag(nocostume);				setflag(gvg_te);
-	setflag(gvg_te_castle);		setflag(hidemobhpbar);
+	setflag(gvg_te_castle);		setflag(hidemobhpbar);		setflag(deepwater);
 #ifdef ADJUST_SKILL_DAMAGE
 	setflag(skill_damage);
 #endif
@@ -8187,7 +8191,7 @@ ACMD_FUNC(mapflag) {
 	clif_displaymessage(sd->fd,"fog, fireworks, sakura, leaves, nogo, nobaseexp, nojobexp, nomobloot, nomvploot,");
 	clif_displaymessage(sd->fd,"nightenabled, restricted, nodrop, novending, loadevent, nochat, partylock, guildlock,");
 	clif_displaymessage(sd->fd,"reset, chmautojoin, nousecart, noitemconsumption, nosumstarmiracle, nolockon, notomb,");
-	clif_displaymessage(sd->fd,"nocostume, gvg_te, gvg_te_castle, hidemobhpbar");
+	clif_displaymessage(sd->fd,"nocostume, gvg_te, gvg_te_castle, hidemobhpbar, deepwater");
 #ifdef ADJUST_SKILL_DAMAGE
 	clif_displaymessage(sd->fd,"skill_damage");
 #endif
