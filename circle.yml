@@ -1,0 +1,28 @@
+dependencies:
+  override:
+  - echo PACKETDBVER="55"
+  - uname -a
+  - mysql -u root -e "CREATE DATABASE ragnarok;"
+  - mysql -u root ragnarok < flyway/sql/V1__main.sql
+  - mysql -u root ragnarok < flyway/sql/V2__logs.sql
+  - mysql -u root ragnarok < flyway/sql/V10__item_cash_db.sql
+  - mysql -u root ragnarok < flyway/sql/V11__item_cash_db2.sql
+  - mysql -u root ragnarok < flyway/sql/V3__item_db.sql
+  - mysql -u root ragnarok < flyway/sql/V4__item_db2.sql
+  - mysql -u root ragnarok < flyway/sql/V5__mob_db.sql
+  - mysql -u root ragnarok < flyway/sql/V6__mob_db2.sql
+  - mysql -u root ragnarok < flyway/sql/V7__mob_skill_db.sql
+  - mysql -u root ragnarok < flyway/sql/V8__mob_skill_db2.sql
+  - mysql -u root -e "GRANT ALL ON *.* TO 'root'@'127.0.0.1' IDENTIFIED BY 'root';"
+  - mysql -u root -e "GRANT ALL ON *.* TO 'root'@'localhost' IDENTIFIED BY 'root';"
+
+test:
+  override:
+  - sudo chmod 777 configure
+  - ./configure --enable-prere=yes --enable-vip=yes --enable-buildbot=yes
+  - make clean
+  - make server
+  - sudo chmod 777 map-server
+  - ./map-server --run-once
+
+
