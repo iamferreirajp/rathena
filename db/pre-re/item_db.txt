@@ -6584,3 +6584,11 @@
 19505,T_Cigarette,T Cigarette,4,0,,0,,0,,0,0xFFFFFFFF,7,2,4096,,0,0,54,{},{},{}
 19506,T_Valkyrie_Feather_Band,T Valkyrie Feather Band,4,0,,0,,0,,0,0xFFFFFFFF,7,2,1024,,0,1,300,{},{},{}
 19507,Clear_Sun,Clear Sun,4,0,,0,,0,,0,0xFFFFFFFF,7,2,1024,,1,0,654,{},{},{}
+
+// Achievement System
+22876,Old_Money_Pocket,Old Money Pocket,3,0,,0,,,,,,,,,,,,,{ Zeny += rand(500,550); },{},{}
+16504,Bubble_Gum_Box(10),Bubble Gum Box(10),18,10,,10,,,,0,0xFFFFFFFF,63,2,,,,,,{ getitem 12210,10; },{},{}
+16483,Abrasive_Box_10,Abrasive Box (10),2,20,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 12514,10; },{},{}
+18880,Advanced_Jao_King_Hat,Advanced Jao King Hat,4,10,,1500,,4,,1,0xFFFFFFFF,63,2,256,,175,1,996,{ bonus bAllStats,3; bonus bMaxHPrate,5; bonus bMaxSPrate,5; },{},{}
+12817,Old_Card_Album_,Old Card Album,2,0,,0,,,,,0xFFFFFFFF,63,2,,,80,,,{},{},{}
+22808,Special_Gift_Box,Special Gift Box,2,10,,100,,,,,,,,,,,,,{},{},{}
