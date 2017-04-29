@@ -6536,14 +6536,15 @@ static unsigned short status_calc_speed(struct block_list *bl, struct status_cha
 				if( sc->data[SC_ACCELERATION] )
 					val += 25;
 			}
+			// Changing the speed of vip mounts
 			else if( sc->data[SC_ALL_RIDING] )
 				//val = battle_config.rental_mount_speed_boost;
 				if( sd-> group_id == 1 ){
 					val = 30;
 				} else if( sd-> group_id == 2 ) {
-					val = 40;
+					val = 35;
 				} else if( sd-> group_id == 3) {
-					val = 50;
+					val = 40;
 				}
 		}
 		speed_rate -= val;
