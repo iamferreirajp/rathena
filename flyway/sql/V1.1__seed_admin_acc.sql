@@ -1,2 +1,10 @@
-INSERT INTO login (userid,user_pass,group_id,pincode) VALUES ("jploko","jploko",99,1111);
-INSERT INTO login (userid,user_pass,group_id,pincode) VALUES ("lucas","lucas",99,1111);
+INSERT INTO login (userid,user_pass,group_id,pincode) VALUES ("jploko1","jploko1",99,1111);
+INSERT INTO login (userid,user_pass,group_id,pincode) VALUES ("jploko2","jploko2",99,1111);
+INSERT INTO login (userid,user_pass,group_id,pincode) VALUES ("jploko3","jploko3",99,1111);
+INSERT INTO login (userid,user_pass,group_id,pincode) VALUES ("jploko4","jploko4",99,1111);
+INSERT INTO login (userid,user_pass,group_id,pincode) VALUES ("jploko5","jploko5",99,1111);
+INSERT INTO login (userid,user_pass,group_id,pincode) VALUES ("lucas1","lucas1",99,1111);
+INSERT INTO login (userid,user_pass,group_id,pincode) VALUES ("lucas2","lucas2",99,1111);
+INSERT INTO login (userid,user_pass,group_id,pincode) VALUES ("lucas3","lucas3",99,1111);
+INSERT INTO login (userid,user_pass,group_id,pincode) VALUES ("lucas4","lucas4",99,1111);
+INSERT INTO login (userid,user_pass,group_id,pincode) VALUES ("lucas5","lucas5",99,1111);
