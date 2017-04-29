@@ -7896,14 +7896,41 @@ ACMD_FUNC(mutearea)
 
 ACMD_FUNC(rates)
 {
+
 	char buf[CHAT_SIZE_MAX];
 
 	nullpo_ret(sd);
 	memset(buf, '\0', sizeof(buf));
 
+	int basebonus = 0;
+	int jobbonus = 0;
+
+	if(sd->status.base_level >= 1 && sd->status.base_level <= 64) {
+		basebonus = 30;
+		jobbonus = 30;
+	} else if (sd->status.base_level >= 65 && sd->status.base_level <= 74) {
+		basebonus = 25;
+		jobbonus = 25;
+	} else if (sd->status.base_level >= 75 && sd->status.base_level <= 84) {
+		basebonus = 20;
+		jobbonus = 20;
+	} else if (sd->status.base_level >= 85 && sd->status.base_level <= 89) {
+		basebonus = 15;
+		jobbonus = 15;
+	} else if (sd->status.base_level >= 90 && sd->status.base_level <= 94) {
+		basebonus = 12;
+		jobbonus = 12;
+	} else if (sd->status.base_level >= 95 && sd->status.base_level <= 97) {
+		basebonus = 10;
+		jobbonus = 10;
+	} else if (sd->status.base_level >= 98 && sd->status.base_level <= 99) {
+		basebonus = 5;
+		jobbonus = 5;
+	}
+
 	snprintf(buf, CHAT_SIZE_MAX, msg_txt(sd,1298), // Experience rates: Base %.2fx / Job %.2fx
-		(battle_config.base_exp_rate + (pc_isvip(sd) ? (battle_config.vip_base_exp_increase * battle_config.base_exp_rate) / 100 : 0)) / 100.,
-		(battle_config.job_exp_rate + (pc_isvip(sd) ? (battle_config.vip_job_exp_increase * battle_config.job_exp_rate) / 100 : 0)) / 100.);
+		((battle_config.base_exp_rate * basebonus) + (pc_isvip(sd) ? (battle_config.vip_base_exp_increase * battle_config.base_exp_rate) / 100 : 0)) / 100.,
+		((battle_config.job_exp_rate * jobbonus) + (pc_isvip(sd) ? (battle_config.vip_job_exp_increase * battle_config.job_exp_rate) / 100 : 0)) / 100.);
 	clif_displaymessage(fd, buf);
 	snprintf(buf, CHAT_SIZE_MAX, msg_txt(sd,1299), // Normal Drop Rates: Common %.2fx / Healing %.2fx / Usable %.2fx / Equipment %.2fx / Card %.2fx
 		(battle_config.item_rate_common + (pc_isvip(sd) ? (battle_config.vip_drop_increase * battle_config.item_rate_common) / 100 : 0)) / 100.,
