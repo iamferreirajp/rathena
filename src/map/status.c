@@ -6526,7 +6526,9 @@ static unsigned short status_calc_speed(struct block_list *bl, struct status_cha
 			val = 25;
 		else if( sd ) {
 			if( pc_isriding(sd) || sd->sc.option&OPTION_DRAGON )
+
 				val = 25; // Same bonus
+
 			else if( pc_isridingwug(sd) )
 				val = 15 + 5 * pc_checkskill(sd, RA_WUGRIDER);
 			else if( pc_ismadogear(sd) ) {
@@ -6535,7 +6537,14 @@ static unsigned short status_calc_speed(struct block_list *bl, struct status_cha
 					val += 25;
 			}
 			else if( sc->data[SC_ALL_RIDING] )
-				val = battle_config.rental_mount_speed_boost;
+				//val = battle_config.rental_mount_speed_boost;
+				if( sd-> group_id == 1 ){
+					val = 30;
+				} else if( sd-> group_id == 2 ) {
+					val = 40;
+				} else if( sd-> group_id == 3) {
+					val = 50;
+				}
 		}
 		speed_rate -= val;
 
