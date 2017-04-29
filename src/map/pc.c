@@ -7796,10 +7796,18 @@ int pc_dead(struct map_session_data *sd,struct block_list *src)
 		uint32 job_penalty = 0;
 		uint32 zeny_penalty = 0;
 
-		if (pc_isvip(sd)) { // EXP penalty for VIP
-			base_penalty = battle_config.vip_exp_penalty_base;
-			job_penalty = battle_config.vip_exp_penalty_job;
-			zeny_penalty = battle_config.vip_zeny_penalty;
+		if( sd-> group_id == 1 ){ // Bronze VIP
+			base_penalty = 100;
+			job_penalty = 100;
+			zeny_penalty = 0;
+		} else if( sd-> group_id == 2 ) { // Silver VIP
+			base_penalty = 50;
+			job_penalty = 50;
+			zeny_penalty = 0;
+		} else if( sd-> group_id == 3) { // Gold VIP
+			base_penalty = 0;
+			job_penalty = 0;
+			zeny_penalty = 0;	
 		} else {
 			base_penalty = battle_config.death_penalty_base;
 			job_penalty = battle_config.death_penalty_job;
