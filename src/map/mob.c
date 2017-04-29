@@ -2570,7 +2570,44 @@ int mob_dead(struct mob_data *md, struct block_list *src, int type)
 								job_exp = (unsigned int)cap_value(apply_rate(job_exp, rate), 1, UINT_MAX);
 						}
 #endif
-						pc_gainexp(tmpsd[i], &md->bl, base_exp, job_exp, 0);
+						if (sd->status.base_level > 0 && sd->status.base_level < 65) {
+							base_exp = base_exp * 30;
+							job_exp = job_exp * 30;
+							pc_gainexp(tmpsd[i], &md->bl, base_exp, job_exp, 0);
+						}
+						else if (sd->status.base_level > 64 && sd->status.base_level < 75) {
+							base_exp = base_exp * 25;
+							job_exp = job_exp * 25;
+							pc_gainexp(tmpsd[i], &md->bl, base_exp, job_exp, 0);
+						}
+						else if (sd->status.base_level > 74 && sd->status.base_level < 85) {
+							base_exp = base_exp * 20;
+							job_exp = job_exp * 20;
+							pc_gainexp(tmpsd[i], &md->bl, base_exp, job_exp, 0);
+						}
+						else if (sd->status.base_level > 84 && sd->status.base_level < 90) {
+							base_exp = base_exp * 15;
+							job_exp = job_exp * 15;
+							pc_gainexp(tmpsd[i], &md->bl, base_exp, job_exp, 0);
+						}
+						else if (sd->status.base_level > 89 && sd->status.base_level < 95) {
+							base_exp = base_exp * 12;
+							job_exp = job_exp * 12;
+							pc_gainexp(tmpsd[i], &md->bl, base_exp, job_exp, 0);
+						}
+						else if (sd->status.base_level > 94 && sd->status.base_level < 98) {
+							base_exp = base_exp * 10;
+							job_exp = job_exp * 10;
+							pc_gainexp(tmpsd[i], &md->bl, base_exp, job_exp, 0);
+						}
+						else if (sd->status.base_level > 97 && sd->status.base_level < 100) {
+							base_exp = base_exp * 5;
+							job_exp = job_exp * 5;
+							pc_gainexp(tmpsd[i], &md->bl, base_exp, job_exp, 0);
+						}
+						else {
+							// nothing to do
+						}
 					}
 				}
 				if(zeny) // zeny from mobs [Valaris]

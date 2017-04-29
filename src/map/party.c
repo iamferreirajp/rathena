@@ -1082,8 +1082,10 @@ void party_exp_share(struct party_data* p, struct block_list* src, unsigned int 
 
 	// count the number of players eligible for exp sharing
 	for (i = c = 0; i < MAX_PARTY; i++) {
-		if( (sd[c] = p->data[i].sd) == NULL || sd[c]->bl.m != src->m || pc_isdead(sd[c]) || (battle_config.idle_no_share && pc_isidle(sd[c])) )
+		if ((sd[c] = p->data[i].sd) == NULL || sd[c]->bl.m != src->m || pc_isdead(sd[c]) || (battle_config.idle_no_share && pc_isidle(sd[c]))) {
 			continue;
+		}
+
 		c++;
 	}
 	if (c < 1)
@@ -1093,18 +1095,58 @@ void party_exp_share(struct party_data* p, struct block_list* src, unsigned int 
 	job_exp/=c;
 	zeny/=c;
 
+	int j; // iterator of this funcion
+	int player_base_exp[20]; // array with max number of players in 1 pt
+	int player_job_exp[20]; // array with max number of players in 1 pt
+	for (j = 0; j < c; j++) { // loop that go through all members in pt
+
+	// This block change the basexp of the player in the pt based in his lvl
+		if (sd[j]->status.base_level > 0 && sd[j]->status.base_level < 65) {
+			player_base_exp[j] = base_exp * 30;
+			player_job_exp[j] = job_exp * 30;
+		}
+		else if (sd[j]->status.base_level > 64 && sd[j]->status.base_level < 75) {
+			player_base_exp[j] = base_exp * 25;
+			player_job_exp[j] = job_exp * 25;
+		}
+		else if (sd[j]->status.base_level > 74 && sd[j]->status.base_level < 85) {
+			player_base_exp[j] = base_exp * 20;
+			player_job_exp[j] = job_exp * 20;
+		}
+		else if (sd[j]->status.base_level > 84 && sd[j]->status.base_level < 90) {
+			player_base_exp[j] = base_exp * 15;
+			player_job_exp[j] = job_exp * 15;
+		}
+		else if (sd[j]->status.base_level > 89 && sd[j]->status.base_level < 95) {
+			player_base_exp[j] = base_exp * 12;
+			player_job_exp[j] = job_exp * 12;
+		}
+		else if (sd[j]->status.base_level > 94 && sd[j]->status.base_level < 98) {
+			player_base_exp[j] = base_exp * 10;
+			player_job_exp[j] = job_exp * 10;
+		}
+		else if (sd[j]->status.base_level > 97 && sd[j]->status.base_level < 100) {
+			player_base_exp[j] = base_exp * 5;
+			player_job_exp[j] = job_exp * 5;
+		}
+		else {
+			// nothing to do
+		}
+
+	// this block adds the bonus of people on the pt to the player`s exp
 	if (battle_config.party_even_share_bonus && c > 1) {
-		double bonus = 100 + battle_config.party_even_share_bonus*(c-1);
+		double bonus = 100 + battle_config.party_even_share_bonus*(c - 1);
 
-		if (base_exp)
-			base_exp = (unsigned int) cap_value(base_exp * bonus/100, 0, UINT_MAX);
-		if (job_exp)
-			job_exp = (unsigned int) cap_value(job_exp * bonus/100, 0, UINT_MAX);
-		if (zeny)
-			zeny = (unsigned int) cap_value(zeny * bonus/100, INT_MIN, INT_MAX);
+		if (player_base_exp[j]) {
+			player_base_exp[j] = (unsigned int)cap_value(player_base_exp[j] * bonus / 100, 0, UINT_MAX);
+		}
+		if (player_job_exp[j]) {
+			player_job_exp[j] = (unsigned int)cap_value(player_job_exp[j] * bonus / 100, 0, UINT_MAX);
+		}
+		if (zeny){
+			zeny = (unsigned int)cap_value(zeny * bonus / 100, INT_MIN, INT_MAX);
+		}
 	}
-
-	for (i = 0; i < c; i++) {
 #ifdef RENEWAL_EXP
 		uint32 base_gained = base_exp, job_gained = job_exp;
 		if (base_exp || job_exp) {
@@ -1118,7 +1160,7 @@ void party_exp_share(struct party_data* p, struct block_list* src, unsigned int 
 		}
 		pc_gainexp(sd[i], src, base_gained, job_gained, 0);
 #else
-		pc_gainexp(sd[i], src, base_exp, job_exp, 0);
+		pc_gainexp(sd[j], src, player_base_exp[j], player_job_exp[j], 0); // here the player gains the exp based on his spot on the party
 #endif
 
 		if (zeny) // zeny from mobs [Valaris]
