@@ -6,6 +6,7 @@
 #include "../common/nullpo.h"
 #include "../common/malloc.h"
 #include "../common/showmsg.h"
+#include "../common/mmo.h"
 
 #include "map.h" // struct map_session_data
 #include "storage.h"
@@ -151,6 +152,14 @@ int storage_storageopen(struct map_session_data *sd)
 {
 	nullpo_ret(sd);
 
+	if( sd->group_id == 0 || sd->group_id == 1 ) { // Normal and Bronze VIP
+		sd->storage.max_amount = (MAX_STORAGE - 300);
+	} else if( sd->group_id == 2) { // Silver VIP
+		sd->storage.max_amount = (MAX_STORAGE - 200);
+	} else if( sd->group_id == 3) { // Gold VIP
+		sd->storage.max_amount = MAX_STORAGE;
+	}
+
 	if(sd->state.storage_flag)
 		return 1; //Already open?
 
@@ -256,6 +265,14 @@ static int storage_additem(struct map_session_data* sd, struct s_storage *stor, 
 {
 	struct item_data *data;
 	int i;
+
+	if( (sd->group_id == 0 || sd->group_id == 1) && (stor->amount >= MAX_STORAGE - 300)) { // Normal and Bronze VIP
+		return 1;
+	} else if( (sd->group_id == 2) && (stor->amount >= MAX_STORAGE - 200)) { // Silver VIP
+		return 1;
+	} else if( (sd->group_id == 3) && (stor->amount >= MAX_STORAGE)) { // Gold VIP
+		return 1;
+	};
 
 	if( it->nameid == 0 || amount <= 0 )
 		return 1;
