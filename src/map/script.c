@@ -9954,13 +9954,13 @@ BUILDIN_FUNC(openstorage)
 	if( !script_rid2sd(sd) )
 		return SCRIPT_CMD_SUCCESS;
 
-	if( sd->group_id == 0 || sd->group_id == 1 ) { // Normal and Bronze VIP
-		sd->storage.max_amount = (MAX_STORAGE - 300);
-	} else if( sd->group_id == 2) { // Silver VIP
-		sd->storage.max_amount = (MAX_STORAGE - 200);
-	} else if( sd->group_id == 3) { // Silver VIP
-		sd->storage.max_amount = MAX_STORAGE;
-	}
+	// if( sd->group_id == 0 || sd->group_id == 1 ) { // Normal and Bronze VIP
+	// 	sd->storage.max_amount = (MAX_STORAGE - 300);
+	// } else if( sd->group_id == 2) { // Silver VIP
+	// 	sd->storage.max_amount = (MAX_STORAGE - 200);
+	// } else if( sd->group_id == 3) { // Silver VIP
+	// 	sd->storage.max_amount = MAX_STORAGE;
+	// }
 
 	storage_storageopen(sd);
 	return SCRIPT_CMD_SUCCESS;
