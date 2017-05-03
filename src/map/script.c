@@ -11226,7 +11226,7 @@ BUILDIN_FUNC(sc_start)
 	}			
 
 	if(type == SC_OXYGEN) {
-		sd=script_rid2sd(st);
+		script_rid2sd(sd);
 		status_check_rain(sd);
 	}
 
@@ -11299,7 +11299,7 @@ BUILDIN_FUNC(sc_end)
 		status_change_end(bl, (sc_type)type, INVALID_TIMER);
 
 		if(type == SC_OXYGEN) {
-			sd=script_rid2sd(st);
+			script_rid2sd(sd);
 			status_check_rain(sd);
 		}
 	} else

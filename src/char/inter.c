@@ -23,6 +23,7 @@
 #include "int_elemental.h"
 #include "int_clan.h"
 #include "int_achievement.h"
+#include "int_achievement.c"
 
 #include <stdlib.h>
 

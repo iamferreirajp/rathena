@@ -35,6 +35,7 @@
 #include "date.h"
 #include "unit.h"
 #include "achievement.h"
+#include "achievement.c"
 
 #include <stdio.h>
 #include <stdlib.h>
