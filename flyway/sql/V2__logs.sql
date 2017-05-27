@@ -99,7 +99,6 @@ CREATE TABLE IF NOT EXISTS `feedinglog` (
 --
 
 CREATE TABLE IF NOT EXISTS `loginlog` (
-<<<<<<< HEAD:sql-files/logs.sql
   `time` timestamp NOT NULL default CURRENT_TIMESTAMP,
   `ip` varchar(15) NOT NULL default '',
   `user` varchar(23) NOT NULL default '',

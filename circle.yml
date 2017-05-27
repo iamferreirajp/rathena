@@ -4,22 +4,70 @@ dependencies:
   - uname -a
   - mysql -u root -e "CREATE DATABASE ragnarok;"
   - mysql -u root ragnarok < flyway/sql/V1__main.sql
+  - mysql -u root ragnarok < flyway/sql/V1.1__seed_admin_acc.sql
   - mysql -u root ragnarok < flyway/sql/V2__logs.sql
-  - mysql -u root ragnarok < flyway/sql/V10__item_cash_db.sql
-  - mysql -u root ragnarok < flyway/sql/V11__item_cash_db2.sql
   - mysql -u root ragnarok < flyway/sql/V3__item_db.sql
   - mysql -u root ragnarok < flyway/sql/V4__item_db2.sql
   - mysql -u root ragnarok < flyway/sql/V5__mob_db.sql
   - mysql -u root ragnarok < flyway/sql/V6__mob_db2.sql
   - mysql -u root ragnarok < flyway/sql/V7__mob_skill_db.sql
   - mysql -u root ragnarok < flyway/sql/V8__mob_skill_db2.sql
+  - mysql -u root ragnarok < flyway/sql/V10__item_cash_db.sql
+  - mysql -u root ragnarok < flyway/sql/V11__item_cash_db2.sql
+  - mysql -u root ragnarok < flyway/sql/V12__cp_v4p_sites.sql
+  - mysql -u root ragnarok < flyway/sql/V13__cp_v4p_voters.sql
+  - mysql -u root ragnarok < flyway/sql/V14__cp_v4p_votelogs.sql
+  - mysql -u root ragnarok < flyway/sql/V15__create_news_table.sql
+  - mysql -u root ragnarok < flyway/sql/V16__cp_donate.sql
+  - mysql -u root ragnarok < flyway/sql/V17__cp_onlinepeak.sql
+  - mysql -u root ragnarok < flyway/sql/V18__cp_banlog.20080928225124.sql
+  - mysql -u root ragnarok < flyway/sql/V18.1__cp_banlog.20081109093448.sql
+  - mysql -u root ragnarok < flyway/sql/V19__cp_createlog.20080928225124.sql
+  - mysql -u root ragnarok < flyway/sql/V19.1__cp_createlog.20081012100127.sql
+  - mysql -u root ragnarok < flyway/sql/V19.2__cp_createlog.20081012100128.sql
+  - mysql -u root ragnarok < flyway/sql/V19.3__cp_createlog.20081109093448.sql
+  - mysql -u root ragnarok < flyway/sql/V20__cp_credits.20080928225124.sql
+  - mysql -u root ragnarok < flyway/sql/V20.1__cp_credits.20081109093448.sql
+  - mysql -u root ragnarok < flyway/sql/V21__cp_emailchange.20081103093448.sql
+  - mysql -u root ragnarok < flyway/sql/V21.1__cp_emailchange.20081104093448.sql
+  - mysql -u root ragnarok < flyway/sql/V22__cp_ipbanlog.20120816150540.sql
+  - mysql -u root ragnarok < flyway/sql/V23__cp_loginlog.20081109093448.sql
+  - mysql -u root ragnarok < flyway/sql/V23.1__cp_loginlog.20081109093449.sql
+  - mysql -u root ragnarok < flyway/sql/V24__cp_loginprefs.20080929191525.sql
+  - mysql -u root ragnarok < flyway/sql/V24.1__cp_loginprefs.20081109093448.sql
+  - mysql -u root ragnarok < flyway/sql/V25__cp_pwchange.20081109093448.sql
+  - mysql -u root ragnarok < flyway/sql/V25.1__cp_pwchange.20081109093449.sql
+  - mysql -u root ragnarok < flyway/sql/V26__cp_resetpass.20081109093448.sql
+  - mysql -u root ragnarok < flyway/sql/V26.1__cp_resetpass.20081109093449.sql
+  - mysql -u root ragnarok < flyway/sql/V27__cp_tasklist.20131116234301.sql
+  - mysql -u root ragnarok < flyway/sql/V28__cp_taskliststaff.20131116234301.sql
+  - mysql -u root ragnarok < flyway/sql/V29__cp_trusted.20080928225124.sql
+  - mysql -u root ragnarok < flyway/sql/V29.1__cp_trusted.20081109093448.sql
+  - mysql -u root ragnarok < flyway/sql/V30__cp_txnlog.20080928225124.sql
+  - mysql -u root ragnarok < flyway/sql/V30.1__cp_txnlog.20081109093448.sql
+  - mysql -u root ragnarok < flyway/sql/V30.2__cp_txnlog.20081109093449.sql
+  - mysql -u root ragnarok < flyway/sql/V30.3__cp_txnlog.20081109093450.sql
+  - mysql -u root ragnarok < flyway/sql/V30.4__cp_txnlog.20081109093451.sql
+  - mysql -u root ragnarok < flyway/sql/V30.5__cp_txnlog.20081109093452.sql
+  - mysql -u root ragnarok < flyway/sql/V31__cp_charprefs.20080929191525.sql
+  - mysql -u root ragnarok < flyway/sql/V31.1__cp_charprefs.20081109093448.sql
+  - mysql -u root ragnarok < flyway/sql/V31.2__cp_charprefs.20120816150540.sql
+  - mysql -u root ragnarok < flyway/sql/V32__cp_itemshop.20080928225124.sql
+  - mysql -u root ragnarok < flyway/sql/V32.1__cp_itemshop.20081109093448.sql
+  - mysql -u root ragnarok < flyway/sql/V32.2__cp_itemshop.20081128093449.sql
+  - mysql -u root ragnarok < flyway/sql/V32.3__cp_itemshop.20090104190020.sql
+  - mysql -u root ragnarok < flyway/sql/V33__cp_redeemlog.20080928225124.sql
+  - mysql -u root ragnarok < flyway/sql/V33.1__cp_redeemlog.20081001054354.sql
+  - mysql -u root ragnarok < flyway/sql/V33.2__cp_redeemlog.20081109093448.sql
+  - mysql -u root ragnarok < flyway/sql/V34__cp_xferlog.20080928225124.sql
+  - mysql -u root ragnarok < flyway/sql/V34.1__cp_xferlog.20081109093448.sql
   - mysql -u root -e "GRANT ALL ON *.* TO 'root'@'127.0.0.1' IDENTIFIED BY 'root';"
   - mysql -u root -e "GRANT ALL ON *.* TO 'root'@'localhost' IDENTIFIED BY 'root';"
 
 test:
   override:
   - sudo chmod 777 configure
-  - ./configure --enable-prere=yes --enable-vip=yes --enable-buildbot=yes
+  - ./configure --enable-vip=yes --enable-buildbot=yes
   - make clean
   - make server
   - sudo chmod 777 map-server
