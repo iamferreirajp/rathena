@@ -2,8 +2,7 @@
 # Table structure for table `mob_db2`
 #
 
-DROP TABLE IF EXISTS `mob_db2`;
-CREATE TABLE `mob_db2` (
+CREATE TABLE IF NOT EXISTS `mob_db2` (
   `ID` mediumint(9) unsigned NOT NULL default '0',
   `Sprite` text NOT NULL,
   `kName` text NOT NULL,

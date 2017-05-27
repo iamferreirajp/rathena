@@ -2,8 +2,7 @@
 # Table structure for table `item_db2`
 #
 
-DROP TABLE IF EXISTS `item_db2`;
-CREATE TABLE `item_db2` (
+CREATE TABLE IF NOT EXISTS `item_db2` (
   `id` smallint(5) unsigned NOT NULL DEFAULT '0',
   `name_english` varchar(50) NOT NULL DEFAULT '',
   `name_japanese` varchar(50) NOT NULL DEFAULT '',
