@@ -67,7 +67,7 @@ dependencies:
 test:
   override:
   - sudo chmod 777 configure
-  - ./configure --enable-vip=yes --enable-buildbot=yes
+  - ./configure --enable-prere=yes --enable-vip=no --enable-buildbot=yes
   - make clean
   - make server
   - sudo chmod 777 map-server
