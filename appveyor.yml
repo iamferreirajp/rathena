@@ -1,4 +1,4 @@
-image: Visual Studio 2013
+image: Visual Studio 2017
 # This is the default location, but we put it here for safety reasons, since we use it in our test script
 clone_folder: c:\projects\rathena
 # We do not need the git history for our integration tests
@@ -46,59 +46,59 @@ test_script:
     
     cd C:\projects\rathena
     
-    echo map_server_ip: %DB_HOST%>> conf\import\inter_conf.txt
+    echo map_server_ip: %DB_HOST%>> conf\inter_conf.txt
     
-    echo map_server_id: %DB_USER%>> conf\import\inter_conf.txt
+    echo map_server_id: %DB_USER%>> conf\inter_conf.txt
     
-    echo map_server_pw: %DB_PASS%>> conf\import\inter_conf.txt
+    echo map_server_pw: %DB_PASS%>> conf\inter_conf.txt
     
-    echo map_server_db: %DB_NAME%>> conf\import\inter_conf.txt
+    echo map_server_db: %DB_NAME%>> conf\inter_conf.txt
     
-    echo log_db_ip: %DB_HOST%>> conf\import\inter_conf.txt
+    echo log_db_ip: %DB_HOST%>> conf\inter_conf.txt
     
-    echo log_db_id: %DB_USER%>> conf\import\inter_conf.txt
+    echo log_db_id: %DB_USER%>> conf\inter_conf.txt
     
-    echo log_db_pw: %DB_USERPW%>> conf\import\inter_conf.txt
+    echo log_db_pw: %DB_USERPW%>> conf\inter_conf.txt
     
-    echo log_db_db: %DB_NAME%>> conf\import\inter_conf.txt
+    echo log_db_db: %DB_NAME%>> conf\inter_conf.txt
     
     rem MySQL database setup
     
     %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% -e "CREATE DATABASE %DB_NAME%;"
     
-    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source sql-files\main.sql"
+    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source flyway/sql/V1__main.sql"
     
-    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source sql-files\logs.sql"
+    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source flyway/sql/V1.1__seed_admin_acc.sql"
     
-    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source sql-files\item_cash_db.sql"
+    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source flyway/sql/V2__logs.sql"
     
-    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source sql-files\item_cash_db2.sql"
+    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source flyway/sql/V3__item_db.sql"
     
-    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source sql-files\item_db.sql"
+    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source flyway/sql/V4__item_db2.sql"
     
-    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source sql-files\item_db2.sql"
+    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source flyway/sql/V5__mob_db.sql"
     
-    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source sql-files\item_db_re.sql"
+    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source flyway/sql/V6__mob_db2.sql"
     
-    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source sql-files\item_db2_re.sql"
+    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source flyway/sql/V7__mob_skill_db.sql"
     
-    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source sql-files\mob_db.sql"
+    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source flyway/sql/V8__mob_skill_db2.sql"
     
-    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source sql-files\mob_db2.sql"
+    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source flyway/sql/V9__item_cash_db.sql"
     
-    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source sql-files\mob_db_re.sql"
+    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source flyway/sql/V10__item_cash_db2.sql"
     
-    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source sql-files\mob_db2_re.sql"
+    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source flyway/sql/V11__cp_vote_for_points.sql"
     
-    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source sql-files\mob_skill_db.sql"
+    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source flyway/sql/V12__cp_logs.sql"
     
-    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source sql-files\mob_skill_db2.sql"
+    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source flyway/sql/V13__cp_sql.sql"
     
-    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source sql-files\mob_skill_db_re.sql"
+    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source flyway/sql/V14__website_create_news_table.sql"
     
-    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source sql-files\mob_skill_db2_re.sql"
+    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source flyway/sql/V15__cp_donate.sql"
     
-    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source sql-files\roulette_default_data.sql"
+    %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% %DB_NAME% -e "source flyway/sql/V16__cp_onlinepeak.sql"
     
     %MYSQL% -u %DB_ROOT% -p%DB_ROOTPW% -e "GRANT ALL ON *.* TO '%DB_USER%'@'%DB_HOST%' IDENTIFIED BY '%DB_USERPW%';"
     

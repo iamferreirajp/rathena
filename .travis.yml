@@ -7,29 +7,29 @@ dist: trusty
 before_script:
   - uname -a
   - mysql -u $DB_ROOT -e "CREATE DATABASE $DB_NAME;" || aborterror "Unable to create database."
-  - mysql -u $DB_ROOT $DB_NAME < sql-files/main.sql || aborterror "Unable to import main database."
-  - mysql -u $DB_ROOT $DB_NAME < sql-files/logs.sql || aborterror "Unable to import logs database."
-  - mysql -u $DB_ROOT $DB_NAME < sql-files/item_cash_db.sql || aborterror "Unable to import cash item table."
-  - mysql -u $DB_ROOT $DB_NAME < sql-files/item_cash_db2.sql || aborterror "Unable to import cash item 2 table."
-  - mysql -u $DB_ROOT $DB_NAME < sql-files/item_db.sql || aborterror "Unable to import pre-renewal item table."
-  - mysql -u $DB_ROOT $DB_NAME < sql-files/item_db2.sql || aborterror "Unable to import pre-renewal item 2 table."
-  - mysql -u $DB_ROOT $DB_NAME < sql-files/item_db_re.sql || aborterror "Unable to import renewal item table."
-  - mysql -u $DB_ROOT $DB_NAME < sql-files/item_db2_re.sql || aborterror "Unable to import renewal item 2 table."
-  - mysql -u $DB_ROOT $DB_NAME < sql-files/mob_db.sql || aborterror "Unable to import pre-renewal monster table."
-  - mysql -u $DB_ROOT $DB_NAME < sql-files/mob_db2.sql || aborterror "Unable to import pre-renewal monster 2 table."
-  - mysql -u $DB_ROOT $DB_NAME < sql-files/mob_db_re.sql || aborterror "Unable to import renewal monster table."
-  - mysql -u $DB_ROOT $DB_NAME < sql-files/mob_db2_re.sql || aborterror "Unable to import renewal monster 2 table."
-  - mysql -u $DB_ROOT $DB_NAME < sql-files/mob_skill_db.sql || aborterror "Unable to import pre-renewal monster skill table."
-  - mysql -u $DB_ROOT $DB_NAME < sql-files/mob_skill_db2.sql || aborterror "Unable to import pre-renewal monster skill 2 table."
-  - mysql -u $DB_ROOT $DB_NAME < sql-files/mob_skill_db_re.sql || aborterror "Unable to import renewal monster skill table."
-  - mysql -u $DB_ROOT $DB_NAME < sql-files/mob_skill_db2_re.sql || aborterror "Unable to import renewal monster skill 2 table."
-  - mysql -u $DB_ROOT $DB_NAME < sql-files/roulette_default_data.sql || aborterror "Unable to import roulette table."
+  - mysql -u $DB_ROOT $DB_NAME < flyway/sql/V1__main.sql || aborterror "Unable to import main database."
+  - mysql -u $DB_ROOT $DB_NAME < flyway/sql/V1.1__seed_admin_acc.sql || aborterror "Unable to import logs database."
+  - mysql -u $DB_ROOT $DB_NAME < flyway/sql/V2__logs.sql || aborterror "Unable to import cash item table."
+  - mysql -u $DB_ROOT $DB_NAME < flyway/sql/V3__item_db.sql || aborterror "Unable to import cash item 2 table."
+  - mysql -u $DB_ROOT $DB_NAME < flyway/sql/V4__item_db2.sql || aborterror "Unable to import pre-renewal item table."
+  - mysql -u $DB_ROOT $DB_NAME < flyway/sql/V5__mob_db.sql || aborterror "Unable to import pre-renewal item 2 table."
+  - mysql -u $DB_ROOT $DB_NAME < flyway/sql/V6__mob_db2.sql || aborterror "Unable to import renewal item table."
+  - mysql -u $DB_ROOT $DB_NAME < flyway/sql/V7__mob_skill_db.sql || aborterror "Unable to import renewal item 2 table."
+  - mysql -u $DB_ROOT $DB_NAME < flyway/sql/V8__mob_skill_db2.sql || aborterror "Unable to import pre-renewal monster table."
+  - mysql -u $DB_ROOT $DB_NAME < flyway/sql/V9__item_cash_db.sql || aborterror "Unable to import pre-renewal monster 2 table."
+  - mysql -u $DB_ROOT $DB_NAME < flyway/sql/V10__item_cash_db2.sql || aborterror "Unable to import renewal monster table."
+  - mysql -u $DB_ROOT $DB_NAME < flyway/sql/V11__cp_vote_for_points.sql || aborterror "Unable to import renewal monster 2 table."
+  - mysql -u $DB_ROOT $DB_NAME < flyway/sql/V12__cp_logs.sql || aborterror "Unable to import pre-renewal monster skill table."
+  - mysql -u $DB_ROOT $DB_NAME < flyway/sql/V13__cp_sql.sql || aborterror "Unable to import pre-renewal monster skill 2 table."
+  - mysql -u $DB_ROOT $DB_NAME < flyway/sql/V14__website_create_news_table.sql || aborterror "Unable to import renewal monster skill table."
+  - mysql -u $DB_ROOT $DB_NAME < flyway/sql/V15__cp_donate.sql || aborterror "Unable to import renewal monster skill 2 table."
+  - mysql -u $DB_ROOT $DB_NAME < flyway/sql/V16__cp_onlinepeak.sql || aborterror "Unable to import roulette table."
   - mysql -u $DB_ROOT -e "GRANT ALL ON *.* TO '$DB_USER'@'$DB_HOST' IDENTIFIED BY '$DB_PASS';"
   - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
   - sudo apt-get update -q
   - sudo apt-get install gcc-4.8 -y
   - sudo apt-get install g++-4.8 -y
-
+  - sudo apt-get install build-essential -y
 script:
   - ./configure $CONFIGURE_FLAGS
   - make clean
