@@ -42,7 +42,7 @@
 //
 packet_db_ver: 55
 //packet_db_ver: default
-packet_keys_use: 0x7AB26778,0x5A42B4F9,0x54D2CD0A
+//packet_keys_use: 18243099,6F85A691,069E767A
 
 packet_ver: 5
 0x0064,55

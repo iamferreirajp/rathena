@@ -80,7 +80,7 @@
 /// When enabled, make sure there is value for 'packet_keys' of used packet version or
 /// defined 'packet_keys_use' in db/[import/]packet_db.txt.
 /// This requires PACKETVER 2011-08-17 or newer.
-#define PACKET_OBFUSCATION
+//#define PACKET_OBFUSCATION
 
 /// Comment to disable warnings for deprecated script commands
 #define SCRIPT_COMMAND_DEPRECATION
