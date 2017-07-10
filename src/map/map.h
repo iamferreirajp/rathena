@@ -591,7 +591,7 @@ struct s_skill_damage {
 		other; ///< Rate to Other target
 	uint8 caster; ///< Caster type
 };
-struct eri *map_skill_damage_ers;
+extern struct eri *map_skill_damage_ers;
 #endif
 
 struct questinfo_req {
