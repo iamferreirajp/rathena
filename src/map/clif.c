@@ -690,11 +690,9 @@ int clif_send(const uint8* buf, int len, struct block_list* bl, enum send_target
 void clif_authok(struct map_session_data *sd)
 {
 #if PACKETVER < 20080102
-	const int cmd = 0x73;
-#elif PACKETVER < 20141022 || PACKETVER >= 20160330
-	const int cmd = 0x2eb;
+    const int cmd = 0x73;
 #else
-	const int cmd = 0xa18;
+    const int cmd = 0x2eb;
 #endif
 	int fd = sd->fd;
 
