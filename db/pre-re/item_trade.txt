@@ -1792,15 +1792,6 @@
 5821,507,100	// Gold Tulip Hairpin
 5822,499,100	// Love Chick Hat
 29013,475,100	// Sapatos_da_Experiencia
-29014,475,100	// Sapatos_da_Experiencia_
-29015,475,100	// Sapatos_da_Experiencia__
-29016,475,100	// Sapatos_da_Experiencia___
-29017,475,100	// Tunica_da_Experiencia
-29018,475,100	// Tunica_da_Experiencia_
-29019,475,100	// Tunica_da_Experiencia__
-29020,475,100	// Tunica_da_Experiencia___
-29021,475,100	// Manto_da_Experiencia
-29022,475,100	// Manto_da_Experiencia_
-29023,475,100	// Manto_da_Experiencia__
-29024,475,100	// Manto_da_Experiencia___
-29025,475,100	// Experience_Box
+29014,475,100	// Tunica_da_Experiencia
+29015,475,100	// Manto_da_Experiencia
+29016,475,100	// Experience_Box

@@ -6598,28 +6598,19 @@
 // Sistema de Heranças
 //===================================================================
 // Sapatos
-29013,Sapatos_da_Experiencia,Sapatos da Experiência,4,,,300,,12,,,0x03EFDFFF,63,2,64,,,1,,{ bonus bAllStats,1; bonus2 bExpAddClass,Class_All,100; },{},{}
-29014,Sapatos_da_Experiencia_,Sapatos da Experiência,4,,,300,,20,,,0x03EFDFFF,63,2,64,,,1,,{ bonus bAllStats,2; bonus2 bExpAddClass,Class_All,100; },{},{}
-29015,Sapatos_da_Experiencia__,Sapatos da Experiência,4,,,300,,25,,,0x03EFDFFF,63,2,64,,,1,,{ bonus bAllStats,3; bonus2 bExpAddClass,Class_All,100; },{},{}
-29016,Sapatos_da_Experiencia___,Sapatos da Experiência,4,,,300,,30,,,0x03EFDFFF,63,2,64,,,1,,{ bonus bUnbreakable,1; bonus bAllStats,3; bonus bSpeedRate,10; bonus2 bExpAddClass,Class_All,100; },{},{}
+29013,Sapatos_da_Experiencia,Sapatos da Experiência,4,,,300,,12,,,0x03EFDFFF,63,2,64,,,1,,{ bonus bAllStats,1; bonus2 bExpAddClass,Class_All,50; },{},{}
+29014,Tunica_da_Experiencia,Túnica da Experiência,4,,,300,,22,,,0x03EFDFFF,63,2,16,,,1,,{ bonus bAllStats,1; bonus2 bSubRace,RC_All,6; bonus2 bExpAddClass,Class_All,50; },{},{}
+29015,Manto_da_Experiencia,Manto da Experiência,4,,,400,,12,,,0x03EFDFFF,63,2,4,,,1,,{ bonus bFlee,5; bonus bAllStats,1; bonus2 bExpAddClass,Class_All,50; },{},{}
 
 // Túnicas
-29017,Tunica_da_Experiencia,Túnica da Experiência,4,,,300,,22,,,0x03EFDFFF,63,2,16,,,1,,{ bonus bAllStats,1; bonus2 bSubRace,RC_All,6; bonus2 bExpAddClass,Class_All,100; },{},{}
-29018,Tunica_da_Experiencia_,Túnica da Experiência,4,,,300,,25,,,0x03EFDFFF,63,2,16,,,1,,{ bonus bAllStats,2; bonus2 bSubRace,RC_All,7; bonus2 bExpAddClass,Class_All,100; },{},{}
-29019,Tunica_da_Experiencia__,Túnica da Experiência,4,,,300,,30,,,0x03EFDFFF,63,2,16,,,1,,{ bonus bAllStats,3; bonus2 bSubRace,RC_All,8; bonus2 bExpAddClass,Class_All,100; },{},{}
-29020,Tunica_da_Experiencia___,Túnica da Experiência,4,,,300,,35,,,0x03EFDFFF,63,2,16,,,1,,{ bonus bUnbreakable,1; bonus bAllStats,3; bonus2 bSubRace,RC_All,10; bonus2 bExpAddClass,Class_All,100; },{},{}
 
 // Mantos
-29021,Manto_da_Experiencia,Manto da Experiência,4,,,400,,12,,,0x03EFDFFF,63,2,4,,,1,,{ bonus bFlee,5; bonus bAllStats,1; bonus2 bExpAddClass,Class_All,100; },{},{}
-29022,Manto_da_Experiencia_,Manto da Experiência,4,,,400,,15,,,0x03EFDFFF,63,2,4,,,1,,{ bonus bFlee,6; bonus bAllStats,1; bonus2 bExpAddClass,Class_All,105; },{},{}
-29023,Manto_da_Experiencia__,Manto da Experiência,4,,,400,,20,,,0x03EFDFFF,63,2,4,,,1,,{ bonus bFlee,7; bonus bAllStats,1; bonus2 bExpAddClass,Class_All,110; },{},{}
-29024,Manto_da_Experiencia___,Manto da Experiência,4,,,400,,25,,,0x03EFDFFF,63,2,4,,,1,,{ bonus bUnbreakable,1; bonus bFlee,8; bonus bAllStats,1; bonus2 bExpAddClass,Class_All,115; },{},{}
 
 // Caixa de experiência
-29025,Experience_Box,Caixa de Equipamentos de Experiência,18,20,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 29021,1; getitem 29017,1; getitem 29013,1; },{},{}
 
 // Armas de Experiência
 
+29016,Experience_Box,Caixa de Equipamentos de Experiência,18,20,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 29015,1; getitem 29014,1; getitem 29013,1; },{},{}
 29026,Adaga_de_Aprendiz_da_Experiencia,Adaga de Aprendiz da Experiência,5,,,0,100,,1,,0x00000001,47,2,2,1,,0,1,{ bonus bAllStats,1; bonus2 bExpAddClass,Class_All,25; },{},{}
 
 29027,Arco_da_Experiencia,Arco da Experiência,5,1,,0,53,,5,,0x00000008,63,2,34,1,,0,11,{ bonus2 bAddDamageClass,1002,500; bonus2 bAddDamageClass,1113,500; bonus2 bAddDamageClass,1031,500; bonus2 bAddDamageClass,1242,500; bonus2 bExpAddClass,Class_All,25; },{},{}
