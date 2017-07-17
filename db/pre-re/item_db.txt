@@ -6593,3 +6593,100 @@
 18880,Advanced_Jao_King_Hat,Advanced Jao King Hat,4,10,,1500,,4,,1,0xFFFFFFFF,63,2,256,,175,1,996,{ bonus bAllStats,3; bonus bMaxHPrate,5; bonus bMaxSPrate,5; },{},{}
 12817,Old_Card_Album_,Old Card Album,2,0,,0,,,,,0xFFFFFFFF,63,2,,,80,,,{},{},{}
 22808,Special_Gift_Box,Special Gift Box,2,10,,100,,,,,,,,,,,,,{},{},{}
+
+//===================================================================
+// Sistema de Heranças
+//===================================================================
+// Sapatos
+29013,Sapatos_da_Experiencia,Sapatos da Experiência,4,,,300,,12,,,0x03EFDFFF,63,2,64,,,1,,{ bonus bAllStats,1; bonus2 bExpAddClass,Class_All,100; },{},{}
+29014,Sapatos_da_Experiencia_,Sapatos da Experiência,4,,,300,,20,,,0x03EFDFFF,63,2,64,,,1,,{ bonus bAllStats,2; bonus2 bExpAddClass,Class_All,100; },{},{}
+29015,Sapatos_da_Experiencia__,Sapatos da Experiência,4,,,300,,25,,,0x03EFDFFF,63,2,64,,,1,,{ bonus bAllStats,3; bonus2 bExpAddClass,Class_All,100; },{},{}
+29016,Sapatos_da_Experiencia___,Sapatos da Experiência,4,,,300,,30,,,0x03EFDFFF,63,2,64,,,1,,{ bonus bUnbreakable,1; bonus bAllStats,3; bonus bSpeedRate,10; bonus2 bExpAddClass,Class_All,100; },{},{}
+
+// Túnicas
+29017,Tunica_da_Experiencia,Túnica da Experiência,4,,,300,,22,,,0x03EFDFFF,63,2,16,,,1,,{ bonus bAllStats,1; bonus2 bSubRace,RC_All,6; bonus2 bExpAddClass,Class_All,100; },{},{}
+29018,Tunica_da_Experiencia_,Túnica da Experiência,4,,,300,,25,,,0x03EFDFFF,63,2,16,,,1,,{ bonus bAllStats,2; bonus2 bSubRace,RC_All,7; bonus2 bExpAddClass,Class_All,100; },{},{}
+29019,Tunica_da_Experiencia__,Túnica da Experiência,4,,,300,,30,,,0x03EFDFFF,63,2,16,,,1,,{ bonus bAllStats,3; bonus2 bSubRace,RC_All,8; bonus2 bExpAddClass,Class_All,100; },{},{}
+29020,Tunica_da_Experiencia___,Túnica da Experiência,4,,,300,,35,,,0x03EFDFFF,63,2,16,,,1,,{ bonus bUnbreakable,1; bonus bAllStats,3; bonus2 bSubRace,RC_All,10; bonus2 bExpAddClass,Class_All,100; },{},{}
+
+// Mantos
+29021,Manto_da_Experiencia,Manto da Experiência,4,,,400,,12,,,0x03EFDFFF,63,2,4,,,1,,{ bonus bFlee,5; bonus bAllStats,1; bonus2 bExpAddClass,Class_All,100; },{},{}
+29022,Manto_da_Experiencia_,Manto da Experiência,4,,,400,,15,,,0x03EFDFFF,63,2,4,,,1,,{ bonus bFlee,6; bonus bAllStats,1; bonus2 bExpAddClass,Class_All,105; },{},{}
+29023,Manto_da_Experiencia__,Manto da Experiência,4,,,400,,20,,,0x03EFDFFF,63,2,4,,,1,,{ bonus bFlee,7; bonus bAllStats,1; bonus2 bExpAddClass,Class_All,110; },{},{}
+29024,Manto_da_Experiencia___,Manto da Experiência,4,,,400,,25,,,0x03EFDFFF,63,2,4,,,1,,{ bonus bUnbreakable,1; bonus bFlee,8; bonus bAllStats,1; bonus2 bExpAddClass,Class_All,115; },{},{}
+
+// Caixa de experiência
+29025,Experience_Box,Caixa de Equipamentos de Experiência,18,20,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 29021,1; getitem 29017,1; getitem 29013,1; },{},{}
+
+// Armas de Experiência
+
+29026,Adaga_de_Aprendiz_da_Experiencia,Adaga de Aprendiz da Experiência,5,,,0,100,,1,,0x00000001,47,2,2,1,,0,1,{ bonus bAllStats,1; bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29027,Arco_da_Experiencia,Arco da Experiência,5,1,,0,53,,5,,0x00000008,63,2,34,1,,0,11,{ bonus2 bAddDamageClass,1002,500; bonus2 bAddDamageClass,1113,500; bonus2 bAddDamageClass,1031,500; bonus2 bAddDamageClass,1242,500; bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29028,Lamina_da_Experiencia,Lâmina da Experiência,5,1,,0,53,,1,,0x00000002,63,2,2,1,,0,2,{ bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29029,Main_Gauche_da_Experiencia,Main Gauche da Experiência,5,1,,0,53,,1,,0x00000040,63,2,2,1,,0,1,{ bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29030,Clava_da_Experiencia,Clava da Experiência,5,1,,0,53,,1,,0x00000010,63,2,2,1,,0,8,{ bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29031,Maca_da_Experiencia,Maça da Experiência,5,1,,0,53,,1,,0x00000020,63,2,2,1,,0,8,{ bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29032,Bastao_da_Experiencia,Bastão da Experiência,5,1,,0,53,,1,,0x00000004,63,2,2,1,,0,10,{ bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29033,Bastao_do_Sobrevivente_da_Experiencia,Bastão do Sobrevivente da Experiência,5,,,0,50,,1,,0x00000200,63,2,2,3,1,0,10,{ bonus bDex,2; bonus bMaxHP,300; bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29034,Schweizersabel_da_Experiencia,Schweizersabel da Experiência,5,,,0,160,,1,,0x00000080,63,2,34,4,1,0,3,{ bonus bAtkEle,Ele_Wind; bonus bDef,1; bonus3 bAutoSpell,MG_LIGHTNINGBOLT,3,100; bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29035,Arco_de_Orc_da_Experiencia,Arco de Orc da Experiência,5,,,0,120,,5,,0x00000800,63,2,34,3,65,0,11,{ bonus2 bAddMonsterDropItem,1753,200; bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29036,Machado_Impetuoso_da_Experiencia,Machado Impetuoso da Experiência,5,,,0,187,,1,,0x00000400,63,2,34,4,1,0,7,{ bonus2 bAddSkillBlow,MC_MAMMONITE,5; bonus2 bAddEff,Eff_Stun,1500; bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29037,Osso_Afiado_de_Carnical_da_Experiencia,Osso Afiado de Carniçal da Experiência,5,,,0,150,,1,,0x00001000,63,2,34,3,65,0,16,{ bonus bAtkEle,Ele_Undead; bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29038,Bastao_do_Sobrevivente_da_Experiencia_,Bastão do Sobrevivente da Experiência,5,,,0,50,,1,,0x00000100,63,2,2,3,1,0,10,{ bonus bDex,2; bonus bMaxHP,300; bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29039,Furia_do_Furacao_da_Experiencia,Fúria do Furacão da Experiência,5,,,0,332,,1,,0x00040000,58,2,34,4,1,0,7,{ bonus2 bSubSize,Size_Medium,10+getrefine(); bonus bAspdRate,getrefine(); bonus3 bAutoSpell,NPC_PULSESTRIKE,5,20; bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29040,Guitarra_Eletrica_da_Experiencia,Guitarra Elétrica da Experiência,5,,,0,110,,1,,0x00080000,63,1,2,4,1,0,13,{ skill WZ_JUPITEL,1; bonus3 bAutoSpell,WZ_JUPITEL,1,100; bonus bAtkEle,Ele_Wind; bonus bInt,2; bonus bAgi,1; bonus bUnbreakableWeapon,0; bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29041,Gungnir_da_ExperiÃªncia,Gungnir da Experiência,5,,,0,120,,3,,0x00004000,63,2,2,4,1,0,4,{ bonus bAtkEle,Ele_Wind; bonus bPerfectHitRate,25; bonus bHit,30; bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29042,Chemeti_da_Experiencia,Chemeti da Experiência,5,,,0,135,,2,,0x00080000,63,,2,4,1,0,14,{ bonus bCritical,5; bonus bFlee,10; bonus bFlee2,2; bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29043,Punho_do_Kaiser_da_Experiencia,Punho do Kaiser da Experiência,5,,,0,110,,1,,0x00008000,63,2,2,4,1,0,12,{ bonus bAtkEle,Ele_Wind; bonus2 bAddRace,RC_Undead,5; bonus2 bAddEle,Ele_Water,10; bonus2 bAddEle,Ele_Earth,10; bonus2 bAddEle,Ele_Fire,10; bonus2 bAddEle,Ele_Wind,10; bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29044,Adaga_Certeira_da_Experiencia,Adaga Certeira da Experiência,5,,,0,140,,1,,0x00020000,63,2,2,4,1,1,1,{ bonus bCritical,90; bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29045,Enciclopedia_da_Experiencia,Enciclopédia da Experiência,5,,,0,110,,1,,0x00010000,63,2,2,3,1,0,15,{ bonus bInt,3; bonus bDex,2; bonus bCritical,20+((readparam(bLuk)*2)/10); bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29059,Pistola_de_Seis_Tiros_da_Experiéncia,Pistola de Seis Tiros da Experiéncia,5,,,0,100,,7,,0x01000000,5,2,34,1,,0,17,{ bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29060,Shuriken_Huuma_da_Experiência,Shuriken Huuma da Experiência,5,,,0,150,,1,,0x22000000,5,2,34,3,,0,22,{ bonus bMatk,50; bonus bInt,3; bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29061,Escudo_Celestial_da_Experiência,Escudo Celestial da Experiência,4,20,,0,,56,,,0x00200000,63,2,32,,,0,1,{ bonus2 bSubEle,Ele_Neutral,5; bonus2 bSubEle,Ele_Fire,5; bonus2 bSubEle,Ele_Water,5; bonus2 bSubEle,Ele_Earth,5; bonus2 bSubEle,Ele_Wind,5; bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29062,Adaga_do_Super_Aprendiz_da_Experiência,Adaga do Super Aprendiz da Experiência,5,,,0,100,,1,,0x00000001,47,2,2,1,,0,1,{ bonus bAllStats,2; bonus bMatkRate,10; bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29063,Adaga_do_Mega_Aprendiz_da_Experiência,Adaga do Mega Aprendiz da Experiência,5,,,0,100,,1,,0x00000001,47,2,2,1,,0,1,{ bonus bAllStats,3; bonus bMatkRate,10; bonus bAtkRate,10; bonus bMaxSP,100; bonus bMaxHP,100; bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29064,Bastão_do_Sobrevivente_da_Experiência,Bastão do Sobrevivente da Experiência,5,,,0,50,,1,,0x00800000,63,2,2,3,,0,10,{ bonus bDex,3; bonus bMaxHP,300; bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29065,Enciclopédia_Mestra_da_Experiência,Enciclopédia Mestra da Experiência,5,,,0,110,,1,,0x00400000,63,2,2,3,1,0,15,{ bonus bStr,3; bonus bDex,2; bonus bCritical,20+((readparam(bLuk)*2)/10); bonus2 bExpAddClass,Class_All,25; },{},{}
+
+29066,Shuriken_de_Pétalas_da_Experiência,Shuriken de Pétalas da Experiência,5,,,0,150,,1,,0x22000000,1,2,34,3,,0,22,{ bonus bMatk,50; bonus bAtkEle,Ele_Fire; bonus2 bSkillAtk,KO_HUUMARANKA,20; bonus2 bExpAddClass,Class_All,25; },{},{}
+
+// Manuais de Experiência
+29046,Manual_de_Combate_1,Manual de Combate 1,2,2,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ sc_start SC_EXPBOOST,900000,25; },{},{}
+29047,Manual_de_Combate_2,Manual de Combate 2,2,2,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ sc_start SC_EXPBOOST,1800000,50; },{},{}
+29048,Manual_de_Combate_3,Manual de Combate 3,2,2,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ sc_start SC_EXPBOOST,1800000,100; },{},{}
+29049,Manual_de_Combate_4,Manual de Combate 4,2,2,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ sc_start SC_EXPBOOST,1800000,200; },{},{}
+29050,Manual_de_Combate_de_Classe_1,Manual de Combate de Classe 1,2,2,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ sc_start SC_JEXPBOOST,900000,25; },{},{}
+29051,Manual_de_Combate_de_Classe_2,Manual de Combate de Classe 2,2,2,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ sc_start SC_JEXPBOOST,1800000,50; },{},{}
+29052,Manual_de_Combate_de_Classe_3,Manual de Combate de Classe 3,2,2,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ sc_start SC_JEXPBOOST,1800000,100; },{},{}
+29053,Manual_de_Combate_de_Classe_4,Manual de Combate de Classe 4,2,2,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ sc_start SC_JEXPBOOST,1800000,200; },{},{}
+29054,Caixa_de_Manuais_de_Combate_1,Caixa de Manuais de Combate 1,18,20,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 29046,10; getitem 29050,10; },{},{}
+29055,Caixa_de_Manuais_de_Combate_2,Caixa de Manuais de Combate 2,18,20,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 29047,10; getitem 29051,10; },{},{}
+29056,Caixa_de_Manuais_de_Combate_3,Caixa de Manuais de Combate 3,18,20,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 29048,10; getitem 29052,10; },{},{}
+29057,Caixa_de_Manuais_de_Combate_4,Caixa de Manuais de Combate 4,18,20,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 29049,10; getitem 29053,10; },{},{}
+29058,Caixa_de_Enciclopédias_de_Combate,Caixa de Enciclopédias de Combate,18,20,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 12411,5; },{},{}
