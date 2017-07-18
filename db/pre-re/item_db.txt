@@ -1249,7 +1249,7 @@
 2335,Thief_Clothes,Thief Clothes,4,74000,,100,,6,,0,0x02021040,7,2,16,,0,1,0,{ bonus bAgi,1; },{},{}
 2336,Thief_Clothes_,Thief Clothes,4,74000,,100,,6,,1,0x02021040,7,2,16,,0,1,0,{ bonus bAgi,1; },{},{}
 2337,Ninja_Suit,Ninja Suit,4,20,,1500,,7,,0,0x02021040,7,2,16,,50,1,0,{ bonus bAgi,1; bonus bMdef,3; },{},{}
-2338,Wedding_Dress,Wedding Dress,4,43000,,500,,0,,0,0xFFFFFFFE,7,2,16,,0,1,0,{ bonus bMdef,15; },{},{}
+2338,Wedding_Dress,Wedding Dress,4,43000,,500,,0,,0,0xFFFFFFFE,7,0,16,,0,1,0,{ bonus bMdef,15; },{ changebase 22; },{ changebase Class; }
 2339,G_Strings,Pantie,4,1000,,100,,4,,0,0xFFFFFFFF,7,2,16,,0,1,0,{},{},{}
 2340,Novice_Breast,Novice Breastplate,4,89000,,500,,4,,1,0x00000001,7,2,16,,10,1,0,{},{},{}
 2341,Full_Plate_Armor,Legion Plate Armor,4,94000,,5500,,11,,0,0x00004000,7,2,16,,70,1,0,{},{},{}
@@ -3603,7 +3603,7 @@
 7167,Mystery_Iron_Bit,Strange Steel Piece,3,430,,10,,,,,,,,,,,,,{},{},{}
 7168,Great_Wing,Giant Butterfly Wing,3,614,,10,,,,,,,,,,,,,{},{},{}
 7169,Taegeuk_Plate,Ba Gua,3,2800,,10,,,,,,,,,,,,,{},{},{}
-7170,Tuxedo,Tuxedo,3,43000,,10,,,,,,,,,,,,,{},{},{}
+7170,Tuxedo,Tuxedo,4,43000,,10,,0,,0,0xFFFFFFFF,27,1,16,,0,0,0,{},{ changebase 22; },{ changebase Class; }
 7171,Leopard_Skin,Leopard Skin,3,282,,10,,,,,,,,,,,,,{},{},{}
 7172,Leopard_Talon,Leopard Claw,3,290,,10,,,,,,,,,,,,,{},{},{}
 7173,BurnBuster_Bag,iROGM02's Backpack,3,0,,10,,,,,,,,,,,,,{},{},{}
