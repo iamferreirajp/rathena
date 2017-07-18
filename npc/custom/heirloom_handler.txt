@@ -1,0 +1,120 @@
+prontera,150,150,1	script	heirloomgiver	-1,{
+	OnPCBaseLvUpEvent:
+		if(#got_heirlooms < 1 && Class > 4000){
+			if(BaseLevel == 99){
+				specialeffect2 338;
+				mes "Parabéns por chegar ao nível máximo.";
+				mes "Receba este pacote que facilitará suas futuras aventuras.";
+				mes "^0000ffCaixa de Equipamentos de Experiência^000000.";
+				set #got_heirlooms,1;
+				getitem 29016,1;
+				mes "Boa sorte na sua jornada.";
+				close;
+			}
+		}
+	end;
+}
+prontera,150,150,1	script	noviceheirloomgiver	-1,{
+	OnPCLoginEvent:
+	if(Job == 0 && BaseLevel == 1 && JobLevel == 1 && recebeuexpdagger == 0){
+		getitembound 29026,1,Bound_Char;
+		recebeuexpdagger = 1;
+		}
+	end;
+}
+prontera,150,150,1	script	heirloomremover	-1,{
+	OnPCLoginEvent:
+		if(!gotlvmax){
+			if(BaseLevel == 99 && JobLevel == 70){ // Transclasses
+				if(Class == 4008){ // Lord Knight
+					delitem 29034,1;
+					set gotlvmax,1;
+					goto DEL_MESSAGE;
+				} else if(Class == 4010){ // High Wizard
+					delitem 29033,1;
+					set gotlvmax,1;
+					goto DEL_MESSAGE;
+				} else if(Class == 4012){ // Sniper
+					delitem 29035,1;
+					set gotlvmax,1;
+					goto DEL_MESSAGE;
+				} else if(Class == 4009){ // High Priest
+					delitem 29038,1;
+					set gotlvmax,1;
+					goto DEL_MESSAGE;
+				} else if(Class == 4011){ // Whitesmith
+					delitem 29036,1;
+					set gotlvmax,1;
+					goto DEL_MESSAGE;
+				} else if(Class == 4013){ // Assassin Crox
+					delitem 29037,1;
+					set gotlvmax,1;
+					goto DEL_MESSAGE;
+				} else if(Class == 4015){ // Paladin
+					delitem 29041,1;
+					set gotlvmax,1;
+					goto DEL_MESSAGE;
+				} else if(Class == 4017){ // Professor
+					delitem 29045,1;
+					set gotlvmax,1;
+					goto DEL_MESSAGE;
+				} else if(Class == 4020){ // Clown
+					delitem 29040,1;
+					set gotlvmax,1;
+					goto DEL_MESSAGE;
+				} else if(Class == 4021){ // Gypsy
+					delitem 29042,1;
+					set gotlvmax,1;
+					goto DEL_MESSAGE;
+				} else if(Class == 4016){ // Champion
+					delitem 29043,1;
+					set gotlvmax,1;
+					goto DEL_MESSAGE;
+				} else if(Class == 4019){ // Creator
+					delitem 29039,1;
+					set gotlvmax,1;
+					goto DEL_MESSAGE;
+				} else if(Class == 4018){ // Stalker
+					delitem 29044,1;
+					set gotlvmax,1;
+					goto DEL_MESSAGE;
+				} else if(Class == 24){ // Gunslinger
+					delitem 29059,1;
+					set gotlvmax,1;
+					goto DEL_MESSAGE;
+				} else if(Class == 25){ // Ninja
+					delitem 29060,1;
+					set gotlvmax,1;
+					goto DEL_MESSAGE;
+				}
+			} else if(BaseLevel == 99 && JobLevel == 50){ //Expanded Classes
+				if(Class == 4190 || Class == 4191){ // Super Novice EX & Baby SN EX
+					delitem 29063,1;
+					set gotlvmax,1;
+					goto DEL_MESSAGE;
+				} else if(Class == 4047){ // MTK
+					delitem 29065,1;
+					set gotlvmax,1;
+					goto DEL_MESSAGE;
+				} else if(Class == 4049){ // Soulinker
+					delitem 29064,1;
+					set gotlvmax,1;
+					goto DEL_MESSAGE;
+				}
+			} else if(BaseLevel == 99 && JobLevel == 99){ // Super Novice Normal
+				if(Class == 23 || Class == 4045){ // Super Novice  & Baby SN 
+					delitem 29063,1;
+					set gotlvmax,1;
+					goto DEL_MESSAGE;
+				}
+			}
+		}
+	end;
+
+	DEL_MESSAGE:
+		mes "Parabéns, você atingiu o nível máximo da sua classe.";
+		mes "O seu item de experiência já não é mais necessário.";
+		mes "Que você tenha uma ótima jornada de agora em diante.";
+		close;
+	end;
+}

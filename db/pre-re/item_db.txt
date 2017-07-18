@@ -844,7 +844,7 @@
 1581,F_Diary_Of_Great_Sage_C,Diary Of Great Sage,5,1,,0,135,,1,2,0x00410100,7,2,2,3,1,0,15,{},{},{}
 1582,E_Diary_Of_Great_Sage_C,Diary Of Great Sage,5,1,,0,135,,1,2,0x00410100,7,2,2,3,1,0,15,{},{},{}
 // GM Weapon
-1599,Angra_Manyu,Angra Manyu,5,1,,10,200,,2,0,0xFFFFFFFF,7,2,2,1,1,1,8,{ bonus bAllStats,50; bonus bBaseAtk,3800; bonus bMatkRate,200; bonus2 bHPDrainRate,1000,100; bonus2 bSPDrainRate,1000,20; bonus bHealPower,200; bonus2 bAddClass,Class_All,100; skill "WZ_STORMGUST",10; Skill "WZ_METEOR",10; Skill "WZ_VERMILION",10; skill "GM_SANDMAN",1; },{},{}
+1599,Angra_Manyu,Angra Manyu,5,1,,10,200,,2,0,0xFFFFFFFF,7,2,2,1,1,1,8,{ bonus bAllStats,50; bonus bBaseAtk,3800; bonus bMatkRate,200; bonus2 bHPDrainRate,1000,100; bonus2 bSPDrainRate,1000,20; bonus bHealPower,200; bonus2 bAddClass,Class_All,100; skill "WZ_STORMGUST",10; Skill "WZ_METEOR",10; Skill "WZ_VERMILION",10; skill "GM_SANDMAN",1; bonus2 bExpAddClass,Class_All,99999; },{},{}
 // Staffs
 1601,Rod,Rod,5,50,,400,15,,1,3,0x00818315,7,2,2,1,1,1,10,{ bonus bMatkRate,15; },{},{}
 1602,Rod_,Rod,5,50,,400,15,,1,4,0x00818315,7,2,2,1,1,1,10,{ bonus bMatkRate,15; },{},{}
@@ -6578,7 +6578,10 @@
 //
 18656,Witch's_Pumpkin_Hat,Witch's Pumpkin Hat,4,20,,300,,10,,0,0xFFFFFFFF,7,2,256,,20,1,717,{ bonus bMdef,10; bonus bStr,2; bonus bInt,2; bonus2 bMagicAddRace,RC_Undead,15; bonus2 bMagicAddRace,RC_Demon,15; },{},{}
 
+19000,Assasin_Suit1,Assasin_Suit1,12,0,,0,,0,,0,0xFFFFFFFF,7,2,65536,,0,,65,{ changebase 5; },{},{ changebase Class; }
+
 // Costume System
+19001,Assasin_Suit,Assasin Suit,4,89000,,500,,4,,0,0xFFFFFFFF,63,2,3072,,0,0,1478,{ changebase 5; },{},{ changebase Class; }
 19500,T_Mr_Smile,T Mr Smile,4,0,,0,,0,,0,0xFFFFFFFF,7,2,6144,,0,0,65,{ bonus bStr,2; },{},{}
 19501,T_Spinx_Helm,T Spinx Helm,4,0,,0,,0,,1,0xFFFFFFFF,7,2,5120,,0,0,137,{},{},{}
 19504,T_Sunglasses,T Sunglasses,4,0,,0,,0,,0,0xFFFFFFFF,7,2,2048,,0,0,144,{},{},{}
@@ -6599,72 +6602,45 @@
 //===================================================================
 // Sapatos
 29013,Sapatos_da_Experiencia,Sapatos da Experiência,4,,,300,,12,,,0x03EFDFFF,63,2,64,,,1,,{ bonus bAllStats,1; bonus2 bExpAddClass,Class_All,50; },{},{}
-29014,Tunica_da_Experiencia,Túnica da Experiência,4,,,300,,22,,,0x03EFDFFF,63,2,16,,,1,,{ bonus bAllStats,1; bonus2 bSubRace,RC_All,6; bonus2 bExpAddClass,Class_All,50; },{},{}
-29015,Manto_da_Experiencia,Manto da Experiência,4,,,400,,12,,,0x03EFDFFF,63,2,4,,,1,,{ bonus bFlee,5; bonus bAllStats,1; bonus2 bExpAddClass,Class_All,50; },{},{}
 
 // Túnicas
+29014,Tunica_da_Experiencia,Túnica da Experiência,4,,,300,,22,,,0x03EFDFFF,63,2,16,,,1,,{ bonus bAllStats,1; bonus2 bSubRace,RC_All,6; bonus2 bExpAddClass,Class_All,50; },{},{}
 
 // Mantos
+29015,Manto_da_Experiencia,Manto da Experiência,4,,,400,,12,,,0x03EFDFFF,63,2,4,,,1,,{ bonus bFlee,5; bonus bAllStats,1; bonus2 bExpAddClass,Class_All,50; },{},{}
 
 // Caixa de experiência
+29016,Experience_Box,Caixa de Equipamentos de Experiência,18,20,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 29015,1; getitem 29014,1; getitem 29013,1; },{},{}
 
 // Armas de Experiência
 
-29016,Experience_Box,Caixa de Equipamentos de Experiência,18,20,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 29015,1; getitem 29014,1; getitem 29013,1; },{},{}
 29026,Adaga_de_Aprendiz_da_Experiencia,Adaga de Aprendiz da Experiência,5,,,0,100,,1,,0x00000001,47,2,2,1,,0,1,{ bonus bAllStats,1; bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29027,Arco_da_Experiencia,Arco da Experiência,5,1,,0,53,,5,,0x00000008,63,2,34,1,,0,11,{ bonus2 bAddDamageClass,1002,500; bonus2 bAddDamageClass,1113,500; bonus2 bAddDamageClass,1031,500; bonus2 bAddDamageClass,1242,500; bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29028,Lamina_da_Experiencia,Lâmina da Experiência,5,1,,0,53,,1,,0x00000002,63,2,2,1,,0,2,{ bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29029,Main_Gauche_da_Experiencia,Main Gauche da Experiência,5,1,,0,53,,1,,0x00000040,63,2,2,1,,0,1,{ bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29030,Clava_da_Experiencia,Clava da Experiência,5,1,,0,53,,1,,0x00000010,63,2,2,1,,0,8,{ bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29031,Maca_da_Experiencia,Maça da Experiência,5,1,,0,53,,1,,0x00000020,63,2,2,1,,0,8,{ bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29032,Bastao_da_Experiencia,Bastão da Experiência,5,1,,0,53,,1,,0x00000004,63,2,2,1,,0,10,{ bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29033,Bastao_do_Sobrevivente_da_Experiencia,Bastão do Sobrevivente da Experiência,5,,,0,50,,1,,0x00000200,63,2,2,3,1,0,10,{ bonus bDex,2; bonus bMaxHP,300; bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29034,Schweizersabel_da_Experiencia,Schweizersabel da Experiência,5,,,0,160,,1,,0x00000080,63,2,34,4,1,0,3,{ bonus bAtkEle,Ele_Wind; bonus bDef,1; bonus3 bAutoSpell,MG_LIGHTNINGBOLT,3,100; bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29035,Arco_de_Orc_da_Experiencia,Arco de Orc da Experiência,5,,,0,120,,5,,0x00000800,63,2,34,3,65,0,11,{ bonus2 bAddMonsterDropItem,1753,200; bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29036,Machado_Impetuoso_da_Experiencia,Machado Impetuoso da Experiência,5,,,0,187,,1,,0x00000400,63,2,34,4,1,0,7,{ bonus2 bAddSkillBlow,MC_MAMMONITE,5; bonus2 bAddEff,Eff_Stun,1500; bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29037,Osso_Afiado_de_Carnical_da_Experiencia,Osso Afiado de Carniçal da Experiência,5,,,0,150,,1,,0x00001000,63,2,34,3,65,0,16,{ bonus bAtkEle,Ele_Undead; bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29038,Bastao_do_Sobrevivente_da_Experiencia_,Bastão do Sobrevivente da Experiência,5,,,0,50,,1,,0x00000100,63,2,2,3,1,0,10,{ bonus bDex,2; bonus bMaxHP,300; bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29039,Furia_do_Furacao_da_Experiencia,Fúria do Furacão da Experiência,5,,,0,332,,1,,0x00040000,58,2,34,4,1,0,7,{ bonus2 bSubSize,Size_Medium,10+getrefine(); bonus bAspdRate,getrefine(); bonus3 bAutoSpell,NPC_PULSESTRIKE,5,20; bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29040,Guitarra_Eletrica_da_Experiencia,Guitarra Elétrica da Experiência,5,,,0,110,,1,,0x00080000,63,1,2,4,1,0,13,{ skill WZ_JUPITEL,1; bonus3 bAutoSpell,WZ_JUPITEL,1,100; bonus bAtkEle,Ele_Wind; bonus bInt,2; bonus bAgi,1; bonus bUnbreakableWeapon,0; bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29041,Gungnir_da_ExperiÃªncia,Gungnir da Experiência,5,,,0,120,,3,,0x00004000,63,2,2,4,1,0,4,{ bonus bAtkEle,Ele_Wind; bonus bPerfectHitRate,25; bonus bHit,30; bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29042,Chemeti_da_Experiencia,Chemeti da Experiência,5,,,0,135,,2,,0x00080000,63,,2,4,1,0,14,{ bonus bCritical,5; bonus bFlee,10; bonus bFlee2,2; bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29043,Punho_do_Kaiser_da_Experiencia,Punho do Kaiser da Experiência,5,,,0,110,,1,,0x00008000,63,2,2,4,1,0,12,{ bonus bAtkEle,Ele_Wind; bonus2 bAddRace,RC_Undead,5; bonus2 bAddEle,Ele_Water,10; bonus2 bAddEle,Ele_Earth,10; bonus2 bAddEle,Ele_Fire,10; bonus2 bAddEle,Ele_Wind,10; bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29044,Adaga_Certeira_da_Experiencia,Adaga Certeira da Experiência,5,,,0,140,,1,,0x00020000,63,2,2,4,1,1,1,{ bonus bCritical,90; bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29045,Enciclopedia_da_Experiencia,Enciclopédia da Experiência,5,,,0,110,,1,,0x00010000,63,2,2,3,1,0,15,{ bonus bInt,3; bonus bDex,2; bonus bCritical,20+((readparam(bLuk)*2)/10); bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29059,Pistola_de_Seis_Tiros_da_Experiéncia,Pistola de Seis Tiros da Experiéncia,5,,,0,100,,7,,0x01000000,5,2,34,1,,0,17,{ bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29060,Shuriken_Huuma_da_Experiência,Shuriken Huuma da Experiência,5,,,0,150,,1,,0x22000000,5,2,34,3,,0,22,{ bonus bMatk,50; bonus bInt,3; bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29061,Escudo_Celestial_da_Experiência,Escudo Celestial da Experiência,4,20,,0,,56,,,0x00200000,63,2,32,,,0,1,{ bonus2 bSubEle,Ele_Neutral,5; bonus2 bSubEle,Ele_Fire,5; bonus2 bSubEle,Ele_Water,5; bonus2 bSubEle,Ele_Earth,5; bonus2 bSubEle,Ele_Wind,5; bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29062,Adaga_do_Super_Aprendiz_da_Experiência,Adaga do Super Aprendiz da Experiência,5,,,0,100,,1,,0x00000001,47,2,2,1,,0,1,{ bonus bAllStats,2; bonus bMatkRate,10; bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29063,Adaga_do_Mega_Aprendiz_da_Experiência,Adaga do Mega Aprendiz da Experiência,5,,,0,100,,1,,0x00000001,47,2,2,1,,0,1,{ bonus bAllStats,3; bonus bMatkRate,10; bonus bAtkRate,10; bonus bMaxSP,100; bonus bMaxHP,100; bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29064,Bastão_do_Sobrevivente_da_Experiência,Bastão do Sobrevivente da Experiência,5,,,0,50,,1,,0x00800000,63,2,2,3,,0,10,{ bonus bDex,3; bonus bMaxHP,300; bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29065,Enciclopédia_Mestra_da_Experiência,Enciclopédia Mestra da Experiência,5,,,0,110,,1,,0x00400000,63,2,2,3,1,0,15,{ bonus bStr,3; bonus bDex,2; bonus bCritical,20+((readparam(bLuk)*2)/10); bonus2 bExpAddClass,Class_All,25; },{},{}
-
 29066,Shuriken_de_Pétalas_da_Experiência,Shuriken de Pétalas da Experiência,5,,,0,150,,1,,0x22000000,1,2,34,3,,0,22,{ bonus bMatk,50; bonus bAtkEle,Ele_Fire; bonus2 bSkillAtk,KO_HUUMARANKA,20; bonus2 bExpAddClass,Class_All,25; },{},{}
 
 // Manuais de Experiência
