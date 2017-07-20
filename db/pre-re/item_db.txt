@@ -6657,3 +6657,10 @@
 29056,Caixa_de_Manuais_de_Combate_3,Caixa de Manuais de Combate 3,18,20,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 29048,10; getitem 29052,10; },{},{}
 29057,Caixa_de_Manuais_de_Combate_4,Caixa de Manuais de Combate 4,18,20,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 29049,10; getitem 29053,10; },{},{}
 29058,Caixa_de_Enciclopédias_de_Combate,Caixa de Enciclopédias de Combate,18,20,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 12411,5; },{},{}
+
+// Rédeas
+12622,Boarding_Halter,Reins Of Mount,11,0,,0,,,,,0xFFFFFFFF,63,2,,,,,,{ setmounting(); },{},{ if (ismounting()) setmounting(); }
+16682,Caixa_de_Rédea,Caixa de Rédea,18,20,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 12622,1; },{},{}
+16683,Caixa_de_Rédea_3,Caixa de Rédea 3,2,20,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ rentitem 12622,259200; },{},{}
+16684,Caixa_de_Rédea_Semanal,Caixa de Rédea Semanal,2,20,,0,,,,,0xFFFFFFFF,63,2,,,,,,{ rentitem 12622,604800; },{},{}
+16685,Caixa_de_Rédea_Mensal,Caixa de Rédea Mensal,2,20,,0,,,,,0xFFFFFFFF,63,2,,,,,,{ rentitem 12622,2592000; },{},{}
