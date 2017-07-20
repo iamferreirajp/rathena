@@ -1,0 +1,50 @@
+// Badges Exchange
+//============================================================
+bat_room,157,153,3	script	Oficial de Honra	734,{
+			npcshopadditem "honrashop",12271,5;
+			npcshopadditem "honrashop",12272,10;
+			npcshopadditem "honrashop",12273,10;
+			npcshopadditem "honrashop",12269,10;
+			npcshopadditem "honrashop",12270,10;
+			npcshopadditem "honrashop",2538,50;
+			npcshopadditem "honrashop",2539,50;
+			npcshopadditem "honrashop",2540,50;
+			npcshopadditem "honrashop",2435,50;
+			npcshopadditem "honrashop",2436,50;
+			npcshopadditem "honrashop",2437,50;
+			npcshopadditem "honrashop",2376,80;
+			npcshopadditem "honrashop",2377,80;
+			npcshopadditem "honrashop",2378,80;
+			npcshopadditem "honrashop",2379,80;
+			npcshopadditem "honrashop",2380,80;
+			npcshopadditem "honrashop",2382,80;
+			npcshopadditem "honrashop",2733,500;
+			npcshopadditem "honrashop",2720,500;
+			npcshopadditem "honrashop",2721,500;
+			npcshopadditem "honrashop",2722,500;
+			npcshopadditem "honrashop",2723,500;
+			npcshopadditem "honrashop",2724,500;
+			npcshopadditem "honrashop",2725,500;
+			npcshopadditem "honrashop",13036,100;
+			npcshopadditem "honrashop",13411,100;
+			npcshopadditem "honrashop",1482,100;
+			npcshopadditem "honrashop",1632,100;
+			npcshopadditem "honrashop",1634,100;
+			npcshopadditem "honrashop",1543,100;
+			npcshopadditem "honrashop",1924,100;
+			npcshopadditem "honrashop",1978,100;
+			npcshopadditem "honrashop",1574,100;
+			npcshopadditem "honrashop",1824,100;
+			npcshopadditem "honrashop",1380,100;
+			npcshopadditem "honrashop",13305,100;
+			npcshopadditem "honrashop",1279,100;
+			npcshopadditem "honrashop",1739,100;
+			npcshopadditem "honrashop",13108,100;
+			npcshopadditem "honrashop",13172,100;
+			callshop "honrashop",0;
+
+		OnInit:
+			waitingroom "Itens Honra",0;
+		end;
+}
+-	itemshop	honrashop	734,7829,1183:100; //Este é o primeiro id da lista

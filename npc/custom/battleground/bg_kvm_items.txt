@@ -1,0 +1,50 @@
+// Badges Exchange
+//============================================================
+
+ 
+bat_room,157,146,3	script	Oficial de logística KVM#kvm	734,{
+			npcshopadditem "kvmshop",13416,2000;
+			npcshopadditem "kvmshop",13417,2000;
+			npcshopadditem "kvmshop",13418,2000;
+			npcshopadditem "kvmshop",1187,2000;
+			npcshopadditem "kvmshop",1426,2000;
+			npcshopadditem "kvmshop",1486,2000;
+			npcshopadditem "kvmshop",1310,2000;
+			npcshopadditem "kvmshop",1382,2000;
+			npcshopadditem "kvmshop",1546,2000;
+			npcshopadditem "kvmshop",1281,2000;
+			npcshopadditem "kvmshop",1282,2000;
+			npcshopadditem "kvmshop",1576,2000;
+			npcshopadditem "kvmshop",1577,2000;
+			npcshopadditem "kvmshop",1743,2000;
+			npcshopadditem "kvmshop",1826,2000;
+			npcshopadditem "kvmshop",1827,2000;
+			npcshopadditem "kvmshop",1640,2000;
+			npcshopadditem "kvmshop",1641,2000;
+			npcshopadditem "kvmshop",2002,2000;
+			npcshopadditem "kvmshop",1927,2000;
+			npcshopadditem "kvmshop",1981,2000;
+			npcshopadditem "kvmshop",13110,2000;
+			npcshopadditem "kvmshop",13176,2000;
+			npcshopadditem "kvmshop",13177,2000;
+			npcshopadditem "kvmshop",13178,2000;
+			npcshopadditem "kvmshop",13179,2000;
+			npcshopadditem "kvmshop",13307,2000;
+			npcshopadditem "kvmshop",2394,840;
+			npcshopadditem "kvmshop",2395,120;
+			npcshopadditem "kvmshop",2396,15;
+			npcshopadditem "kvmshop",2549,630;
+			npcshopadditem "kvmshop",2444,580;
+			npcshopadditem "kvmshop",2445,70;
+			npcshopadditem "kvmshop",2446,10;
+			npcshopadditem "kvmshop",2772,1200;
+			npcshopadditem "kvmshop",2773,200;
+			npcshopadditem "kvmshop",2774,30;
+			callshop "kvmshop",0;
+
+		OnInit:
+			waitingroom "Itens KVM",0;
+		end;
+}
+
+-	pointshop	kvmshop	734,kvm_point,13042:2000; //Gladius gloriosa

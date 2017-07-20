@@ -1,0 +1,53 @@
+// Badges Exchange
+//============================================================
+bat_room,157,150,3	script	Oficial de Dominação	734,{
+			npcshopadditem "dominacaoshop",1280,100;
+			npcshopadditem "dominacaoshop",1379,100;
+			npcshopadditem "dominacaoshop",1482,100;
+			npcshopadditem "dominacaoshop",1542,100;
+			npcshopadditem "dominacaoshop",1575,100;
+			npcshopadditem "dominacaoshop",1633,100;
+			npcshopadditem "dominacaoshop",1635,100;
+			npcshopadditem "dominacaoshop",1823,100;
+			npcshopadditem "dominacaoshop",1923,100;
+			npcshopadditem "dominacaoshop",1977,100;
+			npcshopadditem "dominacaoshop",2376,80;
+			npcshopadditem "dominacaoshop",2377,80;
+			npcshopadditem "dominacaoshop",2378,80;
+			npcshopadditem "dominacaoshop",2379,80;
+			npcshopadditem "dominacaoshop",2380,80;
+			npcshopadditem "dominacaoshop",2382,80;
+			npcshopadditem "dominacaoshop",2435,50;
+			npcshopadditem "dominacaoshop",2436,50;
+			npcshopadditem "dominacaoshop",2437,50;
+			npcshopadditem "dominacaoshop",2538,50;
+			npcshopadditem "dominacaoshop",2539,50;
+			npcshopadditem "dominacaoshop",2540,50;
+			npcshopadditem "dominacaoshop",2733,500;
+			npcshopadditem "dominacaoshop",2720,500;
+			npcshopadditem "dominacaoshop",2721,500;
+			npcshopadditem "dominacaoshop",2722,500;
+			npcshopadditem "dominacaoshop",2723,500;
+			npcshopadditem "dominacaoshop",2724,500;
+			npcshopadditem "dominacaoshop",2725,500;
+			npcshopadditem "dominacaoshop",12269,10;
+			npcshopadditem "dominacaoshop",12270,10;
+			npcshopadditem "dominacaoshop",12271,5;
+			npcshopadditem "dominacaoshop",12272,10;
+			npcshopadditem "dominacaoshop",12273,10;
+			npcshopadditem "dominacaoshop",13306,100;
+			npcshopadditem "dominacaoshop",13037,100;
+			npcshopadditem "dominacaoshop",13171,100;
+			npcshopadditem "dominacaoshop",13173,100;
+			npcshopadditem "dominacaoshop",13174,100;
+			npcshopadditem "dominacaoshop",13410,100;
+			callshop "dominacaoshop",0;
+
+		OnInit:
+			waitingroom "Itens Dominação",0;
+		end;
+}
+-	itemshop	dominacaoshop	734,7828,1184:100;
+//-%TAB%itemshop%TAB%<NPC Name>%TAB%<sprite id>,<costitemid>{:<discount>},<itemid>:<price>{,<itemid>:<price>...}
+//<map name>,<x>,<y>,<facing>%TAB%itemshop%TAB%<NPC Name>%TAB%<sprite id>,<costitemid>{:<discount>},<itemid>:<price>{,<itemid>:<price>...}
+
