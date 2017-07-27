@@ -25,6 +25,7 @@
 2635,507,100	// Wedding Ring
 
 // "2005 The Sign" related items
+7170,1,100	// Tuxedo
 7177,507,100	// Crumb of Sobbing Starlight
 7178,507,100	// Sobbing Starlight
 7304,507,100	// Witch's Spell Scroll
@@ -162,7 +163,7 @@
 2358,73,100	// Angel's Dress
 
 // India Father's Day Event items
-5154,475,100	// Father's Sunglasses
+5154,475,100	// Sunglasses_F
 5155,475,100	// Father's White Moustache
 5156,475,100	// Father's Mask
 
@@ -188,6 +189,7 @@
 7587,499,100	// Guard's Fourth Proof
 2673,507,100	// Warrior's Shining Ring
 1533,507,100	// Warrior's Balmung
+12887,507,100	// asa_de_mosca_dourada
 13020,507,100	// Warrior's Balmung
 
 // Vietnam Event item
@@ -195,7 +197,7 @@
 
 // 2006 Brazilian 2nd Anniversary items
 7603,499,100	// RO Party Invitation Ticket
-5201,499,100	// Party Hat
+5201,499,100	// Party_Hat_B
 
 // 2006 Indonesia Honor Ring item 
 2674,507,100	// Ring of Honor
@@ -643,7 +645,7 @@
 2385,507,100	// Recuperative Armor
 2439,507,100	// Refresh Shoes
 2543,507,100	// Sylphid Manteau
-2686,507,100	// Elven Ears
+2686,507,100	// Elven_Ears_C
 2687,507,100	// Steel Flower
 2688,507,100	// Critical Ring
 2689,507,100	// Earring
@@ -1785,8 +1787,40 @@
 5603,475,100	// RTC First Place
 5604,475,100	// RTC Second Place
 5605,475,100	// RTC Third Place
-5770,73,100	// Splash Hat
+5770,73,100	// Splash_Hat
 5818,507,100	// Carnival Hat
 5819,507,100	// Carnival Circlet
 5821,507,100	// Gold Tulip Hairpin
 5822,499,100	// Love Chick Hat
+29013,475,100	// Sapatos_da_Experiencia
+29014,475,100	// Tunica_da_Experiencia
+29015,475,100	// Manto_da_Experiencia
+29016,475,100	// Experience_Box
+29026,507,100	// Adaga_de_Aprendiz_da_Experiencia
+29027,507,100	// Arco_da_Experiencia
+29028,507,100	// Lamina_da_Experiencia
+29029,507,100	// Main_Gauche_da_Experiencia
+29030,507,100	// Clava_da_Experiencia
+29031,507,100	// Maca_da_Experiencia
+29032,507,100	// Bastao_da_Experiencia
+29033,507,100	// Bastao_do_Sobrevivente_da_Experiencia
+29034,507,100	// Schweizersabel_da_Experiencia
+29035,507,100	// Arco_de_Orc_da_Experiencia
+29036,507,100	// Machado_Impetuoso_da_Experiencia
+29037,507,100	// Osso_Afiado_de_Carnical_da_Experiencia
+29038,507,100	// Bastao_do_Sobrevivente_da_Experiencia_
+29039,507,100	// Furia_do_Furacao_da_Experiencia
+29040,507,100	// Guitarra_Eletrica_da_Experiencia
+29041,507,100	// Gungnir_da_ExperiÃªncia
+29042,507,100	// Chemeti_da_Experiencia
+29043,507,100	// Punho_do_Kaiser_da_Experiencia
+29044,507,100	// Adaga_Certeira_da_Experiencia
+29045,507,100	// Enciclopedia_da_Experiencia
+29059,507,100	// Pistola_de_Seis_Tiros_da_Experiéncia
+29060,507,100	// Shuriken_Huuma_da_Experiência
+29061,507,100	// Escudo_Celestial_da_Experiência
+29062,507,100	// Adaga_do_Super_Aprendiz_da_Experiência
+29063,507,100	// Adaga_do_Mega_Aprendiz_da_Experiência
+29064,507,100	// Bastão_do_Sobrevivente_da_Experiência
+29065,507,100	// Enciclopédia_Mestra_da_Experiência
+29066,507,100	// Shuriken_de_Pétalas_da_Experiência

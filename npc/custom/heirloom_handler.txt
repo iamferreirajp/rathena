@@ -1,0 +1,143 @@
+prontera,150,150,1	script	heirloomgiver	-1,{
+	OnPCBaseLvUpEvent:
+		if((#got_heirlooms < 1) && (Class > 4000)){
+			if((BaseLevel == 99) && (JobLevel == 70)){
+				// Configuration
+				set .charid, getcharid(0);
+				set .sender$, "Equipe RagnaTide";
+				set .title$, "Heranças de Experiências";
+				set .itemid, 29016;
+				set .itemamount, 1;
+				set .zeny, 0;
+				set .refine, 0;
+				set .body$, "Parabéns por alcançar o nível máximo. Receba este pacote com itens que facilitarão suas futuras aventuras. Boa sorte e uma ótima jornada para você!";
+
+				specialeffect2 338;
+				sendmail .charid,.sender$,.title$,.body$,.zeny,.itemid,.itemamount,.refine;
+				set #got_heirlooms, 2;
+			}
+		}
+	end;
+	OnPCJobLvUpEvent:
+		if((#got_heirlooms < 1) && (Class > 4000)){
+			if((BaseLevel == 99) && (JobLevel == 70)){
+				// Configuration
+				set .charid, getcharid(0);
+				set .sender$, "Equipe RagnaTide";
+				set .title$, "Heranças de Experiências";
+				set .itemid, 29016;
+				set .itemamount, 1;
+				set .zeny, 0;
+				set .refine, 0;
+				set .body$, "Parabéns por alcançar o nível máximo. Receba este pacote com itens que facilitarão suas futuras aventuras. Boa sorte e uma ótima jornada para você!";
+
+				specialeffect2 338;
+				sendmail .charid,.sender$,.title$,.body$,.zeny,.itemid,.itemamount,.refine;
+				set #got_heirlooms, 2;
+			}
+		}
+	end;
+}
+prontera,150,150,1	script	heirloomremover	-1,{
+	OnPCLoginEvent:
+		if(gotlvmax < 1){
+			if(BaseLevel == 99 && JobLevel == 70){ // Transclasses
+				if(Class == 4008){ // Lord Knight
+					delitem 29034,1;
+					set gotlvmax, 2;
+					goto DEL_MESSAGE;
+				} else if(Class == 4010){ // High Wizard
+					delitem 29033,1;
+					set gotlvmax, 2;
+					goto DEL_MESSAGE;
+				} else if(Class == 4012){ // Sniper
+					delitem 29035,1;
+					set gotlvmax, 2;
+					goto DEL_MESSAGE;
+				} else if(Class == 4009){ // High Priest
+					delitem 29038,1;
+					set gotlvmax, 2;
+					goto DEL_MESSAGE;
+				} else if(Class == 4011){ // Whitesmith
+					delitem 29036,1;
+					set gotlvmax, 2;
+					goto DEL_MESSAGE;
+				} else if(Class == 4013){ // Assassin Crox
+					delitem 29037,1;
+					set gotlvmax, 2;
+					goto DEL_MESSAGE;
+				} else if(Class == 4015){ // Paladin
+					delitem 29041,1;
+					set gotlvmax, 2;
+					goto DEL_MESSAGE;
+				} else if(Class == 4017){ // Professor
+					delitem 29045,1;
+					set gotlvmax, 2;
+					goto DEL_MESSAGE;
+				} else if(Class == 4020){ // Clown
+					delitem 29040,1;
+					set gotlvmax, 2;
+					goto DEL_MESSAGE;
+				} else if(Class == 4021){ // Gypsy
+					delitem 29042,1;
+					set gotlvmax, 2;
+					goto DEL_MESSAGE;
+				} else if(Class == 4016){ // Champion
+					delitem 29043,1;
+					set gotlvmax, 2;
+					goto DEL_MESSAGE;
+				} else if(Class == 4019){ // Creator
+					delitem 29039,1;
+					set gotlvmax, 2;
+					goto DEL_MESSAGE;
+				} else if(Class == 4018){ // Stalker
+					delitem 29044,1;
+					set gotlvmax, 2;
+					goto DEL_MESSAGE;
+				} else if(Class == 24){ // Gunslinger
+					delitem 29059,1;
+					set gotlvmax, 2;
+					goto DEL_MESSAGE;
+				} else if(Class == 25){ // Ninja
+					delitem 29060,1;
+					set gotlvmax, 2;
+					goto DEL_MESSAGE;
+				}
+			} else if(BaseLevel == 99 && JobLevel == 50){ //Expanded Classes
+				if(Class == 4190 || Class == 4191){ // Super Novice EX & Baby SN EX
+					delitem 29063,1;
+					set gotlvmax, 2;
+					goto DEL_MESSAGE;
+				} else if(Class == 4047){ // MTK
+					delitem 29065,1;
+					set gotlvmax, 2;
+					goto DEL_MESSAGE;
+				} else if(Class == 4049){ // Soulinker
+					delitem 29064,1;
+					set gotlvmax, 2;
+					goto DEL_MESSAGE;
+				}
+			} else if(BaseLevel == 99 && JobLevel == 99){ // Super Novice Normal
+				if(Class == 23 || Class == 4045){ // Super Novice  & Baby SN 
+					delitem 29063,1;
+					set gotlvmax, 2;
+					goto DEL_MESSAGE;
+				}
+			}
+		}
+	end;
+
+	DEL_MESSAGE:
+		// Configuration
+		set .charid, getcharid(0);
+		set .sender$, "Equipe RagnaTide";
+		set .title$, "Remoção de item de Experiência";
+		set .itemid, 0;
+		set .itemamount, 0;
+		set .zeny, 0;
+		set .refine, 0;
+		set .body$, "Parabéns, você atingiu o nível máximo da sua classe. Agora o seu item de experiência já não é mais necessário. Ele foi removido para sua comodidade. Boa jornada de agora em diante.";
+
+		sendmail .charid,.sender$,.title$,.body$,.zeny,.itemid,.itemamount,.refine;
+	end;
+}
