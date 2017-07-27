@@ -47,7 +47,6 @@ CREATE TABLE IF NOT EXISTS `achievement` (
   KEY `char_id` (`char_id`)
 ) ENGINE=MyISAM;
 
-
 --
 -- Table structure for table `auction`
 --
