@@ -1471,8 +1471,8 @@ const char* parse_subexpr(const char* p,int limit)
 	p = skip_space(p);
 	while((
 			(op=C_OP3,opl=0,len=1,*p=='?') ||
-			(op=C_ADD,opl=9,len=1,*p=='+') ||
-			(op=C_SUB,opl=9,len=1,*p=='-') ||
+			((op=C_ADD,opl=9,len=1,*p=='+') && p[1]!='+') ||
+			((op=C_SUB,opl=9,len=1,*p=='-') && p[1]!='-') ||
 			(op=C_MUL,opl=10,len=1,*p=='*') ||
 			(op=C_DIV,opl=10,len=1,*p=='/') ||
 			(op=C_MOD,opl=10,len=1,*p=='%') ||
@@ -20306,7 +20306,10 @@ BUILDIN_FUNC(areamobuseskill)
 	return SCRIPT_CMD_SUCCESS;
 }
 
-
+/**
+ * Display a progress bar above a character
+ * progressbar "<color>",<seconds>;
+ */
 BUILDIN_FUNC(progressbar)
 {
 	struct map_session_data * sd;
@@ -20326,6 +20329,60 @@ BUILDIN_FUNC(progressbar)
 	sd->state.workinprogress = WIP_DISABLE_ALL;
 
 	clif_progressbar(sd, strtol(color, (char **)NULL, 0), second);
+	return SCRIPT_CMD_SUCCESS;
+}
+
+/**
+ * Display a progress bar above an NPC
+ * progressbar_npc "<color>",<seconds>{,<"NPC Name">};
+ */
+BUILDIN_FUNC(progressbar_npc){
+	struct npc_data* nd = NULL;
+
+	if( script_hasdata(st, 4) ){
+		const char* name = script_getstr(st, 4);
+
+		nd = npc_name2id(name);
+
+		if( !nd ){
+			ShowError( "buildin_progressbar_npc: NPC \"%s\" was not found.\n", name );
+			return SCRIPT_CMD_FAILURE;
+		}
+	}else{
+		nd = map_id2nd(st->oid);
+	}
+
+	// First call(by function call)
+	if( !nd->progressbar.timeout ){
+		const char *color;
+		int second;
+
+		color = script_getstr(st, 2);
+		second = script_getnum(st, 3);
+
+		if( second < 0 ){
+			ShowError( "buildin_progressbar_npc: negative amount('%d') of seconds is not supported\n", second );
+			return SCRIPT_CMD_FAILURE;
+		}
+
+		// detach the player
+		script_detach_rid(st);
+
+		// sleep for the target amount of time
+		st->state = RERUNLINE;
+		st->sleep.tick = second * 1000;
+		nd->progressbar.timeout = gettick() + second * 1000;
+		nd->progressbar.color = strtol(color, (char **)NULL, 0);
+
+		clif_progressbar_npc_area(nd);
+	// Second call(by timer after sleeping time is over)
+	} else {
+		// Continue the script
+		st->state = RUN;
+		st->sleep.tick = 0;
+		nd->progressbar.timeout = nd->progressbar.color = 0;
+	}
+
 	return SCRIPT_CMD_SUCCESS;
 }
 
@@ -23340,6 +23397,56 @@ BUILDIN_FUNC(achievementexists) {
 	return SCRIPT_CMD_SUCCESS;
 }
 
+/**
+ * Updates an achievement's value.
+ * achievementupdate(<achievement ID>,<type>,<value>{,<char ID>});
+ */
+BUILDIN_FUNC(achievementupdate) {
+	struct map_session_data *sd;
+	int i, achievement_id, type, value;
+
+	achievement_id = script_getnum(st, 2);
+	type = script_getnum(st, 3);
+	value = script_getnum(st, 4);
+
+	if (!script_charid2sd(5, sd)) {
+		script_pushint(st, false);
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	if (achievement_search(achievement_id) == &achievement_dummy) {
+		ShowWarning("buildin_achievementupdate: Achievement '%d' doesn't exist.\n", achievement_id);
+		script_pushint(st, false);
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	ARR_FIND(0, sd->achievement_data.count, i, sd->achievement_data.achievements[i].achievement_id == achievement_id);
+	if (i == sd->achievement_data.count)
+		achievement_add(sd, achievement_id);
+
+	ARR_FIND(0, sd->achievement_data.count, i, sd->achievement_data.achievements[i].achievement_id == achievement_id);
+	if (i == sd->achievement_data.count) {
+		script_pushint(st, false);
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	if (type >= ACHIEVEINFO_COUNT1 && type <= ACHIEVEINFO_COUNT10)
+		sd->achievement_data.achievements[i].count[type - 1] = value;
+	else if (type == ACHIEVEINFO_COMPLETE || type == ACHIEVEINFO_COMPLETEDATE)
+		sd->achievement_data.achievements[i].completed = value;
+	else if (type == ACHIEVEINFO_GOTREWARD)
+		sd->achievement_data.achievements[i].rewarded = value;
+	else {
+		ShowWarning("buildin_achievementupdate: Unknown type '%d'.\n", type);
+		script_pushint(st, false);
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	achievement_update_achievement(sd, achievement_id, false);
+	script_pushint(st, true);
+	return SCRIPT_CMD_SUCCESS;
+}
+
 #include "../custom/script.inc"
 
 // declarations that were supposed to be exported from npc_chat.c
@@ -23807,6 +23914,7 @@ struct script_function buildin_func[] = {
 	BUILDIN_DEF(setfont,"i"),
 	BUILDIN_DEF(areamobuseskill,"siiiiviiiii"),
 	BUILDIN_DEF(progressbar,"si"),
+	BUILDIN_DEF(progressbar_npc, "si?"),
 	BUILDIN_DEF(pushpc,"ii"),
 	BUILDIN_DEF(buyingstore,"i"),
 	BUILDIN_DEF(searchstores,"ii"),
@@ -23976,6 +24084,7 @@ struct script_function buildin_func[] = {
 	BUILDIN_DEF(achievementremove,"i?"),
 	BUILDIN_DEF(achievementcomplete,"i?"),
 	BUILDIN_DEF(achievementexists,"i?"),
+	BUILDIN_DEF(achievementupdate,"iii?"),
 
 #include "../custom/script_def.inc"
 

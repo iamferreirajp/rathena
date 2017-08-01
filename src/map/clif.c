@@ -1465,6 +1465,7 @@ int clif_spawn(struct block_list *bl)
 			else if( nd->size == SZ_MEDIUM )
 				clif_specialeffect(&nd->bl,421,AREA);
 			clif_efst_status_change_sub(bl, bl, AREA);
+			clif_progressbar_npc_area(nd);
 		}
 		break;
 	case BL_PET:
@@ -4639,6 +4640,7 @@ void clif_getareachar_unit(struct map_session_data* sd,struct block_list *bl)
 			else if( nd->size == SZ_MEDIUM )
 				clif_specialeffect_single(bl,421,sd->fd);
 			clif_efst_status_change_sub(&sd->bl, bl, SELF);
+			clif_progressbar_npc(nd, sd);
 		}
 		break;
 	case BL_MOB:
@@ -10643,7 +10645,7 @@ void clif_progressbar_abort(struct map_session_data * sd)
 
 /// Notification from the client, that the progress bar has reached 100% (CZ_PROGRESS).
 /// 02f1
-void clif_parse_progressbar(int fd, struct map_session_data * sd)
+int clif_parse_progressbar(int fd, struct map_session_data * sd)
 {
 	int npc_id = sd->progressbar.npc_id;
 	int64 timeout = sd->progressbar.timeout;
@@ -10658,10 +10660,32 @@ void clif_parse_progressbar(int fd, struct map_session_data * sd)
 			clif_specialeffect(&sd->bl, 109, AREA);
 			status_kill(&sd->bl);
 		}
+		return 0;
 	} else if(sd->npc_id)
 		npc_scriptcont(sd, npc_id, false);
+	return 1;
 }
 
+/// Displays cast-like progress bar on a NPC
+/// 09d1 <id>.L <color>.L <time>.L (ZC_PROGRESS_ACTOR)
+void clif_progressbar_npc( struct npc_data *nd, struct map_session_data* sd ){
+#if PACKETVER >= 20130821
+	unsigned char buf[14];
+
+	if( nd->progressbar.timeout > 0 ){
+		WBUFW(buf,0) = 0x9d1;
+		WBUFL(buf,2) = nd->bl.id;
+		WBUFL(buf,6) = nd->progressbar.color;
+		WBUFL(buf,10) = ( nd->progressbar.timeout - gettick() ) / 1000;
+
+		if( sd ){
+			clif_send(buf, packet_len(0x9d1), &sd->bl, SELF);
+		}else{
+			clif_send(buf, packet_len(0x9d1), &nd->bl, AREA);
+		}
+	}
+#endif
+}
 
 /// Request to walk to a certain position on the current map.
 /// 0085 <dest>.3B (CZ_REQUEST_MOVE)
@@ -11454,8 +11478,16 @@ void clif_parse_NpcClicked(int fd,struct map_session_data *sd)
 				break;
 			}
 #endif
-			if( bl->m != -1 )// the user can't click floating npcs directly (hack attempt)
-				npc_click(sd,(TBL_NPC*)bl);
+			if( bl->m != -1 ){ // the user can't click floating npcs directly (hack attempt)
+				struct npc_data* nd = (struct npc_data*)bl;
+
+				// Progressbar is running
+				if( nd->progressbar.timeout > 0 ){
+					return;
+				}
+
+				npc_click(sd,nd);
+			}
 			break;
 	}
 }
@@ -14985,6 +15017,8 @@ void clif_Mail_window(int fd, int flag)
 ///		{ <mail id>.Q <read>.B <type>.B <sender>.24B <received>.L <expires>.L <title length>.W <title>.?B }*
 /// 0a7d <packet len>.W <type>.B <amount>.B <last page>.B (ZC_ACK_MAIL_LIST2)
 ///		{ <mail id>.Q <read>.B <type>.B <sender>.24B <received>.L <expires>.L <title length>.W <title>.?B }*
+/// 0ac2 <packet len>.W <unknown>.B (ZC_ACK_MAIL_LIST3)
+///		{ <type>.B <mail id>.Q <read>.B <type>.B <sender>.24B <expires>.L <title length>.W <title>.?B }*
 void clif_Mail_refreshinbox(struct map_session_data *sd,enum mail_inbox_type type,int64 mailID){
 #if PACKETVER < 20150513
 	int fd = sd->fd;
@@ -15025,7 +15059,9 @@ void clif_Mail_refreshinbox(struct map_session_data *sd,enum mail_inbox_type typ
 	int i, j, k, offset, titleLength;
 	uint8 mailType, amount, remaining;
 	uint32 now = (uint32)time(NULL);
-#if PACKETVER >= 20160601
+#if PACKETVER >= 20170419
+	int cmd = 0xac2;
+#elif PACKETVER >= 20160601
 	int cmd = 0xa7d;
 #else
 	int cmd = 0x9f0;
@@ -15035,6 +15071,10 @@ void clif_Mail_refreshinbox(struct map_session_data *sd,enum mail_inbox_type typ
 		mail_refresh_remaining_amount(sd);
 	}
 
+#if PACKETVER >= 20170419
+	// Always send all
+	i = md->amount;
+#else
 	// If a starting mail id was sent
 	if( mailID != 0 ){
 		ARR_FIND( 0, md->amount, i, md->msg[i].id == mailID );
@@ -15055,43 +15095,64 @@ void clif_Mail_refreshinbox(struct map_session_data *sd,enum mail_inbox_type typ
 	}else{
 		i = md->amount;
 	}
+#endif
 	
 	// Count the remaining mails from the starting mail or the beginning
-	// Only count mails of the target type and those that should not have been deleted already
+	// Only count mails of the target type(before 2017-04-19) and those that should not have been deleted already
 	for( j = i, remaining = 0; j >= 0; j-- ){
 		msg = &md->msg[j];
 
 		if (msg->id < 1)
 			continue;
+#if PACKETVER < 20170419
 		if (msg->type != type)
 			continue;
+#endif
 		if (msg->scheduled_deletion > 0 && msg->scheduled_deletion <= now)
 			continue;
 
 		remaining++;
 	}
 
+#if PACKETVER >= 20170419
+	// Always send all
+	amount = remaining;
+#else
 	if( remaining > MAIL_PAGE_SIZE ){
 		amount = MAIL_PAGE_SIZE;
 	}else{
 		amount = remaining;
 	}
+#endif
 
 	WFIFOHEAD(fd, 7 + ((44 + MAIL_TITLE_LENGTH) * amount));
 	WFIFOW(fd, 0) = cmd;
+#if PACKETVER >= 20170419
+	WFIFOB(fd, 4) = 1; // Unknown
+	offset = 5;
+#else
 	WFIFOB(fd, 4) = type;
 	WFIFOB(fd, 5) = amount;
 	WFIFOB(fd, 6) = ( remaining < MAIL_PAGE_SIZE ); // last page
+	offset = 7;
+#endif
 
-	for( offset = 7, amount = 0; i >= 0; i-- ){
+	for( amount = 0; i >= 0; i-- ){
 		msg = &md->msg[i];
 
 		if (msg->id < 1)
 			continue;
+#if PACKETVER < 20170419
 		if (msg->type != type)
 			continue;
+#endif
 		if (msg->scheduled_deletion > 0 && msg->scheduled_deletion <= now)
 			continue;
+
+#if PACKETVER >= 20170419
+		WFIFOB(fd, offset) = msg->type;
+		offset += 1;
+#endif
 
 		WFIFOQ(fd, offset + 0) = (uint64)msg->id;
 		WFIFOB(fd, offset + 8) = (msg->status != MAIL_UNREAD);
@@ -15115,22 +15176,25 @@ void clif_Mail_refreshinbox(struct map_session_data *sd,enum mail_inbox_type typ
 		WFIFOB(fd, offset + 9) = mailType;
 		safestrncpy(WFIFOCP(fd, offset + 10), msg->send_name, NAME_LENGTH);
 
+#if PACKETVER < 20170419
 		// How much time has passed since you received the mail
 		WFIFOL(fd, offset + 34 ) = now - (uint32)msg->timestamp;
+		offset += 4;
+#endif
 
 		// If automatic return/deletion of mails is enabled, notify the client when it will kick in
 		if( msg->scheduled_deletion > 0 ){
-			WFIFOL(fd, offset + 38) = (uint32)msg->scheduled_deletion - now;
+			WFIFOL(fd, offset + 34) = (uint32)msg->scheduled_deletion - now;
 		}else{
 			// Fake the scheduled deletion to one year in the future
 			// Sadly the client always displays the scheduled deletion after 24 hours no matter how high this value gets [Lemongrass]
-			WFIFOL(fd, offset + 38) = 365 * 24 * 60 * 60;
+			WFIFOL(fd, offset + 34) = 365 * 24 * 60 * 60;
 		}
 
-		WFIFOW(fd, offset + 42) = titleLength = (int16)(strlen(msg->title) + 1);
-		safestrncpy(WFIFOCP(fd, offset + 44), msg->title, titleLength);
+		WFIFOW(fd, offset + 38) = titleLength = (int16)(strlen(msg->title) + 1);
+		safestrncpy(WFIFOCP(fd, offset + 40), msg->title, titleLength);
 
-		offset += 44 + titleLength;
+		offset += 40 + titleLength;
 	}
 	WFIFOW(fd, 2) = (int16)offset;
 	WFIFOSET(fd, offset);
@@ -15142,6 +15206,8 @@ void clif_Mail_refreshinbox(struct map_session_data *sd,enum mail_inbox_type typ
 /// 09e8 <mail tab>.B <mail id>.Q (CZ_OPEN_MAILBOX)
 /// 09ee <mail tab>.B <mail id>.Q (CZ_REQ_NEXT_MAIL_LIST)
 /// 09ef <mail tab>.B <mail id>.Q (CZ_REQ_REFRESH_MAIL_LIST)
+/// 0ac0 <mail id>.Q <unknown>.16B (CZ_OPEN_MAILBOX2)
+/// 0ac1 <mail id>.Q <unknown>.16B (CZ_REQ_REFRESH_MAIL_LIST2)
 void clif_parse_Mail_refreshinbox(int fd, struct map_session_data *sd){
 #if PACKETVER < 20150513
 	struct mail_data* md = &sd->mail.inbox;
@@ -15154,8 +15220,25 @@ void clif_parse_Mail_refreshinbox(int fd, struct map_session_data *sd){
 	mail_removeitem(sd, 0, sd->mail.item[0].index, sd->mail.item[0].amount);
 	mail_removezeny(sd, false);
 #else
+	int cmd = RFIFOW(fd, 0);
+#if PACKETVER < 20170419
 	uint8 openType = RFIFOB(fd, 2);
 	uint64 mailId = RFIFOQ(fd, 3);
+#else
+	uint8 openType;
+	uint64 mailId = RFIFOQ(fd, 2);
+	int i;
+
+	ARR_FIND(0, MAIL_MAX_INBOX, i, sd->mail.inbox.msg[i].id == mailId);
+
+	if( i == MAIL_MAX_INBOX ){
+		openType = MAIL_INBOX_NORMAL;
+		mailId = 0;
+	}else{
+		openType = sd->mail.inbox.msg[i].type;
+		mailId = 0;
+	}
+#endif
 
 	switch( openType ){
 		case MAIL_INBOX_NORMAL:
@@ -15167,13 +15250,13 @@ void clif_parse_Mail_refreshinbox(int fd, struct map_session_data *sd){
 			return;
 	}
 
-	if( sd->mail.changed || RFIFOW(fd,0) == 0x9ef ){
+	if( sd->mail.changed || ( cmd == 0x9ef || cmd == 0xac1 ) ){
 		intif_Mail_requestinbox(sd->status.char_id, 1, openType);
 		return;
 	}
 
 	// If it is not a next page request
-	if( RFIFOW(fd,0) != 0x9ee ){
+	if( cmd != 0x9ee ){
 		mailId = 0;
 	}
 
@@ -17247,9 +17330,7 @@ void clif_parse_LessEffect(int fd, struct map_session_data* sd){
 	sd->state.lesseffect = ( isLess != 0 );
 }
 
-/// S 07e4 <length>.w <option>.l <val>.l {<index>.w <amount>.w).4b* (CZ_ITEMLISTWIN_RES)
-/// S 0945 <length>.w <option>.l <val>.l {<index>.w <amount>.w).4b* (CZ_* RagexeRE 2012-04-10a)
-/// S 0281 <length>.w <option>.l <val>.l {<index>.w <amount>.w).4b* (CZ_* Ragexe 2013-08-07)
+/// 07e4 <length>.w <option>.l <val>.l {<index>.w <amount>.w).4b* (CZ_ITEMLISTWIN_RES)
 void clif_parse_ItemListWindowSelected(int fd, struct map_session_data* sd) {
 	struct s_packet_db* info = &packet_db[RFIFOW(fd,0)];
 	int n = (RFIFOW(fd,info->pos[0])-12) / 4;

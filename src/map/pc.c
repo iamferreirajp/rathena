@@ -67,6 +67,8 @@ struct fame_list taekwon_fame_list[MAX_FAME_LIST];
 #define MOTD_LINE_SIZE 128
 static char motd_text[MOTD_LINE_SIZE][CHAT_SIZE_MAX]; // Message of the day buffer [Valaris]
 
+bool reg_load;
+
 /**
  * Translation table from athena equip index to aegis bitmask
 */
@@ -100,6 +102,10 @@ const struct sg_data sg_info[MAX_PC_FEELHATE] = {
 		{ SG_MOON_ANGER, SG_MOON_BLESS, SG_MOON_COMFORT, "PC_FEEL_MOON", "PC_HATE_MOB_MOON", is_day_of_moon },
 		{ SG_STAR_ANGER, SG_STAR_BLESS, SG_STAR_COMFORT, "PC_FEEL_STAR", "PC_HATE_MOB_STAR", is_day_of_star }
 	};
+
+void pc_set_reg_load( bool val ){
+	reg_load = val;
+}
 
 /**
  * Item Cool Down Delay Saving
@@ -950,6 +956,10 @@ bool pc_adoption(struct map_session_data *p1_sd, struct map_session_data *p2_sd,
 		// Parents Skills
 		pc_skill(p1_sd, WE_CALLBABY, 1, ADDSKILL_PERMANENT);
 		pc_skill(p2_sd, WE_CALLBABY, 1, ADDSKILL_PERMANENT);
+
+		chrif_save(p1_sd, CSAVE_NORMAL);
+		chrif_save(p2_sd, CSAVE_NORMAL);
+		chrif_save(b_sd, CSAVE_NORMAL);
 
 		achievement_update_objective(b_sd, AG_BABY, 1, 1);
 		achievement_update_objective(p1_sd, AG_BABY, 1, 2);
@@ -2502,7 +2512,8 @@ void pc_bonus(struct map_session_data *sd,int type,int val)
 		case SP_BASE_ATK:
 			if(sd->state.lr_flag != 2) {
 #ifdef RENEWAL
-				sd->bonus.eatk += val;
+				bonus = sd->bonus.eatk + val;
+				sd->bonus.eatk = cap_value(bonus, SHRT_MIN, SHRT_MAX);
 #else
 				bonus = status->batk + val;
 				status->batk = cap_value(bonus, 0, USHRT_MAX);
@@ -5030,13 +5041,8 @@ int pc_useitem(struct map_session_data *sd,int n)
 		else
 			clif_useitemack(sd, n, 0, false);
 	}
-	if(item.card[0]==CARD0_CREATE &&
-		pc_famerank(MakeDWord(item.card[2],item.card[3]), MAPID_ALCHEMIST))
-	{
+	if (item.card[0]==CARD0_CREATE && pc_famerank(MakeDWord(item.card[2],item.card[3]), MAPID_ALCHEMIST))
 	    potion_flag = 2; // Famous player's potions have 50% more efficiency
-		 if (sd->sc.data[SC_SPIRIT] && sd->sc.data[SC_SPIRIT]->val2 == SL_ROGUE)
-			 potion_flag = 3; //Even more effective potions.
-	}
 
 	//Update item use time.
 	sd->canuseitem_tick = tick + battle_config.item_use_interval;
@@ -8310,56 +8316,59 @@ void pc_heal(struct map_session_data *sd,unsigned int hp,unsigned int sp, int ty
 	return;
 }
 
-/*==========================================
- * HP/SP Recovery
- * Heal player hp and/or sp linearly.
- * Calculate bonus by status.
- *------------------------------------------*/
-int pc_itemheal(struct map_session_data *sd,int itemid, int hp,int sp)
+/**
+ * Heal player HP and/or SP linearly. Calculate any bonus based on active statuses.
+ * @param sd: Player data
+ * @param itemid: Item ID
+ * @param hp: HP to heal
+ * @param sp: SP to heal
+ * @return Amount healed to an object
+ */
+int pc_itemheal(struct map_session_data *sd, int itemid, int hp, int sp)
 {
 	int bonus, tmp, penalty = 0;
 
-	if(hp) {
+	if (hp) {
 		int i;
-		bonus = 100 + (sd->battle_status.vit<<1)
-			+ pc_checkskill(sd,SM_RECOVERY)*10
-			+ pc_checkskill(sd,AM_LEARNINGPOTION)*5;
+
+		bonus = 100 + (sd->battle_status.vit << 1) + pc_checkskill(sd, SM_RECOVERY) * 10 + pc_checkskill(sd, AM_LEARNINGPOTION) * 5;
 		// A potion produced by an Alchemist in the Fame Top 10 gets +50% effect [DracoRPG]
-		if (potion_flag > 1)
-			bonus += bonus*(potion_flag-1)*50/100;
+		if (potion_flag == 2) {
+			bonus += 50;
+			if (sd->sc.data[SC_SPIRIT] && sd->sc.data[SC_SPIRIT]->val2 == SL_ROGUE)
+				bonus += 100; // Receive an additional +100% effect from ranked potions to HP only
+		}
 		//All item bonuses.
 		bonus += sd->bonus.itemhealrate2;
 		//Item Group bonuses
-		bonus += bonus*pc_get_itemgroup_bonus(sd, itemid)/100;
+		bonus += pc_get_itemgroup_bonus(sd, itemid);
 		//Individual item bonuses.
-		for(i = 0; i < ARRAYLENGTH(sd->itemhealrate) && sd->itemhealrate[i].nameid; i++)
-		{
+		for(i = 0; i < ARRAYLENGTH(sd->itemhealrate) && sd->itemhealrate[i].nameid; i++) {
 			if (sd->itemhealrate[i].nameid == itemid) {
-				bonus += bonus*sd->itemhealrate[i].rate/100;
+				bonus += sd->itemhealrate[i].rate;
 				break;
 			}
 		}
 
-		tmp = hp * bonus / 100;  // overflow check
-		if(bonus != 100 && tmp > hp)
-			hp = tmp;
-
 		// Recovery Potion
-		if( sd->sc.data[SC_INCHEALRATE] )
-			hp += (int)(hp * sd->sc.data[SC_INCHEALRATE]->val1/100.);
+		if (sd->sc.data[SC_INCHEALRATE])
+			bonus += sd->sc.data[SC_INCHEALRATE]->val1;
 		// 2014 Halloween Event : Pumpkin Bonus
-		if(sd->sc.data[SC_MTF_PUMPKIN] && itemid == ITEMID_PUMPKIN)
-			hp += (int)(hp * sd->sc.data[SC_MTF_PUMPKIN]->val1 / 100.);
-	}
-	if(sp) {
-		bonus = 100 + (sd->battle_status.int_<<1)
-			+ pc_checkskill(sd,MG_SRECOVERY)*10
-			+ pc_checkskill(sd,AM_LEARNINGPOTION)*5;
-		if (potion_flag > 1)
-			bonus += bonus*(potion_flag-1)*50/100;
+		if (sd->sc.data[SC_MTF_PUMPKIN] && itemid == ITEMID_PUMPKIN)
+			bonus += sd->sc.data[SC_MTF_PUMPKIN]->val1;
 
-		tmp = sp * bonus / 100;
-		if(bonus != 100 && tmp > sp)
+		tmp = hp * bonus / 100; // Overflow check
+		if (bonus != 100 && tmp > hp)
+			hp = tmp;
+	}
+	if (sp) {
+		bonus = 100 + (sd->battle_status.int_ << 1) + pc_checkskill(sd, MG_SRECOVERY) * 10 + pc_checkskill(sd, AM_LEARNINGPOTION) * 5;
+		// A potion produced by an Alchemist in the Fame Top 10 gets +50% effect [DracoRPG]
+		if (potion_flag == 2)
+			bonus += 50;
+
+		tmp = sp * bonus / 100; // Overflow check
+		if (bonus != 100 && tmp > sp)
 			sp = tmp;
 	}
 	if (sd->sc.count) {
@@ -8373,11 +8382,6 @@ int pc_itemheal(struct map_session_data *sd,int itemid, int hp,int sp)
 		if (sd->sc.data[SC_NORECOVER_STATE])
 			penalty = 100;
 
-		if (penalty > 0) {
-			hp -= hp * penalty / 100;
-			sp -= sp * penalty / 100;
-		}
-
 		if (sd->sc.data[SC_VITALITYACTIVATION]) {
 			hp += hp / 2; // 1.5 times
 			sp -= sp / 2;
@@ -8387,6 +8391,12 @@ int pc_itemheal(struct map_session_data *sd,int itemid, int hp,int sp)
 			hp += hp / 10;
 			sp += sp / 10;
 		}
+
+		if (penalty > 0) {
+			hp -= hp * penalty / 100;
+			sp -= sp * penalty / 100;
+		}
+
 #ifdef RENEWAL
 		if (sd->sc.data[SC_EXTREMITYFIST2])
 			sp = 0;
@@ -9451,6 +9461,7 @@ static int pc_checkcombo(struct map_session_data *sd, struct item_data *data) {
 	for( i = 0; i < data->combos_count; i++ ) {
 		struct itemchk {
 			int idx;
+			unsigned short nameid;
 			short card[MAX_SLOTS];
 		} *combo_idx;
 		int idx, j;
@@ -9471,6 +9482,7 @@ static int pc_checkcombo(struct map_session_data *sd, struct item_data *data) {
 		CREATE(combo_idx,struct itemchk,nb_itemCombo);
 		for(j=0; j < nb_itemCombo; j++){
 			combo_idx[j].idx=-1;
+			combo_idx[j].nameid=-1;
 			memset(combo_idx[j].card,-1,MAX_SLOTS);
 		}
 			
@@ -9494,28 +9506,29 @@ static int pc_checkcombo(struct map_session_data *sd, struct item_data *data) {
 						bool do_continue = false; //used to continue that specific loop with some check that also use some loop
 						uint8 z;
 						for (z = 0; z < nb_itemCombo-1; z++)
-							if(combo_idx[z].idx == index) //we already have that index recorded
+							if(combo_idx[z].idx == index && combo_idx[z].nameid == id) //we already have that index recorded
 								do_continue=true;
 						if(do_continue)
 							continue;
 					}
+					combo_idx[j].nameid = id;
 					combo_idx[j].idx = index;
 					pos |= sd->inventory.u.items_inventory[index].equip;
 					found = true;
 					break;
-				} else { //Cards
+				} else { //Cards and enchants
 					uint16 z;
-					if ( sd->inventory_data[index]->slot == 0 || itemdb_isspecial(sd->inventory.u.items_inventory[index].card[0]) )
+					if ( itemdb_isspecial(sd->inventory.u.items_inventory[index].card[0]) )
 						continue;
-					for (z = 0; z < sd->inventory_data[index]->slot; z++) {
+					for (z = 0; z < MAX_SLOTS; z++) {
 						bool do_continue=false;			
 						if (sd->inventory.u.items_inventory[index].card[z] != id)
 							continue;
 						if(j>0){
 							int c1, c2;
 							for (c1 = 0; c1 < nb_itemCombo-1; c1++){
-								if(combo_idx[c1].idx == index){
-									for (c2 = 0; c2 < sd->inventory_data[index]->slot; c2++){
+								if(combo_idx[c1].idx == index && combo_idx[c1].nameid == id){
+									for (c2 = 0; c2 < MAX_SLOTS; c2++){
 										if(combo_idx[c1].card[c2] == id){ //we already have that card recorded (at this same idx)
 											do_continue = true;
 											break;
@@ -9526,6 +9539,7 @@ static int pc_checkcombo(struct map_session_data *sd, struct item_data *data) {
 						}
 						if(do_continue)
 							continue;
+						combo_idx[j].nameid = id;
 						combo_idx[j].idx = index;
 						combo_idx[j].card[z] = id;
 						pos |= sd->inventory.u.items_inventory[index].equip;
