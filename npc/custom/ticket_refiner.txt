@@ -1,0 +1,159 @@
+//===== Hercules Script ======================================
+//= Ticket Refiner
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.0
+//===== Description: =========================================
+//= [Official Conversion]
+//= Refiner that uses +5~9/+11 refine tickets to refine
+//= equipment with no chance of failure.
+//= NOTE: This NPC is currently disabled on official servers.
+//===== Additional Comments: =================================
+//= 1.0 First version. [Euphy]
+//============================================================
+
+prontera,184,177,6	script	Mestre Refinador	4_M_REPAIR,{
+	disable_items;
+	if (countitem(6238) || countitem(6228) || countitem(6229) || countitem(6230) || countitem(6231) || countitem(6456))
+		.@bWeaponUp = 1;
+	if (countitem(6239) || countitem(6232) || countitem(6233) || countitem(6234) || countitem(6235) || countitem(6457))
+		.@bArmorUp = 1;
+	if (!.@bWeaponUp && !.@bArmorUp) {
+		mes "[Mestre Refinador]";
+		mes "Olá!";
+		mes "Como vai?";
+		mes "Sou um especialista";
+		mes "em refinamento de itens,";
+		mes "mas estou aposentado.";
+		next;
+		switch(select("Desculpe o incômodo.:Hmm... isso é interessante.")) {
+		case 1:
+			mes "[Mestre Refinador]";
+			mes "Se cuide...";
+			close;
+		case 2:
+			mes "[Mestre Refinador]";
+			mes "Sabe de uma coisa, as vezes eu faço serviços para quem possui ^006400Pergaminhos de Refinamento^000000...";
+			mes "Até mais~!";
+			close;
+		}
+	}
+	emotion e_gasp;
+	mes "[Mestre Refinador]";
+	mes "Saudações!";
+	mes "Posso refinar o item até ^006400o nível do seu pergaminho.^000000.";
+	mes "Não se preocupe, não há chances de quebrar seu equipamento.";
+	next;
+	if(select("Eu volto depois.:Refinar equipamento.") == 1) {
+		mes "[Mestre Refinador]";
+		mes "OK.";
+		mes "Volte depois.";
+		close;
+	}
+	mes "Qual equipamento você deseja refinar?";
+	next;
+	setarray .@position$[1],"Cabeça Topo","Armadura","Mão Esquerda","Mão Direita","Capa","Sapatos","Acessório 1","Acessório 2","Cabeça Meio","Cabeça Baixo";
+	.@menu$ = "";
+	for(.@i = 1; .@i<=10; ++.@i)
+		.@menu$ += ((getequipisequiped(.@i))?getequipname(.@i):.@position$[.@i]+"- [Empty]")+":";
+	.@part = select(.@menu$);
+	if (!getequipisequiped(.@part)) {
+		mes "[Mestre Refinador]";
+		mes "Você precisa estar equipado com o item para refinar.";
+		close;
+	}
+	if (!getequipisenableref(.@part)) {
+		emotion e_otl;
+		mes "[Mestre Refinador]";
+		mes "Me desculpe.";
+		mes "Este item não pode ser refinado.";
+		close;
+	}
+	switch(getequipweaponlv(.@part)) {
+	default:
+	case 0:
+		setarray .@tickets[0],6457,6235,6234,6233,6232,6239;
+		setarray .@levels[0],5,6,7,8,9,11;
+		.@type$ = "Armadura";
+		.@check = .@bArmorUp;
+		break;
+	case 1:
+	case 2:
+	case 3:
+	case 4:
+		setarray .@tickets[0],6456,6231,6230,6229,6228,6238;
+		setarray .@levels[0],5,6,7,8,9,11;
+		.@type$ = "Arma";
+		.@check = .@bWeaponUp;
+		break;
+	}
+	if (!.@check) {
+		emotion e_dots;
+		mes "[Mestre Refinador]";
+		mes "Se você quiser refinar ^006400"+.@type$+"^000000, Venha com o ^006400 Pergaminho"+.@type$+"^000000.";
+		mes "Vejo você depois!";
+		close;
+	}
+	mes "[Mestre Refinador]";
+	mes "Escolha qual ^006400 Pergaminho de "+.@type$+"^000000 você quer usar.";
+	next;
+	.@menu$ = "";
+	for(.@i = 0; .@i<getarraysize(.@tickets); ++.@i)
+		.@menu$ += getitemname(.@tickets[.@i])+":";
+	.@select = select(.@menu$)-1;
+	.@ticket_lv = .@levels[.@select];
+	.@ticket_id = .@tickets[.@select];
+	if (countitem(.@ticket_id) == 0) {
+		emotion e_what;
+		mes "[Mestre Refinador]";
+		mes getitemname(.@ticket_id)+" não está no seu inventário. Você não deixou no Armazém??";
+		mes "Verifique de novo.";
+		mes "Até mais";
+		close;
+	}
+	if (getequiprefinerycnt(.@part) >= .@ticket_lv) {
+		emotion e_swt2;
+		mes "[Mestre Refinador]";
+		mes "^8B4513Este item já está refinado no nível que você deseja.^000000";
+		mes "Venha com um item com refinamento menor que o seu pergaminho.";
+		close;
+	}
+	mes "[Mestre Refinador]";
+	mes "Vou refinar ^006400"+getequipname(.@part)+"^8B4513 Até o nível +"+.@ticket_lv+"^000000 com ^006400"+getitemname(.@ticket_id)+"^000000.";
+	mes "Posso continuar?";
+	next;
+	if(select("Não.:Sim.") == 1) {
+		emotion e_dots;
+		mes "[Mestre Refinador]";
+		mes "Oh, você mudou de ideia.";
+		mes "Ok.";
+		mes "Volte depois então.";
+		close;
+	}
+	mes "[Mestre Refinador]";
+	mes "Boa.";
+	mes "Como quiser!";
+	mes "Eu tenho minha própria forma especial para refinar...";
+	mes ".......ka boom!";
+	specialeffect EF_SUI_EXPLOSION;
+	if (countitem(.@ticket_id))
+		delitem .@ticket_id,1;
+	else {
+		next;
+		mes "Erro!";
+		mes "Reporte isso a alguém.";
+		close;
+	}
+	for(.@i = getequiprefinerycnt(.@part); .@i<.@ticket_lv; ++.@i)
+		successrefitem .@part;
+	next;
+	emotion e_ho;
+	mes "[Mestre Refinador]";
+	mes "Bom, aqui está~";
+	mes "Bem, ^0000FF"+strcharinfo(0)+"^000000!";
+	mes "Parabéns pela sua brilhante "+.@type$+".";
+	mes "Você está demais!";
+	mes "Vejo você depois~!";
+	close;
+}
