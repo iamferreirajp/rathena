@@ -67,6 +67,8 @@ struct fame_list taekwon_fame_list[MAX_FAME_LIST];
 #define MOTD_LINE_SIZE 128
 static char motd_text[MOTD_LINE_SIZE][CHAT_SIZE_MAX]; // Message of the day buffer [Valaris]
 
+bool reg_load;
+
 /**
  * Translation table from athena equip index to aegis bitmask
 */
@@ -100,6 +102,10 @@ const struct sg_data sg_info[MAX_PC_FEELHATE] = {
 		{ SG_MOON_ANGER, SG_MOON_BLESS, SG_MOON_COMFORT, "PC_FEEL_MOON", "PC_HATE_MOB_MOON", is_day_of_moon },
 		{ SG_STAR_ANGER, SG_STAR_BLESS, SG_STAR_COMFORT, "PC_FEEL_STAR", "PC_HATE_MOB_STAR", is_day_of_star }
 	};
+
+void pc_set_reg_load( bool val ){
+	reg_load = val;
+}
 
 /**
  * Item Cool Down Delay Saving
@@ -950,6 +956,10 @@ bool pc_adoption(struct map_session_data *p1_sd, struct map_session_data *p2_sd,
 		// Parents Skills
 		pc_skill(p1_sd, WE_CALLBABY, 1, ADDSKILL_PERMANENT);
 		pc_skill(p2_sd, WE_CALLBABY, 1, ADDSKILL_PERMANENT);
+
+		chrif_save(p1_sd, CSAVE_NORMAL);
+		chrif_save(p2_sd, CSAVE_NORMAL);
+		chrif_save(b_sd, CSAVE_NORMAL);
 
 		achievement_update_objective(b_sd, AG_BABY, 1, 1);
 		achievement_update_objective(p1_sd, AG_BABY, 1, 2);
@@ -2502,7 +2512,8 @@ void pc_bonus(struct map_session_data *sd,int type,int val)
 		case SP_BASE_ATK:
 			if(sd->state.lr_flag != 2) {
 #ifdef RENEWAL
-				sd->bonus.eatk += val;
+				bonus = sd->bonus.eatk + val;
+				sd->bonus.eatk = cap_value(bonus, SHRT_MIN, SHRT_MAX);
 #else
 				bonus = status->batk + val;
 				status->batk = cap_value(bonus, 0, USHRT_MAX);
@@ -4828,25 +4839,6 @@ bool pc_isUseitem(struct map_session_data *sd,int n)
 			if( map[sd->bl.m].flag.noreturn && nameid != ITEMID_WING_OF_FLY && nameid != ITEMID_GIANT_FLY_WING && nameid != ITEMID_N_FLY_WING )
 				return false;
 			break;
-		case ITEMID_BUBBLE_GUM:
-		case ITEMID_COMP_BUBBLE_GUM:
-			if( sd->sc.data[SC_ITEMBOOST] )
-				return false;
-			break;
-		case ITEMID_BATTLE_MANUAL:
-		case ITEMID_COMP_BATTLE_MANUAL:
-		case ITEMID_THICK_BATTLE_MANUAL:
-		case ITEMID_NOBLE_NAMEPLATE:
-		case ITEMID_BATTLE_MANUAL25:
-		case ITEMID_BATTLE_MANUAL100:
-		case ITEMID_BATTLE_MANUAL300:
-			if( sd->sc.data[SC_EXPBOOST] )
-				return false;
-			break;
-		case ITEMID_JOB_MANUAL50:
-			if( sd->sc.data[SC_JEXPBOOST] )
-				return false;
-			break;
 		case ITEMID_MERCENARY_RED_POTION:
 		case ITEMID_MERCENARY_BLUE_POTION:
 		case ITEMID_M_CENTER_POTION:
@@ -6898,7 +6890,7 @@ int pc_need_status_point(struct map_session_data* sd, int type, int val)
 	high = low + val;
 
 	if ( val < 0 )
-		swap(low, high);
+		SWAP(low, high);
 
 	for ( ; low < high; low++ )
 		sp += PC_STATUS_POINT_COST(low);
@@ -9450,6 +9442,7 @@ static int pc_checkcombo(struct map_session_data *sd, struct item_data *data) {
 	for( i = 0; i < data->combos_count; i++ ) {
 		struct itemchk {
 			int idx;
+			unsigned short nameid;
 			short card[MAX_SLOTS];
 		} *combo_idx;
 		int idx, j;
@@ -9470,6 +9463,7 @@ static int pc_checkcombo(struct map_session_data *sd, struct item_data *data) {
 		CREATE(combo_idx,struct itemchk,nb_itemCombo);
 		for(j=0; j < nb_itemCombo; j++){
 			combo_idx[j].idx=-1;
+			combo_idx[j].nameid=-1;
 			memset(combo_idx[j].card,-1,MAX_SLOTS);
 		}
 			
@@ -9493,28 +9487,29 @@ static int pc_checkcombo(struct map_session_data *sd, struct item_data *data) {
 						bool do_continue = false; //used to continue that specific loop with some check that also use some loop
 						uint8 z;
 						for (z = 0; z < nb_itemCombo-1; z++)
-							if(combo_idx[z].idx == index) //we already have that index recorded
+							if(combo_idx[z].idx == index && combo_idx[z].nameid == id) //we already have that index recorded
 								do_continue=true;
 						if(do_continue)
 							continue;
 					}
+					combo_idx[j].nameid = id;
 					combo_idx[j].idx = index;
 					pos |= sd->inventory.u.items_inventory[index].equip;
 					found = true;
 					break;
-				} else { //Cards
+				} else { //Cards and enchants
 					uint16 z;
-					if ( sd->inventory_data[index]->slot == 0 || itemdb_isspecial(sd->inventory.u.items_inventory[index].card[0]) )
+					if ( itemdb_isspecial(sd->inventory.u.items_inventory[index].card[0]) )
 						continue;
-					for (z = 0; z < sd->inventory_data[index]->slot; z++) {
+					for (z = 0; z < MAX_SLOTS; z++) {
 						bool do_continue=false;			
 						if (sd->inventory.u.items_inventory[index].card[z] != id)
 							continue;
 						if(j>0){
 							int c1, c2;
 							for (c1 = 0; c1 < nb_itemCombo-1; c1++){
-								if(combo_idx[c1].idx == index){
-									for (c2 = 0; c2 < sd->inventory_data[index]->slot; c2++){
+								if(combo_idx[c1].idx == index && combo_idx[c1].nameid == id){
+									for (c2 = 0; c2 < MAX_SLOTS; c2++){
 										if(combo_idx[c1].card[c2] == id){ //we already have that card recorded (at this same idx)
 											do_continue = true;
 											break;
@@ -9525,6 +9520,7 @@ static int pc_checkcombo(struct map_session_data *sd, struct item_data *data) {
 						}
 						if(do_continue)
 							continue;
+						combo_idx[j].nameid = id;
 						combo_idx[j].idx = index;
 						combo_idx[j].card[z] = id;
 						pos |= sd->inventory.u.items_inventory[index].equip;
