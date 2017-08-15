@@ -58,6 +58,12 @@
 #include <errno.h>
 
 
+struct eri *array_ers;
+DBMap *st_db;
+unsigned int active_scripts;
+unsigned int next_id;
+struct eri *st_ers;
+struct eri *stack_ers;
 
 static bool script_rid2sd_( struct script_state *st, struct map_session_data** sd, const char *func );
 
@@ -5617,13 +5623,6 @@ BUILDIN_FUNC(return)
 					get_val(st, data); // current scope, convert to value
 				if( data->ref && data->ref->vars == st->stack->stack_data[st->stack->defsp-1].u.ri->scope.vars )
 					data->ref = NULL; // Reference to the parent scope, remove reference pointer
-			} else if( name[0] == '.' && !data->ref ) { // script variable, link to current script
-				data->ref = (struct reg_db *)aCalloc(sizeof(struct reg_db), 1);
-				data->ref->vars = st->script->local.vars;
-
-				if (!st->script->local.arrays)
-					st->script->local.arrays = idb_alloc(DB_OPT_BASE);
-				data->ref->arrays = st->script->local.arrays;
 			}
 		}
 	}
@@ -9946,22 +9945,32 @@ BUILDIN_FUNC(gettime)
 	return SCRIPT_CMD_SUCCESS;
 }
 
-/*==========================================
- * GetTimeStr("TimeFMT", Length);
- *------------------------------------------*/
+/**
+ * Returns the current server time or the provided time in a readable format.
+ * gettimestr(<"time_format">,<max_length>{,<time_tick>});
+ */
 BUILDIN_FUNC(gettimestr)
 {
 	char *tmpstr;
 	const char *fmtstr;
 	int maxlen;
-	time_t now = time(NULL);
+	time_t now;
 
-	fmtstr=script_getstr(st,2);
-	maxlen=script_getnum(st,3);
+	fmtstr = script_getstr(st,2);
+	maxlen = script_getnum(st,3);
 
-	tmpstr=(char *)aMalloc((maxlen+1)*sizeof(char));
+	if (script_hasdata(st, 4)) {
+		if (script_getnum(st, 4) < 0) {
+			ShowWarning("buildin_gettimestr: a positive value must be supplied to be valid.\n");
+			return SCRIPT_CMD_FAILURE;
+		} else
+			now = (time_t)script_getnum(st, 4);
+	} else
+		now = time(NULL);
+
+	tmpstr = (char *)aMalloc((maxlen+1)*sizeof(char));
 	strftime(tmpstr,maxlen,fmtstr,localtime(&now));
-	tmpstr[maxlen]='\0';
+	tmpstr[maxlen] = '\0';
 
 	script_pushstr(st,tmpstr);
 	return SCRIPT_CMD_SUCCESS;
@@ -17787,6 +17796,23 @@ BUILDIN_FUNC(setunitdata)
 			md->base_status = (struct status_data*)aCalloc(1, sizeof(struct status_data));
 			memcpy(md->base_status, &md->db->status, sizeof(struct status_data));
 		}
+
+		// Check if the view data will be modified
+		switch( type ){
+			case UMOB_SEX:
+			//case UMOB_CLASS: // Called by status_set_viewdata
+			case UMOB_HAIRSTYLE:
+			case UMOB_HAIRCOLOR:
+			case UMOB_HEADBOTTOM:
+			case UMOB_HEADMIDDLE:
+			case UMOB_HEADTOP:
+			case UMOB_CLOTHCOLOR:
+			case UMOB_SHIELD:
+			case UMOB_WEAPON:
+				mob_set_dynamic_viewdata( md );
+				break;
+		}
+
 		switch (type) {
 			case UMOB_SIZE: md->base_status->size = (unsigned char)value; calc_status = true; break;
 			case UMOB_LEVEL: md->level = (unsigned short)value; break;
@@ -17800,8 +17826,8 @@ BUILDIN_FUNC(setunitdata)
 			case UMOB_MODE: md->base_status->mode = (enum e_mode)value; calc_status = true; break;
 			case UMOB_AI: md->special_state.ai = (enum mob_ai)value; break;
 			case UMOB_SCOPTION: md->sc.option = (unsigned short)value; break;
-			case UMOB_SEX: md->vd->sex = (char)value; break;
-			case UMOB_CLASS: status_set_viewdata(bl, (unsigned short)value); break;
+			case UMOB_SEX: md->vd->sex = (char)value; clif_clearunit_area(bl, CLR_OUTSIGHT); clif_spawn(bl); break;
+			case UMOB_CLASS: status_set_viewdata(bl, (unsigned short)value); clif_clearunit_area(bl, CLR_OUTSIGHT); clif_spawn(bl); break;
 			case UMOB_HAIRSTYLE: clif_changelook(bl, LOOK_HAIR, (unsigned short)value); break;
 			case UMOB_HAIRCOLOR: clif_changelook(bl, LOOK_HAIR_COLOR, (unsigned short)value); break;
 			case UMOB_HEADBOTTOM: clif_changelook(bl, LOOK_HEAD_BOTTOM, (unsigned short)value); break;
@@ -23418,7 +23444,6 @@ BUILDIN_FUNC(achievementcomplete) {
 		script_pushint(st, false);
 		return SCRIPT_CMD_FAILURE;
 	}
-
 	
 	if( !sd->state.pc_loaded ){
 		if( !running_npc_stat_calc_event ){
@@ -23709,7 +23734,7 @@ struct script_function buildin_func[] = {
 	BUILDIN_DEF(savepoint,"sii???"),
 	BUILDIN_DEF(gettimetick,"i"),
 	BUILDIN_DEF(gettime,"i"),
-	BUILDIN_DEF(gettimestr,"si"),
+	BUILDIN_DEF(gettimestr,"si?"),
 	BUILDIN_DEF(openstorage,""),
 	BUILDIN_DEF(guildopenstorage,""),
 	BUILDIN_DEF(itemskill,"vi?"),
