@@ -10647,7 +10647,7 @@ void clif_progressbar_abort(struct map_session_data * sd)
 
 /// Notification from the client, that the progress bar has reached 100% (CZ_PROGRESS).
 /// 02f1
-int clif_parse_progressbar(int fd, struct map_session_data * sd)
+void clif_parse_progressbar(int fd, struct map_session_data * sd)
 {
 	int npc_id = sd->progressbar.npc_id;
 	int64 timeout = sd->progressbar.timeout;
@@ -10662,10 +10662,8 @@ int clif_parse_progressbar(int fd, struct map_session_data * sd)
 			clif_specialeffect(&sd->bl, 109, AREA);
 			status_kill(&sd->bl);
 		}
-		return 0;
 	} else if(sd->npc_id)
 		npc_scriptcont(sd, npc_id, false);
-	return 1;
 }
 
 /// Displays cast-like progress bar on a NPC

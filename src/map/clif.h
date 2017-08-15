@@ -1058,7 +1058,7 @@ void clif_achievement_list_all(struct map_session_data *sd);
 void clif_achievement_update(struct map_session_data *sd, struct achievement *ach, int count);
 void clif_pAchievementCheckReward(int fd, struct map_session_data *sd);
 void clif_achievement_reward_ack(int fd, unsigned char result, int ach_id);
-int  clif_parse_progressbar(int fd, struct map_session_data * sd);
+void  clif_parse_progressbar(int fd, struct map_session_data * sd);
 #ifdef __cplusplus
 }
 #endif
