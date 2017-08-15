@@ -1,0 +1,272 @@
+prt_in,63,60,0	script	Hefesto	2_M_OLDBLSMITH,{
+
+	disable_items;
+	cutin "refinetable",4;
+	mes "[Hefesto]";
+	mes "Sou um dos melhores ferreiros da região.";
+	mes "Consigo trabalhar com todos os minérios e com todos os itens possíveis.";
+	mes "Você deseja melhorar algum equipamento??";
+	next;
+
+	setarray .@slots[0],EQI_HEAD_TOP,EQI_ARMOR,EQI_HAND_L,EQI_HAND_R,EQI_GARMENT,EQI_SHOES,EQI_ACC_L,EQI_ACC_R,EQI_HEAD_MID,EQI_HEAD_LOW;
+	setarray .@position$[0],"Cabeça Topo","Armadura","Mão Esquerda","Mão Direita","Capa","Sapatos","Acessório 1","Acessório 2","Cabeça Meio","Cabeça Baixo";
+
+	for(.@i=0;.@i<10;.@i++){
+		.@menu$ = .@menu$+((getequipisequiped(.@slots[.@i]))?getequiprefinerycnt(.@slots[.@i])?"+"+getequiprefinerycnt(.@slots[.@i])+" "+getequipname(.@slots[.@i]):getequipname(.@slots[.@i]):"^8C8C8C"+.@position$[.@i]+" [Não equipado]^000000")+":";
+	}
+
+	.@menu$ = .@menu$+"Informações do Refinamento";
+	.@SelectedPart = select(.@menu$);
+
+	if (.@SelectedPart == 11){	// Refine Info
+		
+		mes "[Hefesto]";
+		mes "Trabalho com minérios Normais, Enriquecidos, Perfeitos e os lendários Mega-Minérios.";
+		mes "Para os minérios normais a tabela de refinamento é seguida à risca, e você só terá uma chance no refinamento.";
+		mes "Se falhar o item e as cartas contidas nele serão perdidas";
+		next;
+		
+		mes "[Hefesto]";
+		mes "Com os minérios enriquecidos a tabela de refinamento também é seguida,";
+		mes "porém você terá duas chances no refinamento.";
+		mes "Se falhar, o item e as cartas contidas nele serão perdidas";
+		next;
+		
+		mes "[Hefesto]";
+		mes "Com os minérios perfeitos a história é outra.";
+		mes "Eles só funcionam com itens de +7 até +9.";
+		mes "Com esses minérios você terá três chances no refinamento.";
+		mes "Se o refinamento falhar você não perderá o item,";
+		mes "mas o item perderá 1 ponto de refinamento.";
+		next;
+		
+		mes "[Hefesto]";
+		mes "E por último temos os Mega Minérios.";
+		mes "Com eles a tabela de refinamento também é seguida, você terá duas chances no refinamento.";
+		mes "Quando o refinamento falhar você não perderá nada, nem o nível de item nem o ítem.";
+		close;
+	}
+	while(1){
+		
+		mes "[Hefesto]";
+		mes "Os preços para a tentativa de refinamento são os seguintes:";
+		mes "2000 Zeny para refinamento com Minérios Normais";
+		mes "10000 Zeny para refinamento com Minérios Enriquecidos";
+		mes "20000 Zeny para refinamento com Minérios Perfeitos";
+		mes "40000 Zeny para refinamento com Mega-Minérios";
+		next;
+		
+		mes "[Hefesto]";
+		mes "Selecione o material para começarmos o processo:";
+		next;
+		
+		if (.@SelectedPart == 4){ // 4 is weapon index
+			.@index = 0;
+		} else {
+			.@index = 1;
+		}
+		setarray .@s_weapon1[0],984,985;  //Oridecon, Elunium
+		setarray .@s_weapon2[0],7620,7619; //Oridecon Enriquecido, Elunium Enriquecido 
+		setarray .@s_weapon3[0],6240,6241; //Oridecon Perfeito, Elunium Perfeito
+		setarray .@s_weapon4[0],6438,6439; //Omni-Oridecon, Mega-Elunium
+		if (countitem(.@s_weapon1[.@index])){
+			.@mate$[0] = getitemname(.@s_weapon1[.@index]);
+		} else {
+			.@mate$[0] = "^8C8C8C"+ getitemname(.@s_weapon1[.@index]) +"^000000";
+			.@miss[0] = 1;
+		}
+		if (countitem(.@s_weapon2[.@index])){
+			.@mate$[1] = getitemname(.@s_weapon2[.@index]);
+		} else {
+			.@mate$[1] = "^8C8C8C"+ getitemname(.@s_weapon2[.@index]) +"^000000";
+			.@miss[1] = 1;
+		}
+		if (getequiprefinerycnt(.@SelectedPart) > 6 && countitem(.@s_weapon3[.@index])){
+			.@mate$[2] = getitemname(.@s_weapon3[.@index]);
+		} else {
+			.@mate$[2] = "^8C8C8C"+ getitemname(.@s_weapon3[.@index]) +"^000000";
+			.@miss[2] = 1;
+		}
+		if (getequiprefinerycnt(.@SelectedPart) > 6 && getequiprefinerycnt(.@SelectedPart) < 12 && countitem(.@s_weapon4[.@index])){
+			.@mate$[3] = getitemname(.@s_weapon4[.@index]);
+		} else {
+			.@mate$[3] = "^8C8C8C"+ getitemname(.@s_weapon4[.@index]) +"^000000";
+			.@miss[3] = 1;
+		}
+		
+		//-----------------------------------------------------------------------------
+		.@option = select(.@mate$[0],.@mate$[1],.@mate$[2],.@mate$[3],"Cancelar");
+		
+		if (.@option == 5){
+			mes "[Hefesto]";
+			mes "Você cancelou o refinamento.";
+			close;
+		}
+		
+		if (.@option==3){	//Minérios Perfeitos
+			if (getequiprefinerycnt(.@SelectedPart) < 7){
+				mes "[Hefesto]";
+				mes "Só é possível usar minérios perfeitos com equipamentos de nível +7 ou superior.";
+				close;
+			}
+			.@materialperfeito = 1;
+		}
+		
+		if(.@option == 4){ //Mega Minérios
+			if(getequiprefinerycnt(.@SelectedPart) < 6 || getequiprefinerycnt(.@SelectedPart) > 12){
+				mes "[Hefesto]";
+				mes "Só é possível usar os Mega Minérios com equipamentos de nível +6 até +12.";
+				close;
+			}
+			.@materialmega = 1;
+		}
+		
+		if (.@miss[.@option-1]){ //-1 porque são 5 .@option, de 1 a 5, e a verificação do .@miss é de 0 a 3, portanto diminuímos 1 do .@option
+			mes "[Hefesto]";
+			mes "Você não tem os materiais para esse refinamento.";
+			close;
+		}
+		
+		.@choose = getd(".@s_weapon"+(.@option)+"["+ .@index +"]");
+		dispbottom "Ponto 1"+.@choose;
+		
+		if ((getequiprefinerycnt(.@SelectedPart) > 9) && (.@choose != 6438 || .@choose != 6439)){
+			mes "[Hefesto]";
+			mes "Eu só trabalho com refinamentos até +10 com esse minério";
+			mes "Desculpe, mas não posso te ajudar.";
+			close;
+		}
+		dispbottom "Ponto 2"+.@choose;
+		if (!getequipisenableref(.@SelectedPart)) {
+			mes "[Hefesto]";
+			mes "Este item não pode ser refinado.";
+			close;
+		}
+		dispbottom "Ponto 3"+.@choose;
+		if (getequippercentrefinery(.@SelectedPart) < 100) {
+			mes "[Hefesto]";
+			mes "O limite de segurança de refinamento foi atingido.";
+			
+			if (.@materialperfeito) {
+				mes "Se você tentar ir além, o nível de refinamento do item pode decrescer se a tentativa falhar.";
+				mes "Você deseja continuar?";
+			} else if (.@materialmega){
+				mes "Mas não se preocupe, com esse minério você não perderá nada se falhar.";
+				mes "Você deseja continuar?";
+			} else {
+				mes "Se você tentar ir além, o item poderá ser quebrado se a tentativa falhar.";
+				mes "Você deseja continuar?";
+			}
+			next;
+			if (select("Continuar","Cancelar") == 2) {
+				mes "[Hefesto]";
+				mes "Você cancelou o refinamento.";
+				close;
+			}
+		}
+		dispbottom "Ponto 4"+.@choose;
+		//-----------------------------------------------------------------------------
+		
+		mes "[Hefesto]";
+		mes "Vamos lá.!!";
+		next;
+		
+		if(.@choose == getd(".@s_weapon1["+ .@index +"]") && Zeny < 2000){
+			mes "[Hefesto]";
+			mes "Você não tem Zeny suficiente.";
+			mes "Você precisa de 2000, pra essa escolha.";
+			close;
+		} else if(.@choose == getd(".@s_weapon2["+ .@index +"]") && Zeny < 10000){
+			mes "[Hefesto]";
+			mes "Você não tem Zeny suficiente.";
+			mes "Você precisa de 10000, pra essa escolha.";
+			close;			
+		} else if(.@choose == getd(".@s_weapon3["+ .@index +"]") && Zeny < 20000){
+			mes "[Hefesto]";
+			mes "Você não tem Zeny suficiente.";
+			mes "Você precisa de 20000, pra essa escolha.";
+			close;		
+		} else if(.@choose == getd(".@s_weapon4["+ .@index +"]") && Zeny < 40000){
+			mes "[Hefesto]";
+			mes "Você não tem Zeny suficiente.";
+			mes "Você precisa de 40000, pra essa escolha.";
+			close;		
+		}
+
+		if (!countitem(.@choose)) {
+			mes "[Hefesto]";
+			mes "Você não tem "+ getitemname(.@choose) +" suficiente para a tentativa.";
+			close;
+		}
+		
+		delitem .@choose,1;
+		if(.@option == 1){ // Refinamento com Minérios Normais
+			Zeny -= 2000;
+			if (getequippercentrefinery(.@SelectedPart) > rand(100)) {
+				successrefitem .@SelectedPart;
+				mes "[Hefesto]";
+				mes "SUCESSO!!!";
+				next;
+			} else {
+				failedrefitem .@SelectedPart;
+				mes "[Hefesto]";
+				mes "Oh não, o refinamento falhou, me desculpe, mas você estava ciente dos riscos.";
+				close;
+			}
+		} else if(.@option == 2){ // Refinamento com Minérios Enriquecidos
+			Zeny -= 10000;
+			if (getequippercentrefinery(.@SelectedPart) > rand(100) || getequippercentrefinery(.@SelectedPart) > rand(100)) { // Rola 2 vezes para a chance
+				successrefitem .@SelectedPart;
+				mes "[Hefesto]";
+				mes "SUCESSO!!!";
+				next;
+			} else {
+				failedrefitem .@SelectedPart;
+				mes "[Hefesto]";
+				mes "Oh não, o refinamento falhou, me desculpe, mas você estava ciente dos riscos.";
+				close;
+			}
+		} else if(.@option == 3){ // Refinamento com Minérios Perfeitos
+			Zeny -= 20000;
+			if (getequippercentrefinery(.@SelectedPart) > rand(100) || getequippercentrefinery(.@SelectedPart) > rand(100) || getequippercentrefinery(.@SelectedPart) > rand(100)) {
+				successrefitem .@SelectedPart;
+				mes "[Hefesto]";
+				mes "SUCESSO!!!";
+				next;
+			} else {
+				if(.@materialperfeito){
+					downrefitem .@SelectedPart;
+					mes "[Hefesto]";
+					mes "Oh não, o refinamento falhou, me desculpe, mas você estava ciente dos riscos.";
+					close;
+				}
+			}
+		}  else if(.@option == 4){ // Refinamento com Mega-Minérios
+			Zeny -= 40000;
+			if (getequippercentrefinery(.@SelectedPart) > rand(100) || getequippercentrefinery(.@SelectedPart) > rand(100)) {
+				successrefitem .@SelectedPart;
+				mes "[Hefesto]";
+				mes "SUCESSO!!!";
+				next;
+			} else {
+				if(.@materialmega){
+					specialeffect EF_CURSEATTACK;
+					specialeffect2 EF_SUI_EXPLOSION;
+					emotion (!rand(5))?e_ag:e_omg;
+					mes "[Hefesto]";
+					mes "Oh não, o refinamento falhou, me desculpe.";
+					mes "Mas com o Mega-Minério nada é perdido.";
+					mes "Mesmo assim me sinto mal por errar.";
+					close;
+				}
+			}
+		}
+	}
+}
+morocc_in,73,38,6	duplicate(Hefesto)	Hefesto#morocc	2_M_OLDBLSMITH
+payon,144,173,5	duplicate(Hefesto)	Hefesto#payon	2_M_OLDBLSMITH
+alberta_in,28,58,0	duplicate(Hefesto)	Hefesto#alberta	2_M_OLDBLSMITH
+yuno_in01,171,21,4	duplicate(Hefesto)	Hefesto#yuno	2_M_OLDBLSMITH
+ein_in01,24,87,5	duplicate(Hefesto)	Hefesto#einbroch	2_M_OLDBLSMITH
+lhz_in02,282,20,7	duplicate(Hefesto)	Hefesto#lighthalzen	2_M_OLDBLSMITH
+payon,157,146,6	duplicate(Hefesto)	Hefesto#payon2	2_M_OLDBLSMITH
