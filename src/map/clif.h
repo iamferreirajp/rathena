@@ -1028,7 +1028,7 @@ enum clif_colors {
 	COLOR_LIGHT_GREEN,
 	COLOR_MAX
 };
-unsigned long color_table[COLOR_MAX];
+extern unsigned long color_table[COLOR_MAX];
 
 void clif_channel_msg(struct Channel *channel, const char *msg, unsigned long color);
 
@@ -1058,7 +1058,7 @@ void clif_achievement_list_all(struct map_session_data *sd);
 void clif_achievement_update(struct map_session_data *sd, struct achievement *ach, int count);
 void clif_pAchievementCheckReward(int fd, struct map_session_data *sd);
 void clif_achievement_reward_ack(int fd, unsigned char result, int ach_id);
-
+void  clif_parse_progressbar(int fd, struct map_session_data * sd);
 #ifdef __cplusplus
 }
 #endif
