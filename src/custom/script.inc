@@ -47,7 +47,7 @@ BUILDIN_FUNC(sendmail) {
 	get_val(st,data);
 	if( data_isstring(data) ){
 		const char *name=conv_str(st,data);
-		struct item_data *item_data = itemdb_searchname(name);
+		*item_data = itemdb_searchname(name);
 		if( item_data )
 			item=item_data->nameid;
 		else
@@ -93,9 +93,9 @@ BUILDIN_FUNC(sendmail) {
 		safestrncpy(msg.title, c, MAIL_TITLE_LENGTH);
 	else
 	{
-		static char c2[256];
-		snprintf(c2, sizeof(c2), "noreply@%s", wisp_server_name);
-		safestrncpy(msg.title, c2, MAIL_TITLE_LENGTH);
+		static char char2[256];
+		snprintf(char2, sizeof(char2), "noreply@%s", wisp_server_name);
+		safestrncpy(msg.title, char2, MAIL_TITLE_LENGTH);
 	}
 	
 	if((item_data=itemdb_exists(item)) && amount > 0)
