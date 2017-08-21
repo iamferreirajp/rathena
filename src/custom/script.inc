@@ -47,7 +47,7 @@ BUILDIN_FUNC(sendmail) {
 	get_val(st,data);
 	if( data_isstring(data) ){
 		const char *name=conv_str(st,data);
-		*item_data = itemdb_searchname(name);
+		item_data = itemdb_searchname(name);
 		if( item_data )
 			item=item_data->nameid;
 		else
