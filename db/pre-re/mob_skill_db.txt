@@ -5841,4 +5841,4 @@
 2959,Torturous Redeemer@SM_MAGNUM,attack,7,5,500,0,10000,no,self,always,0,,,,,,,
 2959,Torturous Redeemer@NPC_FIREATTACK,attack,186,3,1000,1000,200000,yes,target,always,0,,,,,,,
 2959,Torturous Redeemer@WZ_FIREPILLAR,attack,80,5,500,0,10000,no,around2,always,0,,,,,,,
-2959,Torturous Redeemer@SM_BASH,attack,5,5,500,0,5000,no,target,always,0,,,,,,,
+2959,Torturous Redeemer@SM_BASH,attack,5,5,500,0,5000,no,target,always,0,,,,,,,,
