@@ -119,6 +119,10 @@
 1227,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Getting back Professor Worm's memory"
 1228,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Getting back Professor Worm's memory"
 
+// Ghost Palace memorial
+1261,82800,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Cursed Swordman"
+1263,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Cursed Swordman"
+
 2000,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Job Change to Blacksmith"
 2001,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Job Change to Blacksmith"
 2002,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Job Change to Blacksmith"
@@ -3133,3 +3137,4 @@
 60355,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Bathroom Ghost"
 61500,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"fish"
 62238,3600,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Midgardian Mercenary timer"
+
