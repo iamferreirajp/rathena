@@ -6958,3 +6958,28 @@
 16683,Caixa_de_Rédea_3,Caixa de Rédea 3,2,20,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ rentitem 12622,259200; },{},{}
 16684,Caixa_de_Rédea_Semanal,Caixa de Rédea Semanal,2,20,,0,,,,,0xFFFFFFFF,63,2,,,,,,{ rentitem 12622,604800; },{},{}
 16685,Caixa_de_Rédea_Mensal,Caixa de Rédea Mensal,2,20,,0,,,,,0xFFFFFFFF,63,2,,,,,,{ rentitem 12622,2592000; },{},{}
+
+// Ghost Palace equipment
+13441,Thanos_Sword,Thanatos Sword,5,10,,700,150:100,,1,1,0x00004082,63,2,2,4,120,1,2,{ bonus bInt,6; bonus bVit,6; bonus bLuk,-6; bonus2 bHPDrainRate,50,5; bonus2 bSPDrainRate,10,5; bonus2 bHPLossRate,100,10000; },{},{ heal -1000,0; }
+21009,Thanos_Great_Sword,Thanatos Great Sword,5,10,,1300,280:120,,1,1,0x00004082,63,2,34,4,120,1,3,{ bonus bInt,6; bonus bVit,6; bonus bLuk,-6; bonus2 bHPDrainRate,50,5; bonus2 bSPDrainRate,10,5; bonus2 bHPLossRate,100,10000; },{},{ heal -1000,0; }
+1438,Thanos_Spear,Thanatos Spear,5,10,,3000,150:100,,3,1,0x00004082,63,2,2,4,120,1,4,{ bonus bInt,6; bonus bVit,6; bonus bLuk,-6; bonus2 bHPDrainRate,50,5; bonus2 bSPDrainRate,10,5; bonus2 bHPLossRate,100,10000; },{},{ heal -1000,0; }
+1496,Thanos_Long_Spear,Thanatos Long Spear,5,10,,3750,250:50,,3,1,0x00004082,63,2,34,4,120,1,5,{ bonus bInt,6; bonus bVit,6; bonus bLuk,-6; bonus2 bHPDrainRate,50,5; bonus2 bSPDrainRate,10,5; bonus2 bHPLossRate,100,10000; },{},{ heal -1000,0; }
+1669,Thanos_Staff,Thanatos Staff,5,10,,1000,100:200,,1,1,0x00018314,63,2,2,4,120,1,10,{ bonus bInt,6; bonus bVit,6; bonus bLuk,-6; bonus bHealPower,15; bonus bMagicHPGainValue,500; bonus bMagicSPGainValue,50; bonus2 bHPLossRate,100,10000; },{},{ heal -1000,0; }
+2023,Tanos_Two-handed_Stick,Tanos Two-handed Stick,5,10,,1400,120:250,,,1,0x810200,63,2,34,4,120,1,23,{ bonus bInt,6; bonus bVit,6; bonus bLuk,-6; bonus bHealPower,18; bonus2 bHPLossRate,100,10000; },{},{}
+18119,Thanos_Bow,Thanatos Bow,5,10,,1300,180:110,,5,1,0x00080808,63,2,34,4,120,1,11,{ bonus bInt,6; bonus bVit,6; bonus bLuk,-6; bonus2 bHPDrainRate,50,5; bonus2 bSPDrainRate,10,5; bonus2 bHPLossRate,100,10000; },{},{ heal -1000,0; }
+13093,Thanos_Dagger,Thanatos Dagger,5,10,,800,100:130,,1,1,0x000E5CEA,63,2,2,4,120,1,1,{ bonus bInt,6; bonus bVit,6; bonus bLuk,-6; bonus2 bHPDrainRate,50,5; bonus2 bSPDrainRate,10,5; bonus2 bHPLossRate,100,10000; },{},{ heal -1000,0; }
+28000,Tanos_Katar,Tanos Katar,5,10,,1800,220:80,,,1,0x00001000,63,2,34,4,120,1,16,{ bonus bInt,6; bonus bVit,6; bonus bLuk,-6; bonus2 bAddClass,Class_All,5; bonus2 bHPLossRate,100,10000; },{},{}
+1836,Thanos_Knuckle,Thanatos Knuckle,5,10,,600,160:100,,1,1,0x00008000,63,2,2,4,120,1,12,{ bonus bInt,6; bonus bVit,6; bonus bLuk,-6; bonus2 bHPDrainRate,50,5; bonus2 bSPDrainRate,10,5; bonus2 bHPLossRate,100,10000; },{},{ heal -1000,0; }
+16028,Thanos_Hammer,Thanatos Hammer,5,10,,3000,180:120,,1,1,0x0004C5B2,63,2,2,4,120,1,8,{ bonus bInt,6; bonus bVit,6; bonus bLuk,-6; bonus2 bHPDrainRate,50,5; bonus2 bSPDrainRate,10,5; bonus2 bHPLossRate,100,10000; },{},{ heal -1000,0; }
+28100,Tanos_Axe_,Tanos Axe,5,10,,4000,300:80,,,1,0x00000400,63,2,34,4,120,1,7,{ bonus bInt,6; bonus bVit,6; bonus bLuk,-6; bonus2 bAddClass,Class_All,5; bonus2 bHPLossRate,100,10000; },{},{}
+1933,Tanos_Violin,Tanos Violin,5,10,,2000,200:130,,,1,0x00080000,63,1,2,4,120,1,13,{ bonus bInt,6; bonus bVit,6; bonus bLuk,-6; bonus bLongAtkRate,20; bonus2 bHPLossRate,100,10000; },{},{}
+1988,Tanos_Whip_Sword,Tanos Whip Sword,5,10,,2200,200:130,,,1,0x00080000,63,0,2,4,120,1,14,{ bonus bInt,6; bonus bVit,6; bonus bLuk,-6; bonus bLongAtkRate,20; bonus2 bHPLossRate,100,10000; },{},{}
+2187,Shield_of_Gray,Shield of Gray,4,10,,2000,,75,,1,0xFFFFFFFF,56,2,32,,120,1,3,{ .@r = getrefine(); bonus2 bSubEle,Ele_Holy,30+.@r; bonus bMdef,9+.@r/3; },{},{}
+15090,Armor_of_Gray,Armor of Gray,4,10,,2400,,90,,1,0x000654E2,63,2,16,,120,1,0,{ bonus bMdef,10; bonus2 bSubEle,Ele_Holy,10+getrefine()*2; },{},{}
+15091,Robe_of_Gray,Robe of Gray,4,10,,1300,,55,,1,0x00810100,63,2,16,,120,1,0,{ bonus2 bSubEle,Ele_Holy,10+getrefine()*2; },{},{}
+20721,Manteau_of_Gray,Manteau of Gray,4,10,,600,,45,,1,0xFFFFFFFF,63,2,4,,120,1,0,{ bonus2 bSubEle,Ele_Holy,5+(getrefine()/2); },{},{}
+22033,Boots_of_Gray,Boots of Gray,4,10,,0,,,,1,0xFFFFFFFF,63,2,64,,120,1,,{ bonus2 bSubEle,Ele_Holy,1+getrefine()/3; },{},{}
+18820,Helmet_of_Gray,Helmet of Gray,4,10,,450,,35,,1,0xFFFFFFFF,63,2,256,,120,1,941,{ bonus2 bSubEle,Ele_Holy,3+getrefine()*2; },{},{}
+30006,moeda_de_bronze_ragnatide,Moeda de Bronze Ragnatide,3,0,0,0,,,,,0xFFFFFFFF,63,2,,,,,,{},{},{}
+30007,moeda_de_prata_ragnatide,Moeda de Prata Ragnatide,3,0,0,0,,,,,0xFFFFFFFF,63,2,,,,,,{},{},{}
+30008,moeda_de_ouro_ragnatide,Moeda de Ouro Ragnatide,3,0,0,0,,,,,0xFFFFFFFF,63,2,,,,,,{},{},{}

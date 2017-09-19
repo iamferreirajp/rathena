@@ -1824,3 +1824,6 @@
 29064,507,100	// Bastão_do_Sobrevivente_da_Experiência
 29065,507,100	// Enciclopédia_Mestra_da_Experiência
 29066,507,100	// Shuriken_de_Pétalas_da_Experiência
+30006,1,100	// moeda_de_bronze_ragnatide
+30007,1,100	// moeda_de_prata_ragnatide
+30008,1,100	// moeda_de_ouro_ragnatide
