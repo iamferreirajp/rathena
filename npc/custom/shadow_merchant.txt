@@ -1,0 +1,56 @@
+prontera,147,170,5	script	Robert Kendo	8_DOPPEL,{
+	
+	if(getgroupid()>=1){	//se for vip
+		npcshopadditem "shop",24001,1;
+		npcshopadditem "shop",24002,1;
+		npcshopadditem "shop",24003,1;
+		npcshopadditem "shop",24004,1;
+		npcshopadditem "shop",24005,1;
+		npcshopadditem "shop",24012,1;
+		npcshopadditem "shop",24013,1;
+		npcshopadditem "shop",24014,1;
+		npcshopadditem "shop",24015,1;
+		npcshopadditem "shop",24016,1;
+		npcshopadditem "shop",24017,1;
+		npcshopadditem "shop",24006,2;
+		npcshopadditem "shop",24007,2;
+		npcshopadditem "shop",24008,2;
+		npcshopadditem "shop",24009,2;
+		npcshopadditem "shop",24010,2;
+		npcshopadditem "shop",24011,2;
+		for(.i=18;.i<246;.i++){
+			npcshopadditem "shop",24000+.i,3;
+		}
+		callshop "shop",0;
+	}else{	// se não for vip
+		npcshopadditem "shop",24001,2;
+		npcshopadditem "shop",24002,2;
+		npcshopadditem "shop",24003,2;
+		npcshopadditem "shop",24004,2;
+		npcshopadditem "shop",24005,2;
+		npcshopadditem "shop",24012,2;
+		npcshopadditem "shop",24013,2;
+		npcshopadditem "shop",24014,2;
+		npcshopadditem "shop",24015,2;
+		npcshopadditem "shop",24016,2;
+		npcshopadditem "shop",24017,2;
+		npcshopadditem "shop",24006,3;
+		npcshopadditem "shop",24007,3;
+		npcshopadditem "shop",24008,3;
+		npcshopadditem "shop",24009,3;
+		npcshopadditem "shop",24010,3;
+		npcshopadditem "shop",24011,3;
+		for(.i=18;.i<246;.i++){
+			npcshopadditem "shop",24000+.i,4;
+		}
+		callshop "shop",0;
+	}
+
+	OnInit:
+		waitingroom "Vendedor Sombrio",0;
+	end;
+}
+
+-	pointshop	shop	8_DOPPEL,#vote_points,24000:1;
+//-%TAB%pointshop%TAB%<NPC Name>%TAB%<sprite id>,<costvariable>{:<discount>},<itemid>:<price>{,<itemid>:<price>...}
+//<map name>,<x>,<y>,<facing>%TAB%pointshop%TAB%<NPC Name>%TAB%<sprite id>,<costvariable>{:<discount>},<itemid>:<price>{,<itemid>:<price>...}

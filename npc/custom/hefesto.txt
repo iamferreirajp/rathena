@@ -1,63 +1,63 @@
 prt_in,63,60,0	script	Hefesto	2_M_OLDBLSMITH,{
-
+ 
 	disable_items;
 	cutin "refinetable",4;
 	mes "[Hefesto]";
-	mes "Sou um dos melhores ferreiros da regi√£o.";
-	mes "Consigo trabalhar com todos os min√©rios e com todos os itens poss√≠veis.";
-	mes "Voc√™ deseja melhorar algum equipamento??";
+	mes "Sou um dos melhores ferreiros da regi„o.";
+	mes "Consigo trabalhar com todos os minÈrios e com todos os itens possÌveis.";
+	mes "VocÍ deseja melhorar algum equipamento??";
 	next;
 
 	setarray .@slots[0],EQI_HEAD_TOP,EQI_ARMOR,EQI_HAND_L,EQI_HAND_R,EQI_GARMENT,EQI_SHOES,EQI_ACC_L,EQI_ACC_R,EQI_HEAD_MID,EQI_HEAD_LOW;
-	setarray .@position$[0],"Cabe√ßa Topo","Armadura","M√£o Esquerda","M√£o Direita","Capa","Sapatos","Acess√≥rio 1","Acess√≥rio 2","Cabe√ßa Meio","Cabe√ßa Baixo";
+	setarray .@position$[0],"CabeÁa Topo","Armadura","M„o Esquerda","M„o Direita","Capa","Sapatos","AcessÛrio 1","AcessÛrio 2","CabeÁa Meio","CabeÁa Baixo";
 
 	for(.@i=0;.@i<10;.@i++){
-		.@menu$ = .@menu$+((getequipisequiped(.@slots[.@i]))?getequiprefinerycnt(.@slots[.@i])?"+"+getequiprefinerycnt(.@slots[.@i])+" "+getequipname(.@slots[.@i]):getequipname(.@slots[.@i]):"^8C8C8C"+.@position$[.@i]+" [N√£o equipado]^000000")+":";
+		.@menu$ = .@menu$+((getequipisequiped(.@slots[.@i]))?getequiprefinerycnt(.@slots[.@i])?"+"+getequiprefinerycnt(.@slots[.@i])+" "+getequipname(.@slots[.@i]):getequipname(.@slots[.@i]):"^8C8C8C"+.@position$[.@i]+" [N„o equipado]^000000")+":";
 	}
 
-	.@menu$ = .@menu$+"Informa√ß√µes do Refinamento";
+	.@menu$ = .@menu$+"InformaÁıes do Refinamento";
 	.@SelectedPart = select(.@menu$);
 
 	if (.@SelectedPart == 11){	// Refine Info
 		
 		mes "[Hefesto]";
-		mes "Trabalho com min√©rios Normais, Enriquecidos, Perfeitos e os lend√°rios Mega-Min√©rios.";
-		mes "Para os min√©rios normais a tabela de refinamento √© seguida √† risca, e voc√™ s√≥ ter√° uma chance no refinamento.";
-		mes "Se falhar o item e as cartas contidas nele ser√£o perdidas";
+		mes "Trabalho com minÈrios Normais, Enriquecidos, Perfeitos e os lend·rios Mega-MinÈrios.";
+		mes "Para os minÈrios normais a tabela de refinamento È seguida ‡ risca, e vocÍ sÛ ter· uma chance no refinamento.";
+		mes "Se falhar o item e as cartas contidas nele ser„o perdidas";
 		next;
 		
 		mes "[Hefesto]";
-		mes "Com os min√©rios enriquecidos a tabela de refinamento tamb√©m √© seguida,";
-		mes "por√©m voc√™ ter√° duas chances no refinamento.";
-		mes "Se falhar, o item e as cartas contidas nele ser√£o perdidas";
+		mes "Com os minÈrios enriquecidos a tabela de refinamento tambÈm È seguida,";
+		mes "porÈm vocÍ ter· duas chances no refinamento.";
+		mes "Se falhar, o item e as cartas contidas nele ser„o perdidas";
 		next;
 		
 		mes "[Hefesto]";
-		mes "Com os min√©rios perfeitos a hist√≥ria √© outra.";
-		mes "Eles s√≥ funcionam com itens de +7 at√© +9.";
-		mes "Com esses min√©rios voc√™ ter√° tr√™s chances no refinamento.";
-		mes "Se o refinamento falhar voc√™ n√£o perder√° o item,";
-		mes "mas o item perder√° 1 ponto de refinamento.";
+		mes "Com os minÈrios perfeitos a histÛria È outra.";
+		mes "Eles sÛ funcionam com itens de +7 atÈ +9.";
+		mes "Com esses minÈrios vocÍ ter· trÍs chances no refinamento.";
+		mes "Se o refinamento falhar vocÍ n„o perder· o item,";
+		mes "mas o item perder· 1 ponto de refinamento.";
 		next;
 		
 		mes "[Hefesto]";
-		mes "E por √∫ltimo temos os Mega Min√©rios.";
-		mes "Com eles a tabela de refinamento tamb√©m √© seguida, voc√™ ter√° duas chances no refinamento.";
-		mes "Quando o refinamento falhar voc√™ n√£o perder√° nada, nem o n√≠vel de item nem o √≠tem.";
+		mes "E por ˙ltimo temos os Mega MinÈrios.";
+		mes "Com eles a tabela de refinamento tambÈm È seguida, vocÍ ter· duas chances no refinamento.";
+		mes "Quando o refinamento falhar vocÍ n„o perder· nada, nem o nÌvel de item nem o Ìtem.";
 		close;
 	}
 	while(1){
 		
 		mes "[Hefesto]";
-		mes "Os pre√ßos para a tentativa de refinamento s√£o os seguintes:";
-		mes "2000 Zeny para refinamento com Min√©rios Normais";
-		mes "10000 Zeny para refinamento com Min√©rios Enriquecidos";
-		mes "20000 Zeny para refinamento com Min√©rios Perfeitos";
-		mes "40000 Zeny para refinamento com Mega-Min√©rios";
+		mes "Os preÁos para a tentativa de refinamento s„o os seguintes:";
+		mes "2000 Zeny para refinamento com MinÈrios Normais";
+		mes "10000 Zeny para refinamento com MinÈrios Enriquecidos";
+		mes "20000 Zeny para refinamento com MinÈrios Perfeitos";
+		mes "40000 Zeny para refinamento com Mega-MinÈrios";
 		next;
 		
 		mes "[Hefesto]";
-		mes "Selecione o material para come√ßarmos o processo:";
+		mes "Selecione o material para comeÁarmos o processo:";
 		next;
 		
 		if (.@SelectedPart == 4){ // 4 is weapon index
@@ -99,31 +99,31 @@ prt_in,63,60,0	script	Hefesto	2_M_OLDBLSMITH,{
 		
 		if (.@option == 5){
 			mes "[Hefesto]";
-			mes "Voc√™ cancelou o refinamento.";
+			mes "VocÍ cancelou o refinamento.";
 			close;
 		}
 		
-		if (.@option==3){	//Min√©rios Perfeitos
+		if (.@option==3){	//MinÈrios Perfeitos
 			if (getequiprefinerycnt(.@SelectedPart) < 7){
 				mes "[Hefesto]";
-				mes "S√≥ √© poss√≠vel usar min√©rios perfeitos com equipamentos de n√≠vel +7 ou superior.";
+				mes "SÛ È possÌvel usar minÈrios perfeitos com equipamentos de nÌvel +7 ou superior.";
 				close;
 			}
 			.@materialperfeito = 1;
 		}
 		
-		if(.@option == 4){ //Mega Min√©rios
+		if(.@option == 4){ //Mega MinÈrios
 			if(getequiprefinerycnt(.@SelectedPart) < 6 || getequiprefinerycnt(.@SelectedPart) > 12){
 				mes "[Hefesto]";
-				mes "S√≥ √© poss√≠vel usar os Mega Min√©rios com equipamentos de n√≠vel +6 at√© +12.";
+				mes "SÛ È possÌvel usar os Mega MinÈrios com equipamentos de nÌvel +6 atÈ +12.";
 				close;
 			}
 			.@materialmega = 1;
 		}
 		
-		if (.@miss[.@option-1]){ //-1 porque s√£o 5 .@option, de 1 a 5, e a verifica√ß√£o do .@miss √© de 0 a 3, portanto diminu√≠mos 1 do .@option
+		if (.@miss[.@option-1]){ //-1 porque s„o 5 .@option, de 1 a 5, e a verificaÁ„o do .@miss È de 0 a 3, portanto diminuÌmos 1 do .@option
 			mes "[Hefesto]";
-			mes "Voc√™ n√£o tem os materiais para esse refinamento.";
+			mes "VocÍ n„o tem os materiais para esse refinamento.";
 			close;
 		}
 		
@@ -132,35 +132,35 @@ prt_in,63,60,0	script	Hefesto	2_M_OLDBLSMITH,{
 		
 		if ((getequiprefinerycnt(.@SelectedPart) > 9) && (.@choose != 6438 || .@choose != 6439)){
 			mes "[Hefesto]";
-			mes "Eu s√≥ trabalho com refinamentos at√© +10 com esse min√©rio";
-			mes "Desculpe, mas n√£o posso te ajudar.";
+			mes "Eu sÛ trabalho com refinamentos atÈ +10 com esse minÈrio";
+			mes "Desculpe, mas n„o posso te ajudar.";
 			close;
 		}
 		dispbottom "Ponto 2"+.@choose;
 		if (!getequipisenableref(.@SelectedPart)) {
 			mes "[Hefesto]";
-			mes "Este item n√£o pode ser refinado.";
+			mes "Este item n„o pode ser refinado.";
 			close;
 		}
 		dispbottom "Ponto 3"+.@choose;
 		if (getequippercentrefinery(.@SelectedPart) < 100) {
 			mes "[Hefesto]";
-			mes "O limite de seguran√ßa de refinamento foi atingido.";
+			mes "O limite de seguranÁa de refinamento foi atingido.";
 			
 			if (.@materialperfeito) {
-				mes "Se voc√™ tentar ir al√©m, o n√≠vel de refinamento do item pode decrescer se a tentativa falhar.";
-				mes "Voc√™ deseja continuar?";
+				mes "Se vocÍ tentar ir alÈm, o nÌvel de refinamento do item pode decrescer se a tentativa falhar.";
+				mes "VocÍ deseja continuar?";
 			} else if (.@materialmega){
-				mes "Mas n√£o se preocupe, com esse min√©rio voc√™ n√£o perder√° nada se falhar.";
-				mes "Voc√™ deseja continuar?";
+				mes "Mas n„o se preocupe, com esse minÈrio vocÍ n„o perder· nada se falhar.";
+				mes "VocÍ deseja continuar?";
 			} else {
-				mes "Se voc√™ tentar ir al√©m, o item poder√° ser quebrado se a tentativa falhar.";
-				mes "Voc√™ deseja continuar?";
+				mes "Se vocÍ tentar ir alÈm, o item poder· ser quebrado se a tentativa falhar.";
+				mes "VocÍ deseja continuar?";
 			}
 			next;
 			if (select("Continuar","Cancelar") == 2) {
 				mes "[Hefesto]";
-				mes "Voc√™ cancelou o refinamento.";
+				mes "VocÍ cancelou o refinamento.";
 				close;
 			}
 		}
@@ -168,39 +168,39 @@ prt_in,63,60,0	script	Hefesto	2_M_OLDBLSMITH,{
 		//-----------------------------------------------------------------------------
 		
 		mes "[Hefesto]";
-		mes "Vamos l√°.!!";
+		mes "Vamos l·.!!";
 		next;
 		
 		if(.@choose == getd(".@s_weapon1["+ .@index +"]") && Zeny < 2000){
 			mes "[Hefesto]";
-			mes "Voc√™ n√£o tem Zeny suficiente.";
-			mes "Voc√™ precisa de 2000, pra essa escolha.";
+			mes "VocÍ n„o tem Zeny suficiente.";
+			mes "VocÍ precisa de 2000, pra essa escolha.";
 			close;
 		} else if(.@choose == getd(".@s_weapon2["+ .@index +"]") && Zeny < 10000){
 			mes "[Hefesto]";
-			mes "Voc√™ n√£o tem Zeny suficiente.";
-			mes "Voc√™ precisa de 10000, pra essa escolha.";
+			mes "VocÍ n„o tem Zeny suficiente.";
+			mes "VocÍ precisa de 10000, pra essa escolha.";
 			close;			
 		} else if(.@choose == getd(".@s_weapon3["+ .@index +"]") && Zeny < 20000){
 			mes "[Hefesto]";
-			mes "Voc√™ n√£o tem Zeny suficiente.";
-			mes "Voc√™ precisa de 20000, pra essa escolha.";
+			mes "VocÍ n„o tem Zeny suficiente.";
+			mes "VocÍ precisa de 20000, pra essa escolha.";
 			close;		
 		} else if(.@choose == getd(".@s_weapon4["+ .@index +"]") && Zeny < 40000){
 			mes "[Hefesto]";
-			mes "Voc√™ n√£o tem Zeny suficiente.";
-			mes "Voc√™ precisa de 40000, pra essa escolha.";
+			mes "VocÍ n„o tem Zeny suficiente.";
+			mes "VocÍ precisa de 40000, pra essa escolha.";
 			close;		
 		}
 
 		if (!countitem(.@choose)) {
 			mes "[Hefesto]";
-			mes "Voc√™ n√£o tem "+ getitemname(.@choose) +" suficiente para a tentativa.";
+			mes "VocÍ n„o tem "+ getitemname(.@choose) +" suficiente para a tentativa.";
 			close;
 		}
 		
 		delitem .@choose,1;
-		if(.@option == 1){ // Refinamento com Min√©rios Normais
+		if(.@option == 1){ // Refinamento com MinÈrios Normais
 			Zeny -= 2000;
 			if (getequippercentrefinery(.@SelectedPart) > rand(100)) {
 				successrefitem .@SelectedPart;
@@ -210,10 +210,10 @@ prt_in,63,60,0	script	Hefesto	2_M_OLDBLSMITH,{
 			} else {
 				failedrefitem .@SelectedPart;
 				mes "[Hefesto]";
-				mes "Oh n√£o, o refinamento falhou, me desculpe, mas voc√™ estava ciente dos riscos.";
+				mes "Oh n„o, o refinamento falhou, me desculpe, mas vocÍ estava ciente dos riscos.";
 				close;
 			}
-		} else if(.@option == 2){ // Refinamento com Min√©rios Enriquecidos
+		} else if(.@option == 2){ // Refinamento com MinÈrios Enriquecidos
 			Zeny -= 10000;
 			if (getequippercentrefinery(.@SelectedPart) > rand(100) || getequippercentrefinery(.@SelectedPart) > rand(100)) { // Rola 2 vezes para a chance
 				successrefitem .@SelectedPart;
@@ -223,10 +223,10 @@ prt_in,63,60,0	script	Hefesto	2_M_OLDBLSMITH,{
 			} else {
 				failedrefitem .@SelectedPart;
 				mes "[Hefesto]";
-				mes "Oh n√£o, o refinamento falhou, me desculpe, mas voc√™ estava ciente dos riscos.";
+				mes "Oh n„o, o refinamento falhou, me desculpe, mas vocÍ estava ciente dos riscos.";
 				close;
 			}
-		} else if(.@option == 3){ // Refinamento com Min√©rios Perfeitos
+		} else if(.@option == 3){ // Refinamento com MinÈrios Perfeitos
 			Zeny -= 20000;
 			if (getequippercentrefinery(.@SelectedPart) > rand(100) || getequippercentrefinery(.@SelectedPart) > rand(100) || getequippercentrefinery(.@SelectedPart) > rand(100)) {
 				successrefitem .@SelectedPart;
@@ -237,11 +237,11 @@ prt_in,63,60,0	script	Hefesto	2_M_OLDBLSMITH,{
 				if(.@materialperfeito){
 					downrefitem .@SelectedPart;
 					mes "[Hefesto]";
-					mes "Oh n√£o, o refinamento falhou, me desculpe, mas voc√™ estava ciente dos riscos.";
+					mes "Oh n„o, o refinamento falhou, me desculpe, mas vocÍ estava ciente dos riscos.";
 					close;
 				}
 			}
-		}  else if(.@option == 4){ // Refinamento com Mega-Min√©rios
+		}  else if(.@option == 4){ // Refinamento com Mega-MinÈrios
 			Zeny -= 40000;
 			if (getequippercentrefinery(.@SelectedPart) > rand(100) || getequippercentrefinery(.@SelectedPart) > rand(100)) {
 				successrefitem .@SelectedPart;
@@ -254,8 +254,8 @@ prt_in,63,60,0	script	Hefesto	2_M_OLDBLSMITH,{
 					specialeffect2 EF_SUI_EXPLOSION;
 					emotion (!rand(5))?e_ag:e_omg;
 					mes "[Hefesto]";
-					mes "Oh n√£o, o refinamento falhou, me desculpe.";
-					mes "Mas com o Mega-Min√©rio nada √© perdido.";
+					mes "Oh n„o, o refinamento falhou, me desculpe.";
+					mes "Mas com o Mega-MinÈrio nada È perdido.";
 					mes "Mesmo assim me sinto mal por errar.";
 					close;
 				}

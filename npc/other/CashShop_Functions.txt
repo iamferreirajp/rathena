@@ -36,9 +36,9 @@
 // - No arguments.
 function	script	F_CashStore	{
 	cutin "kafra_01",2;
-	mes "[Funcion√°ria Kafra]";
-	mes "Seja bem vindo √† Coorpora√ß√£o Kafra.";
-	mes "Vou abrir seu armaz√©m.";
+	mes "[Funcion·ria Kafra]";
+	mes "Seja bem vindo ‡ CoorporaÁ„o Kafra.";
+	mes "Vou abrir seu armazÈm.";
 	close2;
 	openstorage;
 	cutin "",255;

@@ -1,41 +1,41 @@
 prt_in,57,54,3	script	Joe Kendo	4_M_DWARF,{
-	disable_items;
+	disable_items; d
 	cutin "refineshadow",4;
 	mes "[Joe Kendo]";
-	mes "VocÃª quer refinar um equipamento sombrio?";
-	mes "Selecione o item que vocÃª deseja refinar.";
+	mes "Você quer refinar um equipamento sombrio?";
+	mes "Selecione o item que você deseja refinar.";
 	next;
-	setarray .@position$[0],"Armadura","Arma","Escudo","Sapatos","AcessÃ³rio 1","AcessÃ³rio 2";
+	setarray .@position$[0],"Armadura","Arma","Escudo","Sapatos","Acessório 1","Acessório 2";
 	for (.@i=EQI_SHADOW_ARMOR; .@i<=EQI_SHADOW_ACC_L; .@i++){
-		.@menu$ = .@menu$+((getequipisequiped(.@i))?getequipname(.@i):"^8C8C8C"+.@position$[.@i-EQI_SHADOW_ARMOR]+" [NÃ£o equipado]^000000")+":";
+		.@menu$ = .@menu$+((getequipisequiped(.@i))?getequipname(.@i):"^8C8C8C"+.@position$[.@i-EQI_SHADOW_ARMOR]+" [Não equipado]^000000")+":";
 	}
-	.@menu$ = .@menu$+"InformaÃ§Ãµes do Refinamento";
+	.@menu$ = .@menu$+"Informações do Refinamento";
 	.@SelectedPart = select(.@menu$)+EQI_SHADOW_ARMOR-1;
 	if (.@SelectedPart == EQI_SHADOW_ACC_L+1){	// Refine Info
 		mes "[Joe Kendo]";
-		mes "Os itens sombrios ganharÃ£o bÃ´nus e efeitos extras pelo nÃ­vel de refinamento.";
+		mes "Os itens sombrios ganharão bônus e efeitos extras pelo nível de refinamento.";
 		next;
 		mes "[Joe Kendo]";
 		mes "Os itens formam combos que utilizam o refinamento para serem ativados.";
-		mes "Os bÃ´nus e efeitos estÃ£o descritos nos prÃ³prios itens, como por exemplo:";
+		mes "Os bônus e efeitos estão descritos nos próprios itens, como por exemplo:";
 		mes "Arma: A cada +1 de refinamento recebe +1 MATK.";
 		mes "Ou: Armadura: A cada +1 de refinamento aumenta o HP em +10.";
 		next;
 		mes "[Joe Kendo]";
-		mes "VocÃª precisarÃ¡ de Oridecon ou Elunium e uma taxa de 20000 zeny para cada refinamento.";
+		mes "Você precisará de Oridecon ou Elunium e uma taxa de 20000 zeny para cada refinamento.";
 		next;
 		mes "[Joe Kendo]";
-		mes "O nÃ­vel de seguranÃ§a para itens sombrios Ã© +4.";
-		mes "Portanto ao passar para +5 ou adiante os itens podem ser destruÃ­dos.";
+		mes "O nível de segurança para itens sombrios é +4.";
+		mes "Portanto ao passar para +5 ou adiante os itens podem ser destruídos.";
 		next;
-		mes "VocÃª poderÃ¡ usar os minÃ©rios enriquecidos e perfeitos para aumentar suas chances.";
-		mes "O nÃ­vel mÃ¡ximo de equipamentos sombrios Ã© +10.";
+		mes "Você poderá usar os minérios enriquecidos e perfeitos para aumentar suas chances.";
+		mes "O nível máximo de equipamentos sombrios é +10.";
 		close;
 	}
 	while(1){
 		mes "[Joe Kendo]";
-		mes "20000 zeny serÃ£o gastos para o pagamento do refinamento.";
-		mes "Selecione o material para comeÃ§armos o processo:";
+		mes "20000 zeny serão gastos para o pagamento do refinamento.";
+		mes "Selecione o material para começarmos o processo:";
 		next;
 		.@index = 0;
 		if (.@SelectedPart != EQI_SHADOW_WEAPON)
@@ -65,70 +65,70 @@ prt_in,57,54,3	script	Joe Kendo	4_M_DWARF,{
 		.@option = select("Cancelar",.@mate$[0],.@mate$[1],.@mate$[2]);
 		if (.@option == 1){
 			mes "[Joe Kendo]";
-			mes "VocÃª cancelou o refinamento.";
+			mes "Você cancelou o refinamento.";
 			close;
 		}
 		.@option -= 2;
-		if (.@option==2){	//MinÃ©rios Perfeitos
+		if (.@option==2){	//Minérios Perfeitos
 			if (getequiprefinerycnt(.@SelectedPart) < 7){
 				mes "[Joe Kendo]";
-				mes "SÃ³ Ã© possÃ­vel usar minÃ©rios perfeitos com equipamentos de nÃ­vel +7 ou superior.";
+				mes "Só é possível usar minérios perfeitos com equipamentos de nível +7 ou superior.";
 				close;
 			}
 			.@materialperfeito = 1;
 		}
 		if (.@miss[.@option]){
 			mes "[Joe Kendo]";
-			mes "VocÃª nÃ£o tem os materiais para esse refinamento.";
+			mes "Você não tem os materiais para esse refinamento.";
 			close;
 		}
 		.@choose = getd(".@s_weapon"+(.@option+1)+"["+ .@index +"]");
 		if (Zeny < 20000) {
 			mes "[Joe Kendo]";
-			mes "VocÃª nÃ£o tem Zeny suficiente.";
-			mes "Volte quando tiver pelo menos o mÃ­nimo para o refinamento.";
+			mes "Você não tem Zeny suficiente.";
+			mes "Volte quando tiver pelo menos o mínimo para o refinamento.";
 			close;
 		}
 		if (getequiprefinerycnt(.@SelectedPart) > 9) {
 			mes "[Joe Kendo]";
-			mes "O refinamento de Equipamentos Sombrios sÃ³ Ã© possÃ­vel atÃ© o nÃ­vel +10.";
-			mes "NÃ£o existem equipamentos destes acima deste nÃ­vel.";
+			mes "O refinamento de Equipamentos Sombrios só é possível até o nível +10.";
+			mes "Não existem equipamentos destes acima deste nível.";
 			close;
 		}
 		if (!getequipisenableref(.@SelectedPart)) {
 			mes "[Joe Kendo]";
-			mes "Este item nÃ£o pode ser refinado.";
+			mes "Este item não pode ser refinado.";
 			close;
 		}
 		if (getequippercentrefinery(.@SelectedPart) < 100) {
 			mes "[Joe Kendo]";
-			mes "O limite de seguranÃ§a para o refinamento dos Itens Sombrios Ã© +4.";
+			mes "O limite de segurança para o refinamento dos Itens Sombrios é +4.";
 			if (!.@materialperfeito) {
-				mes "Se vocÃª tentar ir alÃ©m, o item poderÃ¡ ser quebrado se a tentativa falhar. VocÃª deseja continuar?";
+				mes "Se você tentar ir além, o item poderá ser quebrado se a tentativa falhar. Você deseja continuar?";
 			}
 			else {
-				mes "Se vocÃª tentar ir alÃ©m, o nÃ­vel de refinamento do item pode decrescer se a tentativa falhar.";
-				mes "VocÃª deseja continuar?";
+				mes "Se você tentar ir além, o nível de refinamento do item pode decrescer se a tentativa falhar.";
+				mes "Você deseja continuar?";
 			}
 			next;
 			if (select("Continuar","Cancelar") == 2) {
 				mes "[Joe Kendo]";
-				mes "VocÃª cancelou o refinamento.";
+				mes "Você cancelou o refinamento.";
 				close;
 			}
 		}
 		//-----------------------------------------------------------------------------
 		mes "[Joe Kendo]";
-		mes "Vamos lÃ¡.!!";
+		mes "Vamos lá.!!";
 		next;
 		if (Zeny < 20000) {
 			mes "[Joe Kendo]";
-			mes "VocÃª nÃ£o tem Zeny suficiente.";
+			mes "Você não tem Zeny suficiente.";
 			close;
 		}
 		if (!countitem(.@choose)) {
 			mes "[Joe Kendo]";
-			mes "VocÃª nÃ£o tem "+ getitemname(.@choose) +" suficiente para a tentativa.";
+			mes "Você não tem "+ getitemname(.@choose) +" suficiente para a tentativa.";
 			close;
 		}
 		delitem .@choose,1;
@@ -144,12 +144,12 @@ prt_in,57,54,3	script	Joe Kendo	4_M_DWARF,{
 				downrefitem .@SelectedPart;
 				failedrefitem .@SelectedPart;
 				mes "[Joe Kendo]";
-				mes "Oh nÃ£o, o refinamento falhou, me desculpe, mas vocÃª estava ciente dos riscos.";
+				mes "Oh não, o refinamento falhou, me desculpe, mas você estava ciente dos riscos.";
 				next;
 			}else{
 				failedrefitem .@SelectedPart;
 				mes "[Joe Kendo]";
-				mes "Oh nÃ£o, o refinamento falhou, me desculpe, mas vocÃª estava ciente dos riscos.";
+				mes "Oh não, o refinamento falhou, me desculpe, mas você estava ciente dos riscos.";
 				close;
 			}	
 		}
