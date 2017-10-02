@@ -1,0 +1,34 @@
+prontera,156,183,6	script	Operações Semanais	709,{
+
+	if ( getgmlevel() < 99 ){
+		mes "Você não tem permissão para realizar operações!";
+		end;
+	}
+	mes "O que você deseja fazer?";
+	switch (select(
+		"Diminuir rankings!",
+		"Cancel"
+	)) {
+		case 1:
+			
+			// Alchemist 18 creator 4019 baby alch 4041 perde 20%
+			query_sql( "UPDATE `char` SET `fame` = (`fame` * 0.8 ) WHERE `class` = 18" );
+			query_sql( "UPDATE `char` SET `fame` = (`fame` * 0.8 ) WHERE `class` = 4019" );
+			query_sql( "UPDATE `char` SET `fame` = (`fame` * 0.8 ) WHERE `class` = 4041" );
+			
+			// Blacksmith 10 Whitesmith 4011 baby blacksmith 4033 perde 10%
+			query_sql( "UPDATE `char` SET `fame` = (`fame` * 0.9 ) WHERE `class` = 10" );
+			query_sql( "UPDATE `char` SET `fame` = (`fame` * 0.9 ) WHERE `class` = 4011" );
+			query_sql( "UPDATE `char` SET `fame` = (`fame` * 0.9 ) WHERE `class` = 4033" );
+			
+			// Taekwon 4046 Star Gladiator 4047 perde 5%
+			query_sql( "UPDATE `char` SET `fame` = (`fame` * 0.95 ) WHERE `class` = 4046" );
+			
+			next;
+			break;
+		case 2:
+			query_sql( "UPDATE `char` SET `fame` = 1000" );
+			break;	
+		}
+	close;
+}
