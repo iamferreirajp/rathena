@@ -1,5 +1,5 @@
 prt_in,57,54,3	script	Joe Kendo	4_M_DWARF,{
-	disable_items; d
+	disable_items;
 	cutin "refineshadow",4;
 	mes "[Joe Kendo]";
 	mes "Você quer refinar um equipamento sombrio?";
