@@ -1,0 +1,143 @@
+-	script	Items_Conf	-1,{
+
+OnInit:
+.quantidadedeitens = 4;
+
+	callsub(Ids,5784,1,0,5785,0,0);
+	callsub(Ids,5788,1,0,5793,0,0);
+	callsub(Ids,5796,1,0,5797,0,0);
+/*
+	ID[...], neccessary to get 1%[...], 
+*/
+
+
+/*
+	Color of the announces.
+*/
+	setarray .color$[0],"4db557",	// % of evolution.
+				"d43438",	// Wings evolving.
+				"4da5b5";	// Wings evolved.
+
+/* slots to check.
+	EQI_ACC_L (0)             - Accessory 1
+	EQI_ACC_R (1)             - Accessory 2
+	EQI_SHOES (2)             - Footgear (shoes, boots)
+	EQI_GARMENT (3)           - Garment (mufflers, hoods, manteaux)
+	EQI_HEAD_LOW (4)          - Lower Headgear (beards, some masks)
+	EQI_HEAD_MID (5)          - Middle Headgear (masks, glasses)
+	EQI_HEAD_TOP (6)          - Upper Headgear
+	EQI_ARMOR (7)             - Armor (jackets, robes)
+	EQI_HAND_L (8)            - Left hand (weapons, shields)
+	EQI_HAND_R (9)            - Right hand (weapons)
+	EQI_COSTUME_HEAD_TOP (10) - Upper Costume Headgear
+	EQI_COSTUME_HEAD_MID (11) - Middle Costume Headgear
+	EQI_COSTUME_HEAD_LOW (12) - Lower Costume Headgear
+	EQI_COSTUME_GARMENT (13)  - Costume Garment
+	EQI_SHADOW_ARMOR (15)     - Shadow Armor
+	EQI_SHADOW_WEAPON (16)    - Shadow Weapon
+	EQI_SHADOW_SHIELD (17)    - Shadow Shield
+	EQI_SHADOW_SHOES (18)     - Shadow Shoes
+	EQI_SHADOW_ACC_R (19)     - Shadow Accessory 2
+	EQI_SHADOW_ACC_L (20)     - Shadow Accessory 1
+*/
+
+	setarray .slots[0],EQI_ACC_L,EQI_ACC_R,EQI_SHOES,EQI_GARMENT,EQI_HEAD_LOW,EQI_HEAD_MID,EQI_HEAD_TOP,EQI_ARMOR,EQI_HAND_L,EQI_HAND_R,EQI_COSTUME_HEAD_TOP,EQI_COSTUME_HEAD_MID,EQI_COSTUME_HEAD_LOW,EQI_COSTUME_GARMENT,EQI_SHADOW_ARMOR,EQI_SHADOW_WEAPON,EQI_SHADOW_SHIELD,EQI_SHADOW_SHOES,EQI_SHADOW_ACC_R,EQI_SHADOW_ACC_L;
+
+	//=============================================
+
+	.w1 = 0;
+
+end;
+
+Ids:
+	.@index = .w1;
+	.w1++;
+	for(.@args = getargcount();.@a < .@args;.@a += 3){
+		.@i = ++.w2[.@index];
+		setd ".a1"+.w1+"_"+.@i,getarg(.@a);	// id.
+		setd ".a2"+.w1+"_"+.@i,getarg(.@a+1);	// amount.
+		setd ".a3"+.w1+"_"+.@i,getarg(.@a+2);	// is equiped or not
+	}
+return;
+
+OnNPCKillEvent:
+
+	// Aqui é definido o array de itens que constam na lista(.item) e o array dos seus respectivos slots(.slot);	
+	for(.@size = getarraysize(.slots); .@a < .@size;.@a++){
+		.@itemid = getequipid(.slots[.@a]);
+		if(.@itemid < 0){
+			continue;
+		} else{
+			setarray .item[.@a],.@itemid;
+			setarray .slot[.@a],.slots[.@a];
+		}
+	}
+	
+	for(.@index = 1; .@index < .quantidadedeitens+1; .@index++){
+	
+		// Neste for é alinhado o array dos itens que constam na lista com o array dos Ids. Na posição 5 do ID é colocado o slot do item.	
+		for(.@index2=0; .@index2 < .@size; .@index2++){
+			if(isequipped(.item[.@index2]) == 1){
+				if(.@mostrou[.item[.@index2]] == 0){
+					if(getd(".a1"+.@index+"_1") == .item[.@index2]){
+						setd ".a3"+.@index+"_1",.slots[.@index2];
+						.@mostrou[.item[.@index2]] = 1;
+					}
+				}
+			}
+		}
+		if(isequipped(getd(".a1"+.@index+"_1")) == 1){
+			//setd ".a3"+.@index+"_1",1;
+			.@itemid = getd(".a1"+.@index+"_1");
+			.@amount = getd("monstros_"+.@itemid); // retorna a quantidade de monstros para aquele equipamento
+			setd "monstros_"+.@itemid,.@amount + 1; // aumenta 1 nos monstros daquele equipamento
+			if ( getd("monstros_"+.@itemid) < getd(".a2"+.@index+"_1")) continue; //termina se a quantidad de monstros do equipamento for menor que a quantidade de monstros pra ganhar 1%
+			if(getd("porcentagemdeevolucao_"+.@itemid) < 100){ // se evoitem(evo29015) for menor que 100
+				setd "porcentagemdeevolucao_"+.@itemid,getd("porcentagemdeevolucao_"+.@itemid) + 1;//define evoitem como evoitem+1
+				setd "monstros_"+.@itemid,0;	//define monstros do item como 0; esta checkagem est? relacionada se ? neces?rio mais monstros pra ganhar 1evoitem por isso quando evoitem evolui mob_item 0
+			}
+			if(getd ( "porcentagemdeevolucao_"+ .@itemid ) < 100){ // se evoitem for menor ou igual a 100
+			announce "O item "+getitemname(.@itemid)+" está com "+ getd ( "porcentagemdeevolucao_"+ .@itemid ) +"% de experiência...", bc_self, "0x"+ .color$[0] ; //anuncia o desenvolvimento
+				if(efeito == 0){
+					efeito = 1;
+					specialeffect2 383 ;
+					sleep2 500;
+					efeito = 0;
+				}
+			}
+			if ( getd("porcentagemdeevolucao_"+.@itemid)>=100){
+				if(evolving == 0){ 
+					disable_items;
+					set evolving,1;
+					specialeffect2 263 ;
+					sleep2 500 ;
+					specialeffect2 377 ;
+					sleep2 300 ;
+					specialeffect2 542 ;
+					sleep2 300 ;
+					announce "O item "+getitemname( .@itemid ) +" está evoluindo..." , bc_self, "0x"+ .color$[1] ;
+					.@i = 3;
+					while ( .@i-- ){
+						specialeffect2 521 ;
+						sleep2 900 ;
+					}
+					specialeffect2 463 ;
+					sleep2 200;
+					specialeffect2 665 ;
+					sleep2 500 ;
+					.@itemslot = getd(".a3"+.@index+"_1");
+					setarray .@card[1],getequipcardid(.@itemslot,0),getequipcardid(.@itemslot,1),getequipcardid(.@itemslot,2),getequipcardid(.@itemslot,3);
+					.@refine = getequiprefinerycnt(.@itemslot);
+					delitem .@itemid,1;
+					getitem2 getd(".a1"+.@index+"_2"),1,1,(.@refine),0,.@card[1],.@card[2],.@card[3],.@card[4];
+					equip getd(".a1"+.@index+"_2");
+					setd "porcentagemdeevolucao_"+ .@itemid, 0;
+					announce "Parabéns, o item "+getitemname(getd(".a1"+.@index +"_1"))+" evoluiu para "+getitemname(getd(".a1"+.@index +"_2")), bc_self , "0x"+ .color$[2] ;
+					set evolving,0;
+				}
+			}
+		}
+	}
+	deletearray .@mostrou[0];
+end;
+}
