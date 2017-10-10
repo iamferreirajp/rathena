@@ -9,7 +9,7 @@
  **/
 
 #ifndef PACKETVER
-	#define PACKETVER 20160203
+	#define PACKETVER 20170614
 #endif
 
 #ifndef PACKETVER_RE
