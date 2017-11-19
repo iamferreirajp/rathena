@@ -1,0 +1,36 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/common_base.dir/__/__/3rdparty/mt19937ar/mt19937ar.c.o"
+  "CMakeFiles/common_base.dir/conf.c.o"
+  "CMakeFiles/common_base.dir/db.c.o"
+  "CMakeFiles/common_base.dir/des.c.o"
+  "CMakeFiles/common_base.dir/ers.c.o"
+  "CMakeFiles/common_base.dir/grfio.c.o"
+  "CMakeFiles/common_base.dir/malloc.c.o"
+  "CMakeFiles/common_base.dir/mapindex.c.o"
+  "CMakeFiles/common_base.dir/md5calc.c.o"
+  "CMakeFiles/common_base.dir/nullpo.c.o"
+  "CMakeFiles/common_base.dir/random.c.o"
+  "CMakeFiles/common_base.dir/showmsg.c.o"
+  "CMakeFiles/common_base.dir/socket.c.o"
+  "CMakeFiles/common_base.dir/strlib.c.o"
+  "CMakeFiles/common_base.dir/timer.c.o"
+  "CMakeFiles/common_base.dir/utils.c.o"
+  "CMakeFiles/common_base.dir/thread.c.o"
+  "CMakeFiles/common_base.dir/mutex.c.o"
+  "CMakeFiles/common_base.dir/mempool.c.o"
+  "CMakeFiles/common_base.dir/raconf.c.o"
+  "CMakeFiles/common_base.dir/msg_conf.c.o"
+  "CMakeFiles/common_base.dir/cli.c.o"
+  "CMakeFiles/common_base.dir/__/__/3rdparty/libconfig/grammar.c.o"
+  "CMakeFiles/common_base.dir/__/__/3rdparty/libconfig/libconfig.c.o"
+  "CMakeFiles/common_base.dir/__/__/3rdparty/libconfig/scanctx.c.o"
+  "CMakeFiles/common_base.dir/__/__/3rdparty/libconfig/scanner.c.o"
+  "CMakeFiles/common_base.dir/__/__/3rdparty/libconfig/strbuf.c.o"
+  "libcommon_base.pdb"
+  "libcommon_base.a"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang C)
+  include(CMakeFiles/common_base.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()
