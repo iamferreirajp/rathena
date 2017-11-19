@@ -33,6 +33,7 @@
 #include "guild.hpp"
 #include "clif.hpp"
 #include "mob.hpp"
+#include "quest.hpp"
 #include "pc_groups.hpp"
 
 // Regen related flags.
