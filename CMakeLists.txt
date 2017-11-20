@@ -500,7 +500,7 @@ if( INSTALL_TO_SOURCE )# skip, already in the source dir
 else()
 	if( INSTALL_COMPONENT_RUNTIME )
 		install ( 
-			FILES start-rathena stop-rathena database-rathena
+			FILES start-rathena stop-rathena database-rathena dependencies-rathena
 			DESTINATION "../bin/"
 			PERMISSIONS WORLD_READ WORLD_WRITE WORLD_EXECUTE
 		)
