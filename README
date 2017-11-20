@@ -1,0 +1,90 @@
+# Descrição do Projeto
+O jogo Ragnarok possui um emulador com código livre e com manutenção feita pela comunidade. Esse emulador apresenta um grau de dificuldade para iniciantes que desejam rodar o projeto. O projeto é baseado em linguagem C, C++ e SQL no emulador para fazer o backend do servidor. Uma instância do cliente é necessário para jogar no servidor, mas esse é um outro projeto. Visando a facilidade de acesso a novos integrantes e a praticidade para os mais experientes, foi desenvolvido um Docker que contém o projeto rAthena com configurações feitas para que seja simples a execução e programação do servidor. Juntamente ao docker foi realizado um trabalho de empacotamento do emulador em formato .DEB . Isso facilita a instalação básica do emulador para que seja simples e mínima a instalação funcional do emulador. Abaixo os comandos e como foram feitos.
+
+# Nome e matrícula das pessoas do grupo:
+João Paulo Alves Ferreira - 10013929
+
+# Links para os serviços de deploy e CI (para quem implementou)
+Não foram implementados
+
+# Links adicionais para outros serviços ou ferramentas ou códigos externos utilizados
+Imagem Docker - https://hub.docker.com/r/iamferreirajp/local_rathena2/
+Repositório com os arquivos de entrega: https://github.com/iamferreirajp/rathena/tree/gcs
+Repositório com os arquivos de entrega: https://github.com/iamferreirajp/rathena/tree/gcs-rpm
+Dockerfile - https://github.com/iamferreirajp/rathena/blob/gcs/Dockerfile
+Cmakelists DEB- https://github.com/iamferreirajp/rathena/blob/gcs/CMakeLists.txt
+Cmakelists RPM- https://github.com/iamferreirajp/rathena/blob/gcs-rpm/CMakeLists.txt
+Configuração do database do .deb - https://github.com/iamferreirajp/rathena/blob/gcs/rathena-database.sh
+Pacote .deb - https://github.com/iamferreirajp/rathena/blob/gcs/rAthena-0.1.1-Linux.deb
+Pacote .rpm - https://github.com/iamferreirajp/rathena/blob/gcs-rpm/rAthena-0.1.1-Linux.rpm
+
+# Explicação de como executa cada parte do projeto
+
+# Geração e utilização da Build - DEB
+Na pasta raiz do projeto https://github.com/iamferreirajp/rathena/tree/gcs execute os comandos:
+mkdir build
+cd build
+cmake ..
+make package
+
+Após a compilação o pacote rAthena-0.1.1-Linux.deb será gerado na pasta build.
+Para instalar basta usar o comando sudo dpkg -i rAthena-0.1.1-Linux.deb.
+O aplicativo estará instalado no diretório /usr/local/rathena-0.1.1$
+
+Primeiramente execute o comando rathena-dependencies para instalar os pacotes necessários para o sistema funcionar.
+
+É necessário um usuário root/root no banco de dados Mysql, caso seja diferente é necessário alterar no documento /usr/local/rathena-0.1.1/rathena-database.sh.
+
+Execute o comando rathena-database para configurar o banco de dados da aplicação.
+Execute a aplicação com o comando rathena-start
+Pare a aplicação com o comando rathena-stop
+Para desinstalar o pacote use o comando sudo dpkg -r rathena
+
+#Comandos do pacote
+rathena-start - Inicia o servidor 
+rathena-stop - Para o servidor
+rathena-database - Configura o banco de dados
+rathena-dependencies - Instala as dependências
+rathena-help - Mostra os comandos
+
+# Geração e utilização da Build - RPM
+Na pasta raiz do projeto https://github.com/iamferreirajp/rathena/tree/gcs-rpm execute os comandos:
+mkdir build
+cd build
+cmake ..
+make package
+
+Após a compilação o pacote rAthena-0.1.1-Linux.rpm será gerado na pasta build.
+Para instalar basta usar o comando sudo yum install rAthena-0.1.1-Linux.rpm
+O aplicativo estará instalado no diretório /usr/local/rathena-0.1.1$
+
+Primeiramente execute o comando rathena-dependencies para instalar os pacotes necessários para o sistema funcionar.
+
+É necessário um usuário root/root no banco de dados Mysql, caso seja diferente é necessário alterar no documento /usr/local/rathena-0.1.1/rathena-database.sh
+
+Execute o comando rathena-database para configurar o banco de dados da aplicação.
+Execute a aplicação com o comando rathena-start
+Pare a aplicação com o comando rathena-stop
+
+#Comandos do pacote
+rathena-start - Inicia o servidor 
+rathena-stop - Para o servidor
+rathena-database - Configura o banco de dados
+rathena-dependencies - Instala as dependências
+rathena-help - Mostra os comandos
+
+#Utilização do Docker
+Primeiramente faça a instalação do Docker.
+Faça o download da imagem:
+docker pull iamferreirajp/local_rathena2
+
+Com a imagem baixada rode a imagem com o comando abaixo:
+docker run -it -p 6900:6900 -p 6121:6121 -p 5121:5121 -d 'iamferreirajp/local_rathena2'
+
+A partir desse comando o emulador pode ser acessado com o cliente com usuário admin/admin
+
+Para parar o processo utilize os comandos abaixo:
+docker ps -l # para identificar o container rodando
+docker stop <container> # utilize o id do container para parar seu processo
+
+Para verificar se está funcionando podem ser utilizados os logs docker logs <container> e podem ser verificadas as portas pelo comando netstat -antp para ver as portas em execução no computador (Linux).
