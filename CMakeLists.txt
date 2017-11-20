@@ -500,12 +500,12 @@ if( INSTALL_TO_SOURCE )# skip, already in the source dir
 else()
 	if( INSTALL_COMPONENT_RUNTIME )
 		install ( 
-			FILES athena-stop.sh 
-			DESTINATION "."
+			FILES start-rathena stop-rathena
+			DESTINATION "../bin/"
 			PERMISSIONS WORLD_READ WORLD_WRITE WORLD_EXECUTE
 		)
 		install ( 
-			FILES function.sh 
+			FILES athena-stop.sh 
 			DESTINATION "."
 			PERMISSIONS WORLD_READ WORLD_WRITE WORLD_EXECUTE
 		)
