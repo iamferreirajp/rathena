@@ -162,23 +162,7 @@ case $1 in
 		echo "Watching rAthena now."
 	;;	
 	'stop')
-		for i in ${M_SRV} ${C_SRV} ${L_SRV}
-		do
-			PIDFILE=.${i}.pid
-			if [ -e ./${PIDFILE} ]; then
-				kill $(cat ${PIDFILE})
-				
-				while true; do
-					get_status ${i}
-					if [ ${PSRUN} ]; then echo "'${i}' is still running p${PSRUN} waiting for the process to end"; sleep 2;
-					else
-						break
-					fi
-				done
-				
-				rm ${PIDFILE}
-			fi
-		done
+		kill -9 $(fuser 6121/tcp 6900/tcp 5121/tcp)
 	;;
 	'restart')
 		 restart
@@ -189,6 +173,9 @@ case $1 in
 			get_status ${i}
 			if [ ${PSRUN} ]; then echo "'${i}' is running p${PSRUN}"; else echo "'${i}' seems to be down"; fi
 		done
+	;;
+	'config-dependencies')
+		sudo apt-get install make gcc g++ libmysqlclient-dev zlib1g-dev libpcre3-dev mysql-server libmysqlclient-dev ca-certificates
 	;;
 	'val_runonce')
 		for i in ${L_SRV} ${C_SRV} ${M_SRV}
@@ -204,12 +191,12 @@ case $1 in
 	;;
 	'help')
 		case $2 in
-			'start')
+			'rathena-start')
 				echo "syntax: 'start {--enlog}'"
 				echo "This option will start the servers"
 				echo "--enlog will write all terminal output into a log/$servname.log file"
 			;;
-			'stop')
+			'rathena-stop')
 				echo "This option will shut the servers down"
 			;;
 			'restart')
@@ -237,8 +224,16 @@ case $1 in
 				echo "syntax: 'valchk'"
 				echo "This option will run valgrin with the servers"
 			;;
+			'rathena-dependencies')
+				echo "syntax: 'rathena-dependencies'"
+				echo "This option will install the rathena dependencies"
+			;;
+			'rathena-database')
+				echo "syntax: 'rathena-database'"
+				echo "This option will configure the database"
+			;;
 			*)
-				echo "Please specify a command you would like more info on { start | stop | restart | status | watch }"
+				echo "Please specify a command you would like more info on { rathena-start | rathena-stop | rathena-database | rathena-dependencies}"
 				read -p "Enter a valid command: " readEnterKey
 				$0 "help" $readEnterKey
 			;;

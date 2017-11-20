@@ -500,12 +500,12 @@ if( INSTALL_TO_SOURCE )# skip, already in the source dir
 else()
 	if( INSTALL_COMPONENT_RUNTIME )
 		install ( 
-			FILES start-rathena stop-rathena database-rathena dependencies-rathena
+			FILES rathena-start rathena-stop rathena-database rathena-dependencies rathena-help
 			DESTINATION "../bin/"
 			PERMISSIONS WORLD_READ WORLD_WRITE WORLD_EXECUTE
 		)
 		install ( 
-			FILES athena-stop.sh 
+			FILES rathena-stop.sh 
 			DESTINATION "."
 			PERMISSIONS WORLD_READ WORLD_WRITE WORLD_EXECUTE
 		)
@@ -515,7 +515,7 @@ else()
 			PERMISSIONS WORLD_READ WORLD_WRITE WORLD_EXECUTE
 		)
 		install ( 
-			FILES database.sh 
+			FILES rathena-database.sh 
 			DESTINATION "."
 			PERMISSIONS WORLD_READ WORLD_WRITE WORLD_EXECUTE
 		)

@@ -1,0 +1,1 @@
+/etc/init.d/mysql start && mysql -u root --password="root" -e "create database ragnarok; create user 'ragnarok'@'%' identified by 'ragnarok'; grant select,insert,update,delete on ragnarok.* to 'ragnarok'@'%'; FLUSH PRIVILEGES;" && (for F in sql-files/*.sql; do mysql -u root --password="root" ragnarok < $F; done)
