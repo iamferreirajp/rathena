@@ -1,0 +1,1 @@
+kill -9 $(fuser 6121/tcp 6900/tcp 5121/tcp)

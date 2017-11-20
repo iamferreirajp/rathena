@@ -478,20 +478,20 @@ set( DEVELOPMENT_DIRECTORIES
 	"vcproj-10"
 	)
 set( RUNTIME_FILES
-	"${CMAKE_CURRENT_SOURCE_DIR}/athena-start"
+	"${CMAKE_CURRENT_SOURCE_DIR}/conf/import/inter_conf.txt"
+	"${CMAKE_CURRENT_SOURCE_DIR}/conf/import/char_conf.txt"
+	"${CMAKE_CURRENT_SOURCE_DIR}/db/import/achievement_db.yml"
+	"${CMAKE_CURRENT_SOURCE_DIR}/conf/import/packet_conf.txt"
 	"${CMAKE_CURRENT_SOURCE_DIR}/char-server"
 	"${CMAKE_CURRENT_SOURCE_DIR}/LICENSE"
 	"${CMAKE_CURRENT_SOURCE_DIR}/login-server"
 	"${CMAKE_CURRENT_SOURCE_DIR}/map-server"
 	"${CMAKE_CURRENT_SOURCE_DIR}/README.md"
-	"${CMAKE_CURRENT_SOURCE_DIR}/function.sh"
-	"${CMAKE_CURRENT_SOURCE_DIR}/database.sh"
 	)
 set( RUNTIME_DIRECTORIES
 	"conf"
 	"db"
 	"doc"
-	"log"
 	"npc"
 	"sql-files"
 	"tools"
@@ -499,6 +499,26 @@ set( RUNTIME_DIRECTORIES
 if( INSTALL_TO_SOURCE )# skip, already in the source dir
 else()
 	if( INSTALL_COMPONENT_RUNTIME )
+		install ( 
+			FILES athena-stop.sh 
+			DESTINATION "."
+			PERMISSIONS WORLD_READ WORLD_WRITE WORLD_EXECUTE
+		)
+		install ( 
+			FILES function.sh 
+			DESTINATION "."
+			PERMISSIONS WORLD_READ WORLD_WRITE WORLD_EXECUTE
+		)
+		install ( 
+			FILES athena-start
+			DESTINATION "."
+			PERMISSIONS WORLD_READ WORLD_WRITE WORLD_EXECUTE
+		)
+		install ( 
+			FILES database.sh 
+			DESTINATION "."
+			PERMISSIONS WORLD_READ WORLD_WRITE WORLD_EXECUTE
+		)
 		install( FILES ${RUNTIME_FILES}
 			DESTINATION "."
 			COMPONENT Runtime_base )
